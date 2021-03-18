@@ -5269,7 +5269,7 @@ static int stbi__tga_get_comp(int bits_per_pixel, int is_grey, int* is_rgb16)
 
 static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
 {
-    int tga_w, tga_h, tga_comp, tga_image_type, tga_bits_per_pixel, tga_colormap_bpp;
+    int tga_w, tga_h, tga_comp, tga_img_type, tga_bits_per_pixel, tga_colormap_bpp;
     int sz, tga_colormap_type;
     stbi__get8(s);                   // discard Offset
     tga_colormap_type = stbi__get8(s); // colormap type
@@ -5277,9 +5277,9 @@ static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
         stbi__rewind(s);
         return 0;      // only RGB or indexed allowed
     }
-    tga_image_type = stbi__get8(s); // image type
+    tga_img_type = stbi__get8(s); // image type
     if ( tga_colormap_type == 1 ) { // colormapped (paletted) image
-        if (tga_image_type != 1 && tga_image_type != 9) {
+        if (tga_img_type != 1 && tga_img_type != 9) {
             stbi__rewind(s);
             return 0;
         }
@@ -5292,7 +5292,7 @@ static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
         stbi__skip(s,4);       // skip image x and y origin
         tga_colormap_bpp = sz;
     } else { // "normal" image w/o colormap - only RGB or grey allowed, +/- RLE
-        if ( (tga_image_type != 2) && (tga_image_type != 3) && (tga_image_type != 10) && (tga_image_type != 11) ) {
+        if ( (tga_img_type != 2) && (tga_img_type != 3) && (tga_img_type != 10) && (tga_img_type != 11) ) {
             stbi__rewind(s);
             return 0; // only RGB or grey allowed, +/- RLE
         }
@@ -5320,7 +5320,7 @@ static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
         }
         tga_comp = stbi__tga_get_comp(tga_colormap_bpp, 0, NULL);
     } else {
-        tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_image_type == 3) || (tga_image_type == 11), NULL);
+        tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_img_type == 3) || (tga_img_type == 11), NULL);
     }
     if(!tga_comp) {
       stbi__rewind(s);
@@ -5388,7 +5388,7 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
    //   read in the TGA header stuff
    int tga_offset = stbi__get8(s);
    int tga_indexed = stbi__get8(s);
-   int tga_image_type = stbi__get8(s);
+   int tga_img_type = stbi__get8(s);
    int tga_is_RLE = 0;
    int tga_palette_start = stbi__get16le(s);
    int tga_palette_len = stbi__get16le(s);
@@ -5417,16 +5417,16 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
    if (tga_width > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
 
    //   do a tiny bit of precessing
-   if ( tga_image_type >= 8 )
+   if ( tga_img_type >= 8 )
    {
-      tga_image_type -= 8;
+      tga_img_type -= 8;
       tga_is_RLE = 1;
    }
    tga_inverted = 1 - ((tga_inverted >> 5) & 1);
 
    //   If I'm paletted, then I'll use the number of bits from the palette
    if ( tga_indexed ) tga_comp = stbi__tga_get_comp(tga_palette_bits, 0, &tga_rgb16);
-   else tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_image_type == 3), &tga_rgb16);
+   else tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, (tga_img_type == 3), &tga_rgb16);
 
    if(!tga_comp) // shouldn't really happen, stbi__tga_test() should have ensured basic consistency
       return stbi__errpuc("bad format", "Can't find out TGA pixelformat");

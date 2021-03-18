@@ -1,10 +1,10 @@
-#ifndef NW_IO_HPP
-#define NW_IO_HPP
+#ifndef NWL_INPUT_OUTPUT_HPP
+#define NWL_INPUT_OUTPUT_HPP
 
-#include <io/io_device.h>
-#include <io/io_event.h>
-#include <io/io_stream.h>
+#include <io/io_dvc.h>
+#include <io/io_evt.h>
+#include <io/io_stm.h>
 #include <io/io_log.h>
-#include <io/io_error.h>
+#include <io/io_err.h>
 
-#endif	// NW_IO_HPP
+#endif	// NWL_INPUT_OUTPUT_HPP

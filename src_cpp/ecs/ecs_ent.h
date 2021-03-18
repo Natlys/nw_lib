@@ -1,10 +1,9 @@
-#ifndef NW_ECS_ENTITY_H
-#define NW_ECS_ENTITY_H
+#ifndef NWL_ECS_ENTITY_H
+#define NWL_ECS_ENTITY_H
 #include <nwl_core.hpp>
 #include <core/nwl_type.h>
 #include <core/nwl_id.h>
-#include <core/nwl_container.h>
-#include <memory/mem_sys.h>
+#include <core/nwl_cln.h>
 #include <ecs/ecs_cmp.h>
 namespace NW
 {
@@ -14,7 +13,8 @@ namespace NW
 	/// --takes responsibility for creation and destruction of all components
 	class NW_API a_ent : public a_type_owner
 	{
-		using cmps = darray<mem_ref<a_cmp>>;
+		using cmp = mem_ref<a_cmp>;
+		using cmps = darray<cmp>;
 	protected:
 		a_ent();
 		a_ent(const a_ent& copy) = delete;
@@ -56,4 +56,4 @@ namespace NW
 		static inline id_stack& get_id_stack() { id_stack s_id_stack(1); return s_id_stack; }
 	};
 }
-#endif	// NW_ECS_ENTITY_H
+#endif	// NWL_ECS_ENTITY_H

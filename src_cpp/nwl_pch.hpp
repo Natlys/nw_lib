@@ -1,10 +1,14 @@
-#ifndef NATIVE_LIBRARY_PCH_HPP
-#define NATIVE_LIBRARY_PCH_HPP
+#ifndef NWL_PCH_HPP
+#define NWL_PCH_HPP
 /// pre-compiled header file
 /// this file contains the most usable standard include files
 /// nwl_pch.cpp file gets it and generates .pch file in the intermediate files
 /// .pch header isn't essentially compiles every time we want to run the app
 /// .pch header includes in every cpp file of project
+
+#ifndef NW_BUILD_DLL
+#	define NW_BUILD_DLL
+#endif
 
 // --<standard>--
 // --stl
@@ -63,6 +67,6 @@
 #include <../ext/glm/gtx/transform.hpp>
 // --</external>--
 
-#include <nwl_platform.hpp>
+#include <nwl_os.hpp>
 
-#endif	// NATIVE_LIBRARY_PCH_HPP
+#endif	// NWL_PCH_HPP

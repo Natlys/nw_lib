@@ -1,17 +1,17 @@
-#ifndef NW_IO_LOG_H
-#define NW_IO_LOG_H
+#ifndef NWL_IO_LOG_SYSTEM_H
+#define NWL_IO_LOG_SYSTEM_H
 #include <nwl_core.hpp>
-#include <io/io_stream.h>
-#include <core/nwl_string.h>
-#include <core/nwl_switch.h>
+#include <core/nwl_str.h>
+#include "io_switch.h"
+#include "io_stm.h"
 namespace NW
 {
-	/// log_system static class
-	class NW_API log_sys
+	/// input_output_system static class
+	class NW_API io_sys
 	{
 	public:
-		using input = io_stream_str;
-		using output = out_stream;
+		using input = stm_io_str;
+		using output = stm_out;
 	public:
 		// --getters
 		static inline input& get_input() { return *s_input; }
@@ -20,14 +20,14 @@ namespace NW
 		static void on_init();
 		static void on_quit();
 		static void update();
-		static void set_output(output& out);
+		static void set_stm_out(stm_out& out);
 		// --core_methods
-		static void write_info(cstring format, ...);
-		static void write_error(error_codes err_code, cstring format, ...);
-		static void write_warn(cstring format, ...);
+		static void write_info(cstr format, ...);
+		static void write_error(error_codes err_code, cstr format, ...);
+		static void write_warn(cstr format, ...);
 	private:
 		static input* s_input;
 		static output* s_output;
 	};
 }
-#endif // NW_IO_LOG_H
+#endif // NWL_IO_LOG_SYSTEM_H

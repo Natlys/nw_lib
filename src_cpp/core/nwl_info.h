@@ -1,8 +1,8 @@
-#ifndef NW_INFO_H
-#define NW_INFO_H
+#ifndef NWL_INFO_H
+#define NWL_INFO_H
 #include <nwl_core.hpp>
-#include <io/io_stream.h>
-#include <core/nwl_string.h>
+#include <io/io_stm.h>
+#include "nwl_str.h"
 namespace NW
 {
 	/// abstract info struct
@@ -12,10 +12,10 @@ namespace NW
 		a_info();
 		virtual ~a_info() = default;
 		// --operators
-		virtual out_stream& operator<<(out_stream& stm) const = 0;
-		virtual in_stream& operator>>(in_stream& stm) = 0;
+		virtual stm_out& operator<<(stm_out& stm) const = 0;
+		virtual stm_in& operator>>(stm_in& stm) = 0;
 	};
-	out_stream& operator<<(out_stream& stm, a_info& info);
-	in_stream& operator>>(in_stream& stm, a_info& info);
+	stm_out& operator<<(stm_out& stm, a_info& info);
+	stm_in& operator>>(stm_in& stm, a_info& info);
 }
-#endif	// NW_INFO_H
+#endif	// NWL_INFO_H

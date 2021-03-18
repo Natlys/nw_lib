@@ -1,5 +1,5 @@
-#ifndef NW_ID_STACK_H
-#define NW_ID_STACK_H
+#ifndef NWL_ID_H
+#define NWL_ID_H
 #include <nwl_core.hpp>
 namespace NW
 {
@@ -12,7 +12,7 @@ namespace NW
 	class NW_API id_stack : protected std::stack<ui32>
 	{
 	public:
-		id_stack(ui32 first_id = 1) : std::stack<ui32>() { push(first_id); }
+		id_stack(ui32 first_id = 1);
 		// -- getters
 		inline ui32 get_free_id() { ui32 free_id = top(); if (size() == 1) { top()++; } else { pop(); } return free_id; }
 		// -- setters
@@ -43,4 +43,4 @@ namespace NW
 		virtual inline ui32 get_id() = 0;
 	};
 }
-#endif	// NW_ID_STACK_H
+#endif	// NWL_ID_H

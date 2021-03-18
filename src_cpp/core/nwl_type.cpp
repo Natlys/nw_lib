@@ -1,7 +1,7 @@
 #include <nwl_pch.hpp>
 #include "nwl_type.h"
 
-NW::ui32 NW::type_indexator::s_curr_id = 0;
+NW_API NW::ui32 NW::type_indexator::s_curr_id = 0;
 
 namespace NW
 {

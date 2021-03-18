@@ -1,10 +1,10 @@
-#ifndef NW_ECS_ENTITY_SYSTEM_H
-#define NW_ECS_ENTITY_SYSTEM_H
+#ifndef NWL_ECS_ENTITY_SYSTEM_H
+#define NWL_ECS_ENTITY_SYSTEM_H
 #include <nwl_core.hpp>
-#include <core/nwl_container.h>
+#include <core/nwl_cln.h>
 #include <core/nwl_type.h>
 #include <ecs/ecs_ent.h>
-#include <memory/mem_ref.h>
+#include <mem/mem_ref.h>
 namespace NW
 {
 	/// entity_system static class
@@ -43,4 +43,4 @@ namespace NW
 		s_reg[ref->get_type_id()][ref->get_ent_id()].set_ref<a_ent>(ref);
 	}
 }
-#endif // NW_ECS_ENTITY_SYSTEM_H
+#endif // NWL_ECS_ENTITY_SYSTEM_H

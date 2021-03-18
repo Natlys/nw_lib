@@ -1,7 +1,7 @@
 #ifndef NW_ECS_COMPONENT_SYSTEM_H
 #define NW_ECS_COMPONENT_SYSTEM_H
 #include <nwl_core.hpp>
-#include <core/nwl_container.h>
+#include <core/nwl_cln.h>
 #include <core/nwl_type.h>
 #include <ecs/ecs_cmp.h>
 namespace NW

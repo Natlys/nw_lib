@@ -1,10 +1,10 @@
-#ifndef NW_MATH_HPP
-#define NW_MATH_HPP
+#ifndef NWL_MATH_HPP
+#define NWL_MATH_HPP
 
-#include <math/math_base.h>
-#include <math/math_trigonom.h>
-#include <math/math_vector.h>
-#include <math/math_matrix.h>
-#include <math/math_transform.h>
+#include "math/math_base.h"
+#include "math/math_trig.h"
+#include "math/math_vec.h"
+#include "math/math_mat.h"
+#include "math/math_tform.h"
 
-#endif	// NW_MATH_HPP
+#endif	// NWL_MATH_HPP

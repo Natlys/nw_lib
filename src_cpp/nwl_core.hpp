@@ -1,13 +1,14 @@
-#ifndef NATIVE_LIBRARY_CORE_HPP
-#define NATIVE_LIBRARY_CORE_HPP
+#ifndef NWL_CORE_HPP
+#define NWL_CORE_HPP
 // --==<configuration>==--
+#define NW_BUILD_DLL
 #if (defined NW_BUILD_LIB)
 #	define NW_API
 #elif (defined NW_BUILD_EXE)
 #	define NW_API
 #elif (defined NW_BUILD_DLL)
 #	define NW_API __declspec(dllexport)
-#elif (TRUE)
+#elif (1)
 #	define NW_API __declspec(dllimport)
 #endif	// NW_BUILD
 
@@ -53,23 +54,29 @@
 #endif
 // --==</pragmas>==--
 
-#include <nwl_pch.hpp>
+#include "nwl_pch.hpp"
+
+#if (defined NW_OS && defined NW_GAPI)
+#	if (NW_OS & NW_OS_WIN)
+using window_handle = HWND;
+using library_handle = HMODULE;
+#		if (NW_GAPI & NW_GAPI_OGL)
+using device_handle = HDC;
+using context_handle = HGLRC;
+using GLuint = unsigned int;
+using GLbyte = unsigned char;
+#		endif
+#		if (NW_GAPI & NW_GAPI_DX)
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+using device_handle = ID3D11Device*;
+using context_handle = ID3D11DeviceContext*;
+#		endif	// NW_GAPI
+#	endif
+#endif	// NW_OS && NW_GAPI
 
 namespace NW
 {
-#if (NW_OS & NW_OS_WIN)
-	using window_handle = HWND;
-	using library_handle = HMODULE;
-#	if (NW_GAPI & NW_GAPI_OGL)
-	using device_handle = HDC;
-	using context_handle = HGLRC;
-	using GLuint = unsigned int;
-#	endif	// NW_GAPI
-#	if (NW_GAPI & NW_GAPI_DX)
-	using device_handle = ID3D11Device*;
-	using context_handle = ID3D11DeviceContext*;
-#	endif	// NW_GAPI
-#endif	// NW_OS
 	using si8 = signed __int8;
 	using si16 = signed __int16;
 	using si32 = signed __int32;
@@ -117,4 +124,4 @@ namespace NW
 	struct NW_API mouse_event;
 	struct NW_API keyboard_event;
 }
-#endif	// NATIVE_LIBRARY_CORE_HPP
+#endif	// NWL_CORE_HPP

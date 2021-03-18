@@ -1,17 +1,17 @@
 #include <nwl_pch.hpp>
 #include "io_log.h"
 
-#include <memory/mem_sys.h>
+#include <mem/mem_sys.h>
 
 #include <iomanip>
 
-NW::log_sys::input* NW::log_sys::s_input = nullptr;
-NW::log_sys::output* NW::log_sys::s_output = nullptr;
+NW::io_sys::input* NW::io_sys::s_input = nullptr;
+NW::io_sys::output* NW::io_sys::s_output = nullptr;
 
 namespace NW
 {
 	// --==<core_methods>==--
-	void log_sys::on_init()
+	void io_sys::on_init()
 	{
 		if (s_input != nullptr) { return; }
 		s_input = new input();
@@ -34,17 +34,17 @@ namespace NW
 			std::ios_base::floatfield;		//
 		std::cout.exceptions(std::ios_base::failbit | std::ios_base::badbit);
 	}
-	void log_sys::on_quit()
+	void io_sys::on_quit()
 	{
 		if (s_input == nullptr) { return; }
 		delete s_input;
 		s_input = nullptr;
 		s_output = nullptr;
 	}
-	void log_sys::update()
+	void io_sys::update()
 	{
 	}
-	void log_sys::write_info(cstring format, ...)
+	void io_sys::write_info(cstr format, ...)
 	{
 		va_list valArgs;
 		va_start(valArgs, format);
@@ -54,7 +54,7 @@ namespace NW
 			"--==</log_info>==--" << std::endl;
 		va_end(valArgs);
 	}
-	void log_sys::write_warn(cstring format, ...)
+	void io_sys::write_warn(cstr format, ...)
 	{
 		va_list valArgs;
 		va_start(valArgs, format);
@@ -65,15 +65,15 @@ namespace NW
 		va_end(valArgs);
 		NW_BREAK();
 	}
-	void log_sys::write_error(error_codes err_code, cstring format, ...)
+	void io_sys::write_error(error_codes err_code, cstr format, ...)
 	{
 		va_list valArgs;
 		va_start(valArgs, format);
 		get_input() <<
-			"--==<log_error>==--" << std::endl <<
+			"--==<log_a_err>==--" << std::endl <<
 			"code:" << err_code << std::endl <<
 			"::message:" << &str_format_var(format, valArgs)[0] << std::endl <<
-			"--==</log_error>==--" << std::endl;
+			"--==</log_a_err>==--" << std::endl;
 		va_end(valArgs);
 		NW_BREAK();
 	}

@@ -1,8 +1,8 @@
 #include <nwl_pch.hpp>
 #include "nwl_switch.h"
-#include <math/math_vector.h>
-#include <math/math_matrix.h>
-#include <io/io_error.h>
+#include <math/math_vec.h>
+#include <math/math_mat.h>
+#include <io/io_err.h>
 namespace NW
 {
 	pixel_formats pxf_get(ui8 nchannels) {

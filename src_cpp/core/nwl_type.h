@@ -1,7 +1,7 @@
-#ifndef NW_TYPE_H
-#define NW_TYPE_H
+#ifndef NWL_TYPE_H
+#define NWL_TYPE_H
 #include <nwl_core.hpp>
-#include <memory/mem_sys.h>
+#include <mem/mem_sys.h>
 namespace NW
 {
 	class NW_API type_indexator
@@ -42,4 +42,4 @@ namespace NW
 		virtual inline ui32 get_type_id() const override	{ return type_indexator::get_id<type>(); }
 	};
 }
-#endif	// NW_TYPE_H
+#endif	// NWL_TYPE_H

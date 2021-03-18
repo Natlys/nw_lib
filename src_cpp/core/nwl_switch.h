@@ -1,5 +1,5 @@
-#ifndef NW_ENUM_H
-#define NW_ENUM_H
+#ifndef NWL_SWITCH_H
+#define NWL_SWITCH_H
 #include <nwl_core.hpp>
 namespace NW
 {
@@ -17,16 +17,6 @@ namespace NW
 		DIR_DEFAULT = 0,
 		DIR_NORTH = 1, DIR_SOUTH = 2,
 		DIR_EAST = 3, DIR_WEST = 4,
-	};
-	enum error_codes : ui32 {
-		ERC_DEFAULT = 0,
-		ERC_NO_INIT = 1, ERC_NO_QUIT = 2,
-		ERC_NO_SUPPORT, ERC_NO_STATE,
-		ERC_NO_LOAD, ERC_NO_SAVE,
-		ERC_DATA_BAD, ERC_DATA_LOSS, ERC_DATA_OVERFLOW, ERC_DATA_UNDERFLOW,
-		ERC_UNKNOWN_ID, ERC_UNKNOWN_NAME,
-		ERC_INVALID_FORMAT, ERC_INVALID_SYNTAX, ERC_INVALID_TYPE, ERC_INVALID_ENUM,
-		ERC_COMPILLATION, ERC_LINKAGE
 	};
 	enum logic_opers : ui32 {
 		LO_DEFAULT = 0u,
@@ -89,4 +79,4 @@ namespace NW
 	NW_API pixel_formats pxf_get(ui8 nchannels);
 	NW_API ui8 pxf_get(pixel_formats pixel_format);
 }
-#endif	// NW_SWITCH_H
+#endif	// NWL_SWITCH_H

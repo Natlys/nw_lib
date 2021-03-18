@@ -1,5 +1,5 @@
-#ifndef NW_MATH_BASE_H
-#define NW_MATH_BASE_H
+#ifndef NWL_MATH_BASE_H
+#define NWL_MATH_BASE_H
 #include <nwl_core.hpp>
 namespace NW
 {
@@ -9,4 +9,4 @@ namespace NW
 	template<typename ntype> ntype get_clamped(ntype nmin, ntype nmax, ntype naverage)	{ return get_max<ntype>(nmin, get_min<ntype>(nmax, naverage)); }
 	template<typename ntype> ntype get_lerp(ntype nmin, ntype nmax, ntype npercent)		{ return (nmax - nmin) * npercent; }
 }
-#endif	// NW_MATH_BASE_H
+#endif	// NWL_MATH_BASE_H
