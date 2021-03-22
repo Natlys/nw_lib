@@ -21,13 +21,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -97,13 +97,19 @@
     <ClInclude Include="src_cpp\core\nwl_id.h" />
     <ClInclude Include="src_cpp\core\nwl_info.h" />
     <ClInclude Include="src_cpp\core\nwl_rand.h" />
+    <ClInclude Include="src_cpp\core\nwl_sing.h" />
     <ClInclude Include="src_cpp\core\nwl_str.h" />
     <ClInclude Include="src_cpp\core\nwl_switch.h" />
     <ClInclude Include="src_cpp\core\nwl_thr.h" />
     <ClInclude Include="src_cpp\core\nwl_time.h" />
     <ClInclude Include="src_cpp\core\nwl_type.h" />
-    <ClInclude Include="src_cpp\data\data_loc.h" />
-    <ClInclude Include="src_cpp\data\data_rsc.h" />
+    <ClInclude Include="src_cpp\core\nwl_type_id.h" />
+    <ClInclude Include="src_cpp\data\data_cmp.h" />
+    <ClInclude Include="src_cpp\data\data_ent.h" />
+    <ClInclude Include="src_cpp\data\data_layt.h" />
+    <ClInclude Include="src_cpp\data\data_lib.h" />
+    <ClInclude Include="src_cpp\data\data_path.h" />
+    <ClInclude Include="src_cpp\data\data_switch.h" />
     <ClInclude Include="src_cpp\data\data_sys.h" />
     <ClInclude Include="src_cpp\ecs\ecs_cmp.h" />
     <ClInclude Include="src_cpp\ecs\ecs_cmp_sys.h" />
@@ -112,9 +118,9 @@
     <ClInclude Include="src_cpp\io\io_dvc.h" />
     <ClInclude Include="src_cpp\io\io_err.h" />
     <ClInclude Include="src_cpp\io\io_evt.h" />
-    <ClInclude Include="src_cpp\io\io_log.h" />
     <ClInclude Include="src_cpp\io\io_stm.h" />
     <ClInclude Include="src_cpp\io\io_switch.h" />
+    <ClInclude Include="src_cpp\io\io_sys.h" />
     <ClInclude Include="src_cpp\math\math_base.h" />
     <ClInclude Include="src_cpp\math\math_mat.h" />
     <ClInclude Include="src_cpp\math\math_tform.h" />
@@ -143,17 +149,18 @@
     <ClCompile Include="src_cpp\core\nwl_switch.cpp" />
     <ClCompile Include="src_cpp\core\nwl_time.cpp" />
     <ClCompile Include="src_cpp\core\nwl_type.cpp" />
-    <ClCompile Include="src_cpp\data\data_loc.cpp" />
-    <ClCompile Include="src_cpp\data\data_rsc.cpp" />
+    <ClCompile Include="src_cpp\data\data_cmp.cpp" />
+    <ClCompile Include="src_cpp\data\data_ent.cpp" />
+    <ClCompile Include="src_cpp\data\data_layt.cpp" />
+    <ClCompile Include="src_cpp\data\data_path.cpp" />
+    <ClCompile Include="src_cpp\data\data_switch.cpp" />
     <ClCompile Include="src_cpp\data\data_sys.cpp" />
-    <ClCompile Include="src_cpp\ecs\ecs_cmp.cpp" />
     <ClCompile Include="src_cpp\ecs\ecs_cmp_sys.cpp" />
-    <ClCompile Include="src_cpp\ecs\ecs_ent.cpp" />
     <ClCompile Include="src_cpp\ecs\ecs_ent_sys.cpp" />
     <ClCompile Include="src_cpp\io\io_dvc.cpp" />
     <ClCompile Include="src_cpp\io\io_err.cpp" />
     <ClCompile Include="src_cpp\io\io_evt.cpp" />
-    <ClCompile Include="src_cpp\io\io_log.cpp" />
+    <ClCompile Include="src_cpp\io\io_sys.cpp" />
     <ClCompile Include="src_cpp\mem\mem_alloc.cpp" />
     <ClCompile Include="src_cpp\mem\mem_sys.cpp" />
     <ClCompile Include="src_cpp\nwl_pch.cpp">

@@ -14,32 +14,34 @@ namespace NW
 		static ui32 s_curr_id;
 	};
 }
+#define NW_TYPE_ID(type_name) (type_indexator::get_id<type_name>())
 namespace NW
 {
 	/// abstract type_owner class
-	class NW_API a_type_owner : public a_mem_user
+	class NW_API a_type_owner
 	{
 	protected:
 		a_type_owner();
 	public:
 		virtual ~a_type_owner();
 		// --getters
-		virtual inline ui32 get_type_id() const = 0;
+		virtual inline ui32 get_type() const = 0;
 		// --predicates
-		template<typename ctype>
-		bit check_type_id() const	{ return get_type_id() == type_indexator::get_id<ctype>(); }
+		inline bit check_type(ui32 type_id) const		{ return get_type() == type_id; }
+		template<typename ct> bit check_type() const	{ return check_type(ct::get_type_static()); }
 	};
 	/// templated type_owner class
-	template<typename type>
-	class NW_API t_type_owner : public a_mem_user
+	template<typename type, class atype>
+	class NW_API t_type_owner : public atype
 	{
 	protected:
-		t_type_owner() { }
+		template<typename ... args>
+		t_type_owner(args ... arguments) : atype(std::forward<args>(arguments)...) { }
 	public:
-		virtual ~t_type_owner() { }
+		virtual ~t_type_owner() = default;
 		// --getters
-		static inline ui32 get_type_id_static()				{ return type_indexator::get_id<type>(); }
-		virtual inline ui32 get_type_id() const override	{ return type_indexator::get_id<type>(); }
+		static inline ui32 get_type_static()			{ return type_indexator::get_id<type>(); }
+		virtual inline ui32 get_type() const override	{ return type_indexator::get_id<type>(); }
 	};
 }
 #endif	// NWL_TYPE_H

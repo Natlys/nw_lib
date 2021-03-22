@@ -9,7 +9,7 @@ namespace NW
 		push(first_id);
 	}
 	// --setters
-	void id_stack::set_free_id(ui32 free_id) { if (free_id != top()) { push(free_id); } }
+	void id_stack::set_id(ui32 free_id) { if (free_id != top()) { push(free_id); } }
 }
 namespace NW
 {

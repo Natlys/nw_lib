@@ -1,51 +1,75 @@
 #ifndef NW_ECS_COMPONENT_SYSTEM_H
 #define NW_ECS_COMPONENT_SYSTEM_H
 #include <nwl_core.hpp>
+#include <core/nwl_sing.h>
 #include <core/nwl_cln.h>
-#include <core/nwl_type.h>
-#include <ecs/ecs_cmp.h>
+#include "ecs_cmp.h"
 namespace NW
 {
-	/// component_system static class
+	/// templated component_system static class
 	/// description:
 	/// --core manager of components: creates, destroyes and gives components;
 	/// --stores all components in tables of entities;
 	/// --any cmp table contains abstract refs to components of particular type;
 	/// --all cmp tables are inside of single registry;
-	/// --registry: ent_id-table | tables: type_id-ref;
-	class NW_API cmp_sys
+	/// --registry: ent_id-table | tables: t_id-ref;
+	template<class rt>
+	class NW_API t_cmp_sys
 	{
-		using cmp_ref = mem_ref<a_cmp>;
-		/// table of type_id and component references
-		using cmps = dictionary<ui32, cmp_ref>;
-		/// table of cmp_id and component containers
-		using registry = dictionary<ui32, cmps>;
 	public:
+		using cmp_ref = mem_ref<rt>;				// base reference to an abstract component
+		using cmp_tab = dictionary<ui32, cmp_ref>;	// table of t_id and component references
+		using cmp_reg = dictionary<ui32, cmp_tab>;	// table of c_id and component containers
+		template<class ct>
+		using cmp = mem_ref<ct>;					// reference to some typed component
+	protected:
+		t_cmp_sys() = default;
+	public:
+		virtual ~t_cmp_sys() = default;
 		// --getters
-		static inline registry& get_registry()						{ return s_reg; }
-		static inline cmps& get_cmps(ui32 type_id)					{ return s_reg[type_id]; }
-		static inline cmp_ref& get_cmp(ui32 type_id, ui32 cmp_id)	{ return s_reg[type_id][cmp_id]; }
-		template<class ctype> static inline cmps& get_cmps()		{ return s_reg[type_indexator::get_id<ctype>()]; }
-		template<class ctype> static cmp_ref& get_cmp(ui32 cmp_id)	{ return s_reg[type_indexator::get_id<ctype>()][cmp_id]; }
+		inline cmp_reg& get_cmp_reg()						{ return m_cmp_reg; }
+		inline cmp_tab& get_cmp_tab(ui32 t_id)				{ return m_cmp_reg[t_id]; }
+		template<class ct> cmp_tab& get_tab()				{ return get_cmp_tab(ct::get_type_static()); }
+		inline cmp_ref& get_cmp_ref(ui32 t_id, ui32 c_id)	{ return m_cmp_reg[t_id][c_id]; }
+		template<class ct> cmp_ref& get_cmp_ref(ui32 c_id)	{ return get_cmp_ref(ct::get_type_static(), c_id); }
+		template<class ct> cmp<ct> get_cmp(ui32 c_id)		{ return cmp<ct>(get_cmp_ref<ct>(c_id)); }
 		// --predicates
-		static inline bit has_cmp(ui32 type_id, ui32 cmp_id)		{ return s_reg[type_id].find(cmp_id) != s_reg[type_id].end(); }
-		template<class ctype> static bit has_cmp(ui32 cmp_id)		{ return has_ent(type_indexator::get_id<ctype>(), cmp_id); }
-		// --core_methods
-		static void on_init();
-		static void on_quit();
-		template<class ctype, typename ... args>
-		static void new_cmp(cmp_ref& ref, args& ... arguments);
-		static void del_cmp(ui32 type_id, ui32 cmp_id);
-		template<class ctype> static void del_cmp(ui32 cmp_id)	{ del_cmp(type_indexator::get_id<ctype>(), cmp_id); }
-	private:
-		static registry s_reg;
+		inline bit has_cmp(ui32 t_id, ui32 c_id)			{ return m_cmp_reg[t_id].find(c_id) != m_cmp_reg[t_id].end(); }
+		template<class ct> bit has_cmp(ui32 c_id)			{ return has_cmp(ct::get_type_static(), c_id); }
+	protected:
+		cmp_reg m_cmp_reg;
 	};
-	// --setters
-	template<class ctype, typename ... args>
-	static void cmp_sys::new_cmp(cmp_ref& ref, args& ... arguments) {
-		ref.make_ref<ctype>(std::forward<args&>(arguments)...);
-		s_reg[ref->get_type_id()][ref->get_cmp_id()].set_ref<a_cmp>(ref);
-	}
+	/// component_system singleton class
+	class NW_API cmp_sys : public t_cmp_sys<a_cmp>, public t_singleton<cmp_sys>
+	{
+		friend class t_singleton<cmp_sys>;
+	private:
+		cmp_sys();
+	public:
+		~cmp_sys();
+		// --core_methods
+		template<class ct, typename ... args>
+		cmp<ct> new_cmp(args& ... arguments) {
+			cmp<ct> ref;
+			ref.make_ref<ct>(std::forward<args&>(arguments)...);
+			m_cmp_reg[ref->get_type()][ref->get_id()].set_ref(ref);
+			return ref;
+		}
+		template<class act, class ct, typename ... args>
+		cmp<act> new_cmp(args& ... arguments) {
+			cmp<act> ref;
+			ref.make_ref<ct>(std::forward<args&>(arguments)...);
+			m_cmp_reg[ref->get_type()][ref->get_id()].set_ref(ref);
+			return ref;
+		}
+		void del_cmp(ui32 t_id, ui32 c_id) {
+			if (!has_cmp(t_id, c_id)) { return; }
+			m_cmp_reg[t_id].erase(c_id);
+		}
+		template<class ct>
+		void del_cmp(ui32 c_id) {
+			del_cmp(ct::get_type_static(), c_id);
+		}
+	};
 }
-
 #endif	// NW_ECS_COMPONENT_SYSTEM_H

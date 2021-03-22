@@ -1,6 +1,7 @@
 #ifndef NWL_EVENT_H
 #define NWL_EVENT_H
 #include <nwl_core.hpp>
+#include <core/nwl_str.h>
 #include "io_switch.h"
 namespace NW
 {
@@ -12,31 +13,36 @@ namespace NW
 	struct NW_API a_event
 	{
 	public:
-		bit is_handled = false;
-		event_types type = EVT_DEFAULT;
+		using ecat = event_categories;
+		using etype = event_types;
 	public:
-		a_event(event_types type);
+		bit is_handled;
+		etype type;
+	public:
+		a_event(etype type);
+		// --getters
+		inline ecat get_category() const		{ return static_cast<ecat>(type); }
 		// --predicates
-		inline bit is_in_category(event_categories category) { return (type & category); }
+		inline bit is_in_category(ecat category) const	{ return (type & category); }
 	};
 	using event_callback = std::function<void(a_event&)>;
 }
 namespace NW
 {
-	/// mouse_event struct
-	struct NW_API mouse_event : public a_event
+	/// ms_event struct
+	struct NW_API ms_event : public a_event
 	{
 	public:
 		mouse_codes code = MSC_0;
 		f64 val_x = 0.0, val_y = 0.0;
 	public:
 		// mouse_move_event or mouse_scroll_event
-		mouse_event(event_types type, f32 coord_or_scroll_x, f32 coord_or_scroll_y);
+		ms_event(etype type, f32 coord_or_scroll_x, f32 coord_or_scroll_y);
 		// mouse_buttevent_proc
-		mouse_event(event_types type, mouse_codes button_code, f32 coord_or_scroll_x = 0.0, f32 coord_or_scroll_y = 0.0);
+		ms_event(etype type, mouse_codes button_code, f32 coord_or_scroll_x = 0.0, f32 coord_or_scroll_y = 0.0);
 	};
-	/// keyboard_event struct
-	struct NW_API keyboard_event : public a_event
+	/// kbd_event struct
+	struct NW_API kbd_event : public a_event
 	{
 	public:
 		union {
@@ -46,20 +52,28 @@ namespace NW
 		ui32 nof_repeats = 0;
 	public:
 		// release_key_event
-		keyboard_event(event_types type, keyboard_codes code_or_char);
+		kbd_event(etype type, keyboard_codes code_or_char);
 		// press_key_event
-		keyboard_event(event_types type, keyboard_codes code_or_char, ui32 repeat_count);
+		kbd_event(etype type, keyboard_codes code_or_char, ui32 repeat_count);
 	};
-	/// window_event struct
-	struct NW_API window_event : public a_event
+	/// wnd_event struct
+	struct NW_API wnd_event : public a_event
 	{
 	public:
 		si32 val_x = 0, val_y = 0;
 	public:
 		// window_close_event or window_focus_event
-		window_event(event_types type);
+		wnd_event(etype type);
 		// window_resize_event
-		window_event(event_types type, si32 width_or_x, si32 height_or_y);
+		wnd_event(etype type, si32 width_or_x, si32 height_or_y);
+	};
+	/// application event
+	struct NW_API app_event : public a_event
+	{
+	public:
+		cstr desc;
+	public:
+		app_event(etype type, cstr description);
 	};
 }
 #endif	//NWL_EVENT_H

@@ -15,7 +15,7 @@ namespace NW
 		virtual stm_out& operator<<(stm_out& stm) const = 0;
 		virtual stm_in& operator>>(stm_in& stm) = 0;
 	};
-	stm_out& operator<<(stm_out& stm, a_info& info);
+	stm_out& operator<<(stm_out& stm, const a_info& info);
 	stm_in& operator>>(stm_in& stm, a_info& info);
 }
 #endif	// NWL_INFO_H

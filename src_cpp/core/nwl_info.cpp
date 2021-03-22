@@ -7,6 +7,6 @@ namespace NW
 	}
 	// --setters
 	// --operators
-	stm_out& operator<<(stm_out& stm, a_info& info) { return info.operator<<(stm); }
+	stm_out& operator<<(stm_out& stm, const a_info& info) { return info.operator<<(stm); }
 	stm_in& operator>>(stm_in& stm, a_info& info) { return info.operator>>(stm); }
 }

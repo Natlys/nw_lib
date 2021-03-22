@@ -51,10 +51,22 @@
     <ClInclude Include="src_cpp\core\nwl_type.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\data\data_loc.h">
+    <ClInclude Include="src_cpp\data\data_cmp.h">
       <Filter>data</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\data\data_rsc.h">
+    <ClInclude Include="src_cpp\data\data_ent.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_layt.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_lib.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_path.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_switch.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\data\data_sys.h">
@@ -81,13 +93,13 @@
     <ClInclude Include="src_cpp\io\io_evt.h">
       <Filter>io</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\io\io_log.h">
-      <Filter>io</Filter>
-    </ClInclude>
     <ClInclude Include="src_cpp\io\io_stm.h">
       <Filter>io</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\io\io_switch.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\io\io_sys.h">
       <Filter>io</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\math\math_base.h">
@@ -127,6 +139,8 @@
     <ClInclude Include="src_cpp\physx\physx_col.h">
       <Filter>physx</Filter>
     </ClInclude>
+    <ClInclude Include="src_cpp\core\nwl_type_id.h" />
+    <ClInclude Include="src_cpp\core\nwl_sing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src_cpp\core\nwl_id.cpp">
@@ -150,22 +164,25 @@
     <ClCompile Include="src_cpp\core\nwl_type.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\data\data_loc.cpp">
+    <ClCompile Include="src_cpp\data\data_cmp.cpp">
       <Filter>data</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\data\data_rsc.cpp">
+    <ClCompile Include="src_cpp\data\data_ent.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\data\data_layt.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\data\data_path.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\data\data_switch.cpp">
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\data\data_sys.cpp">
       <Filter>data</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\ecs\ecs_cmp.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
     <ClCompile Include="src_cpp\ecs\ecs_cmp_sys.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\ecs\ecs_ent.cpp">
       <Filter>ecs</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\ecs\ecs_ent_sys.cpp">
@@ -180,7 +197,7 @@
     <ClCompile Include="src_cpp\io\io_evt.cpp">
       <Filter>io</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\io\io_log.cpp">
+    <ClCompile Include="src_cpp\io\io_sys.cpp">
       <Filter>io</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\mem\mem_alloc.cpp">
