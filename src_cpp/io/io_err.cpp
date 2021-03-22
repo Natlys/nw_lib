@@ -9,9 +9,9 @@ namespace NW
 	}
 	// --getters
 	inline cstr a_error::get_str() const {
-		stm_io_str stm;
-		this->operator<<(stm);
-		return &(stm.str())[0];
+		static stm_io_str stm;
+		stm << *this;
+		return &stm.str()[0];
 	}
 	// --operators
 	stm_out& a_error::operator<<(stm_out& stm) const {

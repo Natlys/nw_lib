@@ -9,7 +9,6 @@
 #ifndef NW_BUILD_DLL
 #	define NW_BUILD_DLL
 #endif
-
 // --<standard>--
 // --stl
 #include <array>
@@ -26,13 +25,18 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <filesystem>
+#include <xfilesystem_abi.h>
 // --numbers
 #include <random>
 // --strings
 #include <string>
+#include <string_view>
+#include <xstring>
 // --support
+#include <yvals_core.h>
+#include <locale>
 #include <exception>
+#include <system_error>
 #include <typeinfo>
 #include <typeindex>
 // --memory
@@ -47,6 +51,7 @@
 // --</standard>--
 
 // --<native>--
+#include <cwchar>
 #include <cstddef>
 #include <cstdarg>
 #include <cstdio>

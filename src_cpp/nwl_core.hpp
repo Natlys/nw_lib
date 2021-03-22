@@ -16,25 +16,34 @@
 
 #define NW_GAPI_OGL		1 << 1
 #define NW_GAPI_DX		1 << 2
-#define NW_GAPI			NW_GAPI_OGL
+#define NW_GAPI			NW_GAPI_DX
 
-#define NW_OS_WIN		1 << 1
-#define NW_OS			NW_OS_WIN
+#define NW_WAPI_WIN		1 << 1
+#define NW_WAPI			NW_WAPI_WIN
 // --==</configuration>==--
 
 // --==<suport>==--
-#if (defined _WIN32)
-#	define NW_EOL  "\r\n"
-#else
-#	define NW_EOL  "\n"
-#endif
 #if defined(_MSC_VER)
 #	if (!(defined _CRT_SECURE_NO_WARNINGS) && false)
 #		pragma warning (disable: 4996) // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
 #		define _CRT_SECURE_NO_WARNINGS
 #	endif
 #endif	// microsoft visual studio version
-#define NW_DEFAULT_STR "default"
+#if (defined _WIN32)
+#	define NW_CHAR_EOL	'\r\n'
+#	define NW_CHAR_DIR	'\\'
+#	define NW_STR_EOL	"\r\n"
+#	define NW_STR_DIR	"\\"
+#else
+#	define NW_CHAR_EOL  '\n'
+#	define NW_CHAR_DIR	'/'
+#	define NW_STR_EOL	"\n"
+#	define NW_STR_DIR	"/"
+#endif
+#define NW_STR_TXT(txt)	#txt	
+#define NW_STR_DEFAULT	"default"
+#define NW_STR_NAME		"native_world"
+#define NW_STR_LOC		NW_STR_DIR"native_world"
 // --==</support>==--
 
 // --==<pragmas>==--
@@ -56,8 +65,8 @@
 
 #include "nwl_pch.hpp"
 
-#if (defined NW_OS && defined NW_GAPI)
-#	if (NW_OS & NW_OS_WIN)
+#if (defined NW_WAPI && defined NW_GAPI)
+#	if (NW_WAPI & NW_WAPI_WIN)
 using window_handle = HWND;
 using library_handle = HMODULE;
 #		if (NW_GAPI & NW_GAPI_OGL)
@@ -73,7 +82,7 @@ using device_handle = ID3D11Device*;
 using context_handle = ID3D11DeviceContext*;
 #		endif	// NW_GAPI
 #	endif
-#endif	// NW_OS && NW_GAPI
+#endif	// NW_WAPI && NW_GAPI
 
 namespace NW
 {
@@ -120,8 +129,8 @@ namespace NW
 	class NW_API a_singleton;
 	class NW_API a_data_rsc;
 	struct NW_API a_event;
-	struct NW_API window_event;
-	struct NW_API mouse_event;
-	struct NW_API keyboard_event;
+	struct NW_API wnd_event;
+	struct NW_API ms_event;
+	struct NW_API kbd_event;
 }
 #endif	// NWL_CORE_HPP

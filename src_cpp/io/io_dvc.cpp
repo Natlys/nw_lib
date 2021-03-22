@@ -32,13 +32,13 @@ namespace NW
 	{
 		auto& rbtn = m_buttons[kbd_evt.code];
 		switch (kbd_evt.type) {
-		case EVT_KEYBOARD_PRESSED:
+		case EVT_KBD_PRESSED:
 			rbtn.state = BS_PRESSED;
 			break;
-		case EVT_KEYBOARD_RELEASED:
+		case EVT_KBD_RELEASED:
 			rbtn.state = BS_RELEASED;
 			break;
-		case EVT_KEYBOARD_CHAR:
+		case EVT_KBD_CHAR:
 			rbtn.character.wide = kbd_evt.character.wide;
 			rbtn.character.nrow = kbd_evt.character.nrow;
 			break;
@@ -88,7 +88,7 @@ namespace NW
 	void mouse_state::event_proc(evt& ms_evt)
 	{
 		switch (ms_evt.type) {
-		case EVT_MOUSE_MOVE:
+		case EVT_MS_MOVE:
 			m_move_delta_x = ms_evt.val_x;
 			m_move_delta_y = ms_evt.val_y;
 			for (auto& ibtn : m_buttons) {
@@ -106,7 +106,7 @@ namespace NW
 				}
 			}
 			break;
-		case EVT_MOUSE_COORD:
+		case EVT_MS_COORD:
 			m_move_coord_x = ms_evt.val_x;
 			m_move_coord_y = ms_evt.val_y;
 			for (auto& ibtn : m_buttons) {
@@ -132,14 +132,14 @@ namespace NW
 				}
 			}
 			break;
-		case EVT_MOUSE_SCROLL:
+		case EVT_MS_SCROLL:
 			m_scroll_delta_x += ms_evt.val_x;
 			m_scroll_delta_y += ms_evt.val_y;
 			break;
-		case EVT_MOUSE_PRESSED:
+		case EVT_MS_PRESSED:
 			m_buttons[ms_evt.code].state = BS_PRESSED;
 			break;
-		case EVT_MOUSE_RELEASED:
+		case EVT_MS_RELEASED:
 			m_buttons[ms_evt.code].state = BS_RELEASED;
 			break;
 		}

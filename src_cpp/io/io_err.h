@@ -98,4 +98,24 @@ namespace NW
 	private:
 	};
 }
+namespace NW
+{
+	// errors
+	// We would really love to use the proper way of building std::error_code by specializing
+	// is_error_code_enum and make_error_code for __std_win_error, but because:
+	//   1. We would like to keep the definition of __std_win_error in xfilesystem_abi.h
+	//   2. and xfilesystem_abi.h cannot include <std::system_error>
+	//   3. and specialization of is_error_code_enum and overload of make_error_code
+	//      need to be kept together with the enum (see limerick in N4810 [temp.expl.spec]/7)
+	// we resort to using this make_err_code helper.
+	// --make an std::error_code
+	inline std::error_code make_err_code(__std_win_error err_no) noexcept { return { static_cast<int>(err_no), std::system_category() }; }
+
+	inline void throw_sys_err_from_std_win_err(const __std_win_error err_no) { throw std::system_error{ make_err_code(err_no) }; }
+
+	inline int check_convert_result(const __std_fs_convert_result res) {
+		if (res._Err != __std_win_error::_Success) { throw_sys_err_from_std_win_err(res._Err); }
+		return res._Len;
+	}
+}
 #endif	// NWL_IO_ERROR_H

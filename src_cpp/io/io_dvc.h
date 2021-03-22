@@ -1,7 +1,7 @@
 #ifndef NWL_IO_DEVICE_H
 #define NWL_IO_DEVICE_H
 #include <nwl_core.hpp>
-#if (defined NW_OS)
+#if (defined NW_WAPI)
 #include "io_switch.h"
 #include "io_evt.h"
 #include <math/math_vec.h>
@@ -19,7 +19,7 @@ namespace NW
 	class NW_API keyboard_state
 	{
 	public:
-		using evt = keyboard_event;
+		using evt = kbd_event;
 		using btn = keyboard_button;
 		using codes = keyboard_codes;
 	public:
@@ -57,7 +57,7 @@ namespace NW
 	class NW_API mouse_state
 	{
 	public:
-		using evt = mouse_event;
+		using evt = ms_event;
 		using btn = mouse_button;
 		using codes = mouse_codes;
 	public:
@@ -103,5 +103,5 @@ namespace NW
 		bit m_is_cursor_enabled;
 	};
 }
-#endif	// NW_OS
+#endif	// NW_WAPI
 #endif	// NWL_IO_DEVICE_H

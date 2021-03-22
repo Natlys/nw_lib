@@ -1,7 +1,7 @@
 #include <nwl_pch.hpp>
 #include "ecs_ent_sys.h"
 
-NW::ent_sys::registry NW::ent_sys::s_reg;
+NW::ent_sys::reg NW::ent_sys::s_reg;
 
 namespace NW
 {
