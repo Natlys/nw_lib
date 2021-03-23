@@ -17,7 +17,7 @@ namespace NW
 	protected:
 		a_ent() : a_type_id_owner() { }
 	public:
-		virtual ~a_ent() { }
+		virtual ~a_ent() = default;
 	};
 	/// templated entity class
 	template<class et, class act = a_cmp>

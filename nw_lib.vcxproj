@@ -106,9 +106,13 @@
     <ClInclude Include="src_cpp\core\nwl_type_id.h" />
     <ClInclude Include="src_cpp\data\data_cmp.h" />
     <ClInclude Include="src_cpp\data\data_ent.h" />
+    <ClInclude Include="src_cpp\data\data_err.h" />
+    <ClInclude Include="src_cpp\data\data_file.h" />
     <ClInclude Include="src_cpp\data\data_layt.h" />
     <ClInclude Include="src_cpp\data\data_lib.h" />
     <ClInclude Include="src_cpp\data\data_path.h" />
+    <ClInclude Include="src_cpp\data\data_rsc.h" />
+    <ClInclude Include="src_cpp\data\data_status.h" />
     <ClInclude Include="src_cpp\data\data_switch.h" />
     <ClInclude Include="src_cpp\data\data_sys.h" />
     <ClInclude Include="src_cpp\ecs\ecs_cmp.h" />
@@ -153,6 +157,7 @@
     <ClCompile Include="src_cpp\data\data_ent.cpp" />
     <ClCompile Include="src_cpp\data\data_layt.cpp" />
     <ClCompile Include="src_cpp\data\data_path.cpp" />
+    <ClCompile Include="src_cpp\data\data_rsc.cpp" />
     <ClCompile Include="src_cpp\data\data_switch.cpp" />
     <ClCompile Include="src_cpp\data\data_sys.cpp" />
     <ClCompile Include="src_cpp\ecs\ecs_cmp_sys.cpp" />

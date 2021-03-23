@@ -33,12 +33,12 @@ namespace NW
     {
         if (!is_drct_path(dpath)) { return; }
         SECURITY_ATTRIBUTES scr_atbs{ 0 };
-        CreateDirectory(dpath, &scr_atbs);
+        ::CreateDirectory(dpath, &scr_atbs);
     }
     void data_sys::del_drct(cstr dpath)
     {
         if (!is_drct_path(dpath)) { return; }
-        RemoveDirectory(dpath);
+        ::RemoveDirectory(dpath);
     }
     // --loading
     cstr data_sys::dialog_load(cstr filter, window_handle wnd)

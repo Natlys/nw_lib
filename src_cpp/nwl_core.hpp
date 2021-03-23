@@ -16,7 +16,7 @@
 
 #define NW_GAPI_OGL		1 << 1
 #define NW_GAPI_DX		1 << 2
-#define NW_GAPI			NW_GAPI_DX
+#define NW_GAPI			NW_GAPI_OGL
 
 #define NW_WAPI_WIN		1 << 1
 #define NW_WAPI			NW_WAPI_WIN

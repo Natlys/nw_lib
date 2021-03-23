@@ -4,7 +4,7 @@
 #include <core/nwl_id.h>
 #include <core/nwl_type.h>
 #include <core/nwl_type_id.h>
-#include <mem/mem_ref.h>
+#include <mem/mem_sys.h>
 namespace NW
 {
 	/// abstract component class

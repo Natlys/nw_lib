@@ -36,6 +36,9 @@
     <ClInclude Include="src_cpp\core\nwl_rand.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="src_cpp\core\nwl_sing.h">
+      <Filter>core</Filter>
+    </ClInclude>
     <ClInclude Include="src_cpp\core\nwl_str.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -51,10 +54,19 @@
     <ClInclude Include="src_cpp\core\nwl_type.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="src_cpp\core\nwl_type_id.h">
+      <Filter>core</Filter>
+    </ClInclude>
     <ClInclude Include="src_cpp\data\data_cmp.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\data\data_ent.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_err.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_file.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\data\data_layt.h">
@@ -64,6 +76,12 @@
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\data\data_path.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_rsc.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\data\data_status.h">
       <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\data\data_switch.h">
@@ -139,8 +157,6 @@
     <ClInclude Include="src_cpp\physx\physx_col.h">
       <Filter>physx</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\core\nwl_type_id.h" />
-    <ClInclude Include="src_cpp\core\nwl_sing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src_cpp\core\nwl_id.cpp">
@@ -174,6 +190,9 @@
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\data\data_path.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\data\data_rsc.cpp">
       <Filter>data</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\data\data_switch.cpp">

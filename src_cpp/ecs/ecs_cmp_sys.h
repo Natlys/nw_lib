@@ -3,6 +3,7 @@
 #include <nwl_core.hpp>
 #include <core/nwl_sing.h>
 #include <core/nwl_cln.h>
+#include <mem/mem_ref.h>
 #include "ecs_cmp.h"
 namespace NW
 {
@@ -27,15 +28,15 @@ namespace NW
 	public:
 		virtual ~t_cmp_sys() = default;
 		// --getters
-		inline cmp_reg& get_cmp_reg()						{ return m_cmp_reg; }
-		inline cmp_tab& get_cmp_tab(ui32 t_id)				{ return m_cmp_reg[t_id]; }
-		template<class ct> cmp_tab& get_tab()				{ return get_cmp_tab(ct::get_type_static()); }
-		inline cmp_ref& get_cmp_ref(ui32 t_id, ui32 c_id)	{ return m_cmp_reg[t_id][c_id]; }
-		template<class ct> cmp_ref& get_cmp_ref(ui32 c_id)	{ return get_cmp_ref(ct::get_type_static(), c_id); }
-		template<class ct> cmp<ct> get_cmp(ui32 c_id)		{ return cmp<ct>(get_cmp_ref<ct>(c_id)); }
+		inline cmp_reg& get_cmp_reg()                       { return m_cmp_reg; }
+		inline cmp_tab& get_cmp_tab(ui32 t_id)              { return m_cmp_reg[t_id]; }
+		template<class ct> cmp_tab& get_tab()               { return get_cmp_tab(ct::get_type_static()); }
+		inline cmp_ref& get_cmp_ref(ui32 t_id, ui32 c_id)   { return m_cmp_reg[t_id][c_id]; }
+		template<class ct> cmp_ref& get_cmp_ref(ui32 c_id)  { return get_cmp_ref(ct::get_type_static(), c_id); }
+		template<class ct> cmp<ct> get_cmp(ui32 c_id)       { return cmp<ct>(get_cmp_ref<ct>(c_id)); }
 		// --predicates
-		inline bit has_cmp(ui32 t_id, ui32 c_id)			{ return m_cmp_reg[t_id].find(c_id) != m_cmp_reg[t_id].end(); }
-		template<class ct> bit has_cmp(ui32 c_id)			{ return has_cmp(ct::get_type_static(), c_id); }
+		inline bit has_cmp(ui32 t_id, ui32 c_id)            { return m_cmp_reg[t_id].find(c_id) != m_cmp_reg[t_id].end(); }
+		template<class ct> bit has_cmp(ui32 c_id)           { return has_cmp(ct::get_type_static(), c_id); }
 	protected:
 		cmp_reg m_cmp_reg;
 	};

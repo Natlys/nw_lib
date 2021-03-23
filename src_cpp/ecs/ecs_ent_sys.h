@@ -25,15 +25,15 @@ namespace NW
 	public:
 		virtual ~t_ent_sys() = default;
 		// --getters
-		inline ent_reg& get_ent_reg()						{ return m_ent_reg; }
-		inline ent_tab& get_ent_tab(ui32 t_id)				{ return m_ent_reg[t_id]; }
-		template<class et> ent_tab& get_ent_tab()			{ return get_ent_tab(et::get_type_static()); }
-		inline ent_ref& get_ent_ref(ui32 t_id, ui32 e_id)	{ return m_ent_reg[t_id][e_id]; }
-		template<class et> ent_ref& get_ent_ref(ui32 e_id)	{ return get_ent_ref(et::get_type_static(), e_id); }
-		template<class et> ent<et> get_ent(ui32 e_id)		{ return ent<et>(get_ent_ref<et>(e_id)); }
+		inline ent_reg& get_ent_reg()                       { return m_ent_reg; }
+		inline ent_tab& get_ent_tab(ui32 t_id)              { return m_ent_reg[t_id]; }
+		template<class et> ent_tab& get_ent_tab()           { return get_ent_tab(et::get_type_static()); }
+		inline ent_ref& get_ent_ref(ui32 t_id, ui32 e_id)   { return m_ent_reg[t_id][e_id]; }
+		template<class et> ent_ref& get_ent_ref(ui32 e_id)  { return get_ent_ref(et::get_type_static(), e_id); }
+		template<class et> ent<et> get_ent(ui32 e_id)       { return ent<et>(get_ent_ref<et>(e_id)); }
 		// --predicates
-		inline bit has_ent(ui32 t_id, ui32 e_id)			{ return m_ent_reg[t_id].find(e_id) != m_ent_reg[t_id].end(); }
-		template<class et> bit has_ent(ui32 e_id)			{ return has_ent(et::get_type_static(), e_id); }
+		inline bit has_ent(ui32 t_id, ui32 e_id)            { return m_ent_reg[t_id].find(e_id) != m_ent_reg[t_id].end(); }
+		template<class et> bit has_ent(ui32 e_id)           { return has_ent(et::get_type_static(), e_id); }
 	protected:
 		ent_reg m_ent_reg;
 	};

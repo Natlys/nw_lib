@@ -20,18 +20,18 @@ namespace NW
 		using tab = darray<cmp>;
 		using path = data_path;
 		using cpath = const data_path;
-		using space_info = data_space_info;
+		using spc_info = data_space_info;
 		using cspace_info = const data_space_info;
 	private:
 		data_sys();
 	public:
 		~data_sys();
 		// --getters
-		inline path get_path()							{ m_path_curr = DATA::current_path(); return m_path_curr; }
-		inline path get_path(cstr fpath)				{ return get_path() / fpath; }
-		inline path get_path(cstr fpath, cstr fname)	{ return get_path() / fpath / fname; }
-		inline size get_size(cstr fpath)				{ return DATA::file_size(fpath); }
-		inline space_info get_space_info(cstr fpath)	{ return DATA::space(fpath); }
+		inline path get_path()						{ m_path_curr = DATA::current_path(); return m_path_curr; }
+		inline path get_path(cstr fpath)			{ return get_path() / fpath; }
+		inline path get_path(cstr fpath, cstr fname){ return get_path() / fpath / fname; }
+		inline size get_size(cstr fpath)			{ return DATA::file_size(fpath); }
+		inline spc_info get_space_info(cstr fpath)	{ return DATA::space(fpath); }
 		// --setters
 		void set_path_curr(cstr cpath);
 		// --predicates

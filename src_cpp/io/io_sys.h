@@ -10,8 +10,8 @@ namespace NW
 	/// input_output_system static class
 	class NW_API io_sys : public t_singleton<io_sys>
 	{
-		friend class t_singleton<io_sys>;
 	public:
+		friend class t_singleton<io_sys>;
 		using input = stm_io_str;
 		using output = stm_out;
 	private:
@@ -19,10 +19,10 @@ namespace NW
 	public:
 		~io_sys();
 		// --getters
-		inline input& get_input() { return *m_input; }
-		inline output& get_output() { return *m_output; }
+		inline input& get_input()		{ return *m_input; }
+		inline output& get_output()		{ return *m_output; }
 		// --setters
-		void set_stm_out(output& out);
+		void set_stm_out(stm_out& out);
 		// --core_methods
 		void update();
 		// --logging
