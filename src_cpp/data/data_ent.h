@@ -22,8 +22,8 @@ namespace NW
 		// --setters
 		// --predicates
 		// --core_methods
-		virtual bit save(ui8 idx) = 0;
-		virtual bit load(ui8 idx) = 0;
+		virtual bit save(v1ui idx) = 0;
+		virtual bit load(v1ui idx) = 0;
 	protected:
 	};
 }

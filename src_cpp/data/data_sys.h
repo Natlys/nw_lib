@@ -3,8 +3,9 @@
 #include <nwl_core.hpp>
 #if (defined NW_WAPI)
 #include <core/nwl_sing.h>
-#include <core/nwl_cln.h>
-#include <mem/mem_ref.h>
+#include <core/nwl_cont.h>
+#include <ecs/ecs_ent_sys.h>
+#include <ecs/ecs_cmp_sys.h>
 #include "data_ent.h"
 #include "data_cmp.h"
 #include "data_lib.h"
@@ -12,16 +13,14 @@
 namespace NW
 {
 	/// data_system static class
-	class NW_API data_sys : public t_singleton<data_sys>
+	class NW_API data_sys : public t_singleton<data_sys>, public t_ent_sys<a_data_ent>, public t_cmp_sys<a_data_cmp>
 	{
 	public:
 		friend class t_singleton<data_sys>;
-		using cmp = mem_ref<a_data_cmp>;
-		using tab = darray<cmp>;
 		using path = data_path;
 		using cpath = const data_path;
 		using spc_info = data_space_info;
-		using cspace_info = const data_space_info;
+		using cspc_info = const data_space_info;
 	private:
 		data_sys();
 	public:
@@ -41,12 +40,12 @@ namespace NW
 		void new_drct(cstr dir_path);
 		void del_drct(cstr dir_path);
 		// --loading
-		cstr dialog_load(cstr filter, window_handle wnd);
+		cstr load_dlg(cstr filter, window_handle wnd);
 		bit load_file(cstr file_path, ptr data, size nof_bytes);
 		bit load_file(cstr file_path, dstr& data);
 		bit load_file(cstr file_path, a_data_cmp& data);
 		// --saving
-		cstr dialog_save(cstr filter, window_handle wnd);
+		cstr save_dlg(cstr filter, window_handle wnd);
 		bit save_file(cstr file_path, ptr data, size nof_bytes);
 		bit save_file(cstr file_path, dstr& data);
 		bit save_file(cstr file_path, a_data_cmp& data);

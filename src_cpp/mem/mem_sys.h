@@ -13,6 +13,7 @@ namespace NW
 		mem_sys();
 	public:
 		~mem_sys();
+		// --core_methods
 	};
 }
 namespace NW
@@ -28,11 +29,11 @@ namespace NW
 	public:
 		virtual ~a_mem_user() = default;
 		// --operators
-		inline void* operator new(size alloc_size, ptr block_ptr)		{ return ::operator new(alloc_size, block_ptr); }
-		inline void* operator new(size alloc_size)						{ return mem_sys::get().alloc(alloc_size); }
-		inline void* operator new[](size alloc_size)					{ return mem_sys::get().alloc(alloc_size); }
-		inline void operator delete(ptr block_ptr, size dealloc_size)	{ mem_sys::get().dealloc(block_ptr, dealloc_size); }
-		inline void operator delete[](ptr block_ptr, size dealloc_size)	{ mem_sys::get().dealloc(block_ptr, dealloc_size); }
+		inline void* operator new(size block_size, ptr block_ptr)     { return ::operator new(block_size, block_ptr); }
+		inline void* operator new(size block_size)                    { return mem_sys::get().alloc(block_size); }
+		inline void* operator new[](size block_size)                  { return mem_sys::get().alloc(block_size); }
+		inline void operator delete(ptr block_ptr, size block_size)   { mem_sys::get().dealloc(block_ptr, block_size); }
+		inline void operator delete[](ptr block_ptr, size block_size) { mem_sys::get().dealloc(block_ptr, block_size); }
 	};
 }
 #endif	// NWL_MEMORY_SYSTEM_H

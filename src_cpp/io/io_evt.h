@@ -33,39 +33,41 @@ namespace NW
 	struct NW_API ms_event : public a_event
 	{
 	public:
-		mouse_codes code = MSC_0;
-		f64 val_x = 0.0, val_y = 0.0;
+		mouse_codes code;
+		v1f val_x;
+		v1f val_y;
 	public:
 		// mouse_move_event or mouse_scroll_event
-		ms_event(etype type, f32 coord_or_scroll_x, f32 coord_or_scroll_y);
+		ms_event(etype type, v1f coord_or_scroll_x, v1f coord_or_scroll_y);
 		// mouse_buttevent_proc
-		ms_event(etype type, mouse_codes button_code, f32 coord_or_scroll_x = 0.0, f32 coord_or_scroll_y = 0.0);
+		ms_event(etype type, mouse_codes button_code, v1f coord_or_scroll_x = 0.0, v1f coord_or_scroll_y = 0.0);
 	};
 	/// kbd_event struct
 	struct NW_API kbd_event : public a_event
 	{
 	public:
 		union {
-			keyboard_codes code = KBC_SPACE;
+			keyboard_codes code;
 			union { schar nrow; wchar wide; } character;
 		};
-		ui32 nof_repeats = 0;
+		v1ui nof_repeats;
 	public:
 		// release_key_event
 		kbd_event(etype type, keyboard_codes code_or_char);
 		// press_key_event
-		kbd_event(etype type, keyboard_codes code_or_char, ui32 repeat_count);
+		kbd_event(etype type, keyboard_codes code_or_char, v1ui repeat_count);
 	};
 	/// wnd_event struct
 	struct NW_API wnd_event : public a_event
 	{
 	public:
-		si32 val_x = 0, val_y = 0;
+		v1ui val_x;
+		v1ui val_y;
 	public:
 		// window_close_event or window_focus_event
 		wnd_event(etype type);
 		// window_resize_event
-		wnd_event(etype type, si32 width_or_x, si32 height_or_y);
+		wnd_event(etype type, v1si width_or_x, v1si height_or_y);
 	};
 	/// application event
 	struct NW_API app_event : public a_event

@@ -1,8 +1,8 @@
 #ifndef NWL_HPP
 #define NWL_HPP
 
-#include "core/nwl_cln.h"
-#include "core/nwl_switch.h"
+#include "core/nwl_cont.h"
+#include "core/nwl_const.h"
 #include "core/nwl_id.h"
 #include "core/nwl_type.h"
 #include "core/nwl_info.h"
@@ -10,6 +10,7 @@
 #include "core/nwl_str.h"
 #include "core/nwl_thr.h"
 #include "core/nwl_time.h"
+#include "core/nwl_tree.h"
 
 #include "nwl_core.hpp"
 #include "nwl_data.hpp"

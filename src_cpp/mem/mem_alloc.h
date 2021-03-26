@@ -39,11 +39,11 @@ namespace NW
 		template<typename mtype, typename ... Args>
 		mtype* new_one(Args&& ... Arguments);
 		template<typename mtype>
-		mtype* new_arr(ui64 nof_alloc);
+		mtype* new_arr(size nof_alloc);
 		template<typename mtype>
 		void del_one(mtype* block_ptr);
 		template<typename mtype>
-		void del_arr(mtype* block_ptr, ui64 nof_dealloc);
+		void del_arr(mtype* block_ptr, size nof_dealloc);
 	protected:
 		sbyte* m_data_ptr;
 		size m_data_size;
@@ -56,7 +56,7 @@ namespace NW
 		return block_ptr;
 	}
 	template <typename mtype>
-	mtype* a_mem_alloc::new_arr(ui64 nof_alloc) {
+	mtype* a_mem_alloc::new_arr(size nof_alloc) {
 		return reinterpret_cast<mtype*>(alloc(nof_alloc* sizeof(mtype), __alignof(mtype)));
 	}
 	template<typename mtype>
@@ -65,7 +65,7 @@ namespace NW
 		dealloc(block_ptr, 1 * sizeof(mtype));
 	}
 	template <typename mtype>
-	void a_mem_alloc::del_arr(mtype* block_ptr, ui64 nof_dealloc) {
+	void a_mem_alloc::del_arr(mtype* block_ptr, size nof_dealloc) {
 		for (size bi = 0; bi < nof_dealloc; bi++) { block_ptr[bi].~mtype(); }
 		dealloc(block_ptr, nof_dealloc * sizeof(mtype));
 	}

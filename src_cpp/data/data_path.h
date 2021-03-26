@@ -13,8 +13,8 @@ namespace NW
 		using cdpath = const data_path;
 	public:
 		data_path();
-		data_path(cstr str);
-		data_path(cstr16 str);
+		data_path(csstr str);
+		data_path(cwstr str);
 		data_path(cpath& pth);
 		data_path(cdpath& pth);
 		~data_path();

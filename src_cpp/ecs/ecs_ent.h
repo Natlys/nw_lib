@@ -3,7 +3,7 @@
 #include <nwl_core.hpp>
 #include <core/nwl_type.h>
 #include <core/nwl_id.h>
-#include <core/nwl_cln.h>
+#include <core/nwl_cont.h>
 #include "ecs_cmp.h"
 #include "ecs_cmp_sys.h"
 namespace NW
@@ -24,6 +24,7 @@ namespace NW
 	class NW_API t_ent: public t_type_id_owner<et, a_ent>
 	{
 	public:
+#		define NW_FOREACH_BRANCH(cont, oper, code_true, code_false) for(auto& itr : cont) { if (itr oper) { code_true } else { code_false } }
 		using cmp_type = act;
 		using ref = mem_ref<act>;	// component reference
 		using tab = darray<ref>;	// component table
@@ -34,28 +35,24 @@ namespace NW
 	public:
 		virtual ~t_ent() = default;
 		// --getters
-		inline tab& get_tab()						{ return m_tab; }
-		inline ref& get_ref(ui8 idx)				{ return m_tab[idx % m_tab.size()]; }
-		template<class ct> cmp<ct> get_cmp(ui8 idx) {
+		inline tab& get_tab()                         { return m_tab; }
+		inline ref& get_ref(v1ui idx)                 { return m_tab[idx % m_tab.size()]; }
+		template<class ct> cmp<ct> get_cmp(v1ui idx)  {
 			cmp<ct> cmp_res;
 			ref& cmp_ref = m_tab[idx % m_tab.size()];
 			if (cmp_ref->check_type(ct::get_type_static())) { cmp_res.set_ref(cmp_ref); }
 			return cmp_res;
 		}
 		// --setters
-		inline void add_cmp(ref& reference)					{ m_tab.push_back(reference); }
-		template<class ct> void add_cmp(cmp<ct>& reference)	{ add_cmp(ref(reference)); }
-		inline void rmv_cmp(ui8 idx)						{ m_tab.erase(m_tab.begin() + idx % m_tab.size()); }
+		inline void add_cmp(ref& ref)                 { m_tab.push_back(ref); }
+		template<class ct> void add_cmp(cmp<ct>& cmp) { add_cmp(ref(cmp)); }
+		inline void rmv_cmp(v1ui idx)                 { m_tab.erase(m_tab.begin() + idx % m_tab.size()); }
 		// --predicates
-		inline bit has_cmp(ui32 type_id) {
-			for (auto& icmp : m_tab) {
-				if (icmp->check_type(type_id)) { return true; }
-			}
-			return false;
-		}
-		template<class ct> bit has_cmp()	{ return has_cmp(ct::get_type_static();); }
+		inline bit has_cmp(v1ui type_id) const        { NW_FOREACH_BRANCH(m_tab, ->check_type(), return true, NW_EMPTY); return false; }
+		template<class ct> bit has_cmp() const        { return has_cmp(ct::get_type_static();); }
 	protected:
 		tab m_tab;
+#		undef NW_FOREACH_BRANCH
 	};
 }
 #endif	// NWL_ECS_ENTITY_H

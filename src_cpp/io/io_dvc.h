@@ -10,9 +10,8 @@ namespace NW
 	/// keyboard_button struct
 	struct NW_API keyboard_button
 	{
-	public:
 		button_states state = BS_FREE;
-		ui16 nof_repeats = 0;
+		v1ui nof_repeats = 0;
 		union { schar nrow = ' '; wchar wide; } character;
 	};
 	/// keyboard_state class
@@ -25,7 +24,7 @@ namespace NW
 	public:
 		keyboard_state();
 		// --getters
-		inline ui16 get_repeats(codes code) const		{ return m_buttons[code].nof_repeats; }
+		inline v1ui get_repeats(codes code) const		{ return m_buttons[code].nof_repeats; }
 		// --predicates
 		inline bit is_free(codes code) const			{ return m_buttons[code].state == BS_FREE; }
 		inline bit is_held(codes code) const			{ return m_buttons[code].state == BS_HELD; }
@@ -48,10 +47,10 @@ namespace NW
 	{
 	public:
 		button_states state = BS_FREE;
-		f32 free_coord_x = 0.0, free_coord_y = 0.0;
-		f32 free_delta_x = 0.0, free_delta_y = 0.0;
-		f32 held_coord_x = 0.0, held_coord_y = 0.0;
-		f32 held_delta_x = 0.0, held_delta_y = 0.0;
+		v1f free_coord_x = 0.0, free_coord_y = 0.0;
+		v1f free_delta_x = 0.0, free_delta_y = 0.0;
+		v1f held_coord_x = 0.0, held_coord_y = 0.0;
+		v1f held_delta_x = 0.0, held_delta_y = 0.0;
 	};
 	/// mouse_state class
 	class NW_API mouse_state
@@ -63,24 +62,24 @@ namespace NW
 	public:
 		mouse_state();
 		// --getters
-		inline f32 get_free_coord_x(codes code) const	{ return m_buttons[code].free_coord_x; }
-		inline f32 get_free_coord_y(codes code) const	{ return m_buttons[code].free_coord_y; }
-		inline f32 get_free_delta_x(codes code) const	{ return m_buttons[code].free_delta_x; }
-		inline f32 get_free_delta_y(codes code) const	{ return m_buttons[code].free_delta_y; }
-		inline f32 get_held_coord_x(codes code) const	{ return m_buttons[code].held_coord_x; }
+		inline v1f get_free_coord_x(codes code) const	{ return m_buttons[code].free_coord_x; }
+		inline v1f get_free_coord_y(codes code) const	{ return m_buttons[code].free_coord_y; }
+		inline v1f get_free_delta_x(codes code) const	{ return m_buttons[code].free_delta_x; }
+		inline v1f get_free_delta_y(codes code) const	{ return m_buttons[code].free_delta_y; }
+		inline v1f get_held_coord_x(codes code) const	{ return m_buttons[code].held_coord_x; }
 		inline v2f get_held_coord(codes code) const		{ return v2f{ m_buttons[code].held_coord_x, m_buttons[code].held_coord_y }; }
-		inline f32 get_held_coord_y(codes code) const	{ return m_buttons[code].held_coord_y; }
-		inline f32 get_held_delta_x(codes code) const	{ return m_buttons[code].held_delta_x; }
-		inline f32 get_held_delta_y(codes code) const	{ return m_buttons[code].held_delta_y; }
+		inline v1f get_held_coord_y(codes code) const	{ return m_buttons[code].held_coord_y; }
+		inline v1f get_held_delta_x(codes code) const	{ return m_buttons[code].held_delta_x; }
+		inline v1f get_held_delta_y(codes code) const	{ return m_buttons[code].held_delta_y; }
 		inline v2f get_held_delta(codes code) const		{ return v2f{ m_buttons[code].held_delta_x, m_buttons[code].held_delta_y }; }
-		inline f32 get_move_coord_x() const				{ return m_move_coord_x; }
-		inline f32 get_move_coord_y() const				{ return m_move_coord_y; }
+		inline v1f get_move_coord_x() const				{ return m_move_coord_x; }
+		inline v1f get_move_coord_y() const				{ return m_move_coord_y; }
 		inline v2f get_move_coord(codes code) const		{ return v2f{ m_move_coord_x, m_move_coord_y }; }
 		inline v2f get_move_delta(codes code) const		{ return v2f{ m_move_delta_x, m_move_delta_y }; }
-		inline f32 get_move_delta_x() const				{ return m_move_delta_x; }
-		inline f32 get_move_delta_y() const				{ return m_move_delta_y; }
-		inline f32 get_scroll_delta_x() const			{ return m_scroll_delta_x; }
-		inline f32 get_scroll_delta_y() const			{ return m_scroll_delta_y; }
+		inline v1f get_move_delta_x() const				{ return m_move_delta_x; }
+		inline v1f get_move_delta_y() const				{ return m_move_delta_y; }
+		inline v1f get_scroll_delta_x() const			{ return m_scroll_delta_x; }
+		inline v1f get_scroll_delta_y() const			{ return m_scroll_delta_y; }
 		// --setters
 		void set_cursor_enabled(bit enable_cursor);
 		// --predicates
@@ -97,9 +96,9 @@ namespace NW
 		void event_proc(evt& ms_evt);
 	private:
 		btn m_buttons[MSC_COUNT];
-		f32 m_move_coord_x, m_move_coord_y;
-		f32 m_move_delta_x, m_move_delta_y;
-		f32 m_scroll_delta_x, m_scroll_delta_y;
+		v1f m_move_coord_x, m_move_coord_y;
+		v1f m_move_delta_x, m_move_delta_y;
+		v1f m_scroll_delta_x, m_scroll_delta_y;
 		bit m_is_cursor_enabled;
 	};
 }

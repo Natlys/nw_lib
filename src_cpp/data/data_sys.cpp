@@ -2,7 +2,7 @@
 #include "data_sys.h"
 #if (defined NW_WAPI)
 #include <nwl_math.hpp>
-#include <core/nwl_cln.h>
+#include <core/nwl_cont.h>
 #include <core/nwl_str.h>
 #include <io/io_stm.h>
 #include <io/io_err.h>
@@ -41,9 +41,9 @@ namespace NW
         ::RemoveDirectory(dpath);
     }
     // --loading
-    cstr data_sys::dialog_load(cstr filter, window_handle wnd)
+    cstr data_sys::load_dlg(cstr filter, window_handle wnd)
     {
-        static constexpr si32 max_chars = 256;
+        static constexpr size max_chars = 256;
         static char str_res[max_chars]{ 0 };
         OPENFILENAMEA ofn{ 0 };
         ofn.lStructSize = sizeof(ofn);
@@ -94,9 +94,9 @@ namespace NW
         return true;
     }
     // --saving
-    cstr data_sys::dialog_save(cstr filter, window_handle wnd)
+    cstr data_sys::save_dlg(cstr filter, window_handle wnd)
     {
-        static constexpr si32 max_chars = 256;
+        static constexpr size max_chars = 256;
         static char str_res[max_chars]{ 0 };
         OPENFILENAMEA ofn{ 0 };
         ofn.lStructSize = sizeof(ofn);

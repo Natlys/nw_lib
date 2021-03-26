@@ -14,7 +14,6 @@
 
 #pragma once
 
-#include "detail/type_vec1.hpp"
 #include "detail/type_vec2.hpp"
 #include "detail/type_vec3.hpp"
 #include "detail/type_vec4.hpp"
