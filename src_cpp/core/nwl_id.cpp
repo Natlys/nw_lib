@@ -3,13 +3,15 @@
 
 namespace NW
 {
-	id_stack::id_stack(ui32 first_id) :
-		std::stack<ui32>()
+	id_stack::id_stack(v1ui first_id) :
+		std::stack<v1ui>()
 	{
 		push(first_id);
 	}
 	// --setters
-	void id_stack::set_id(ui32 free_id) { if (free_id != top()) { push(free_id); } }
+	void id_stack::set_id(v1ui free_id) {
+		if (free_id != top()) { push(free_id); }
+	}
 }
 namespace NW
 {

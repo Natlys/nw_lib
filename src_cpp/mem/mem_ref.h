@@ -13,7 +13,7 @@ namespace NW
 	/// Interface:
 	/// -> Create mem_ref -> MakeRef with particular allocator -> set_ref for other keepers -> use as a pointer
 	template <typename mt>
-	class NW_API mem_ref : public a_mem_user
+	class mem_ref : public a_mem_user
 	{
 		using cmt = const mt;
 	public:
@@ -24,10 +24,10 @@ namespace NW
 		mem_ref(const mem_ref<amt>& copy);
 		~mem_ref();
 		// --getters
-		inline mt* get_ref()			{ return static_cast<mt*>(m_ref); }
-		inline ui64* get_counter()		{ return m_counter; }
+		inline mt* get_ref()            { return static_cast<mt*>(m_ref); }
+		inline size* get_counter()      { return m_counter; }
 		template<typename amt>
-		inline amt* get_ref()			{ return static_cast<amt*>(m_ref); }
+		inline amt* get_ref()           { return static_cast<amt*>(m_ref); }
 		// --setters
 		mem_ref<mt>& set_ref(const mt& ref);
 		mem_ref<mt>& set_ref(const mem_ref<mt>& ref);
@@ -35,27 +35,27 @@ namespace NW
 		mem_ref<amt>& set_ref(const mem_ref<amt>& ref);
 		mem_ref<mt>& reset();
 		// --predicates
-		inline bit is_valid() const			{ return m_ref != nullptr && m_counter != nullptr; }
+		inline bit is_valid() const         { return m_ref != nullptr && m_counter != nullptr; }
 		// --operators
-		inline operator bit()				{ return m_ref != nullptr && m_counter != nullptr; }
-		inline mt* operator->()				{ return (m_ref); }
-		inline mt& operator*()				{ return *(m_ref); }
-		inline operator mt* ()				{ return static_cast<mt*>(m_ref); }
-		inline operator mt& ()				{ return static_cast<mt&>(*m_ref); }
-		inline const mt* operator->() const					{ return (m_ref); }
-		inline const mt& operator*() const					{ return *(m_ref); }
-		inline mem_ref& operator=(const mem_ref& copy)		{ set_ref(copy); return *this; }
+		inline operator bit()               { return m_ref != nullptr; }
+		inline mt* operator->()             { return (m_ref); }
+		inline mt& operator*()              { return *(m_ref); }
+		inline operator mt* ()              { return static_cast<mt*>(m_ref); }
+		inline operator mt& ()              { return static_cast<mt&>(*m_ref); }
+		inline const mt* operator->() const            { return (m_ref); }
+		inline const mt& operator*() const             { return *(m_ref); }
+		inline mem_ref& operator=(const mem_ref& copy) { set_ref(copy); return *this; }
 		// --convertion
-		inline operator cmt* () const						{ return static_cast<cmt*>(m_ref); }
-		inline operator cmt& () const						{ return static_cast<cmt&>(*m_ref); }
-		template<typename amt> operator amt*()				{ return static_cast<amt*>(m_ref); }
-		template<typename amt> operator const amt*() const	{ return static_cast<const amt*>(m_ref); }
-		template<typename amt> operator mem_ref<amt>()const	{ return mem_ref<amt>(*this); }
+		inline operator cmt* () const                       { return static_cast<cmt*>(m_ref); }
+		inline operator cmt& () const                       { return static_cast<cmt&>(*m_ref); }
+		template<typename amt> operator amt*()              { return static_cast<amt*>(m_ref); }
+		template<typename amt> operator const amt*() const  { return static_cast<const amt*>(m_ref); }
+		template<typename amt> operator mem_ref<amt>()const { return mem_ref<amt>(*this); }
 		// --core_methods
 		template <typename amt, typename ... args> mem_ref<mt>& make_ref(args&& ... arguments);
 	private:
 		mutable mt* m_ref;
-		mutable ui64* m_counter;
+		mutable size* m_counter;
 	};
 	// --constructors_destructors
 	template <typename mt>
@@ -119,7 +119,7 @@ namespace NW
 	mem_ref<mt>& mem_ref<mt>::make_ref(args&& ... arguments) {
 		reset();
 		m_ref = new amt(std::forward<args>(arguments)...);
-		m_counter = mem_sys::get().new_one<ui64>();
+		m_counter = mem_sys::get().new_one<size>();
 		*m_counter = 1;
 		return *this;
 	}

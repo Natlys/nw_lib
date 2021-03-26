@@ -93,27 +93,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\nwl_cln.h" />
+    <ClInclude Include="src_cpp\core\nwl_cont.h" />
     <ClInclude Include="src_cpp\core\nwl_id.h" />
     <ClInclude Include="src_cpp\core\nwl_info.h" />
     <ClInclude Include="src_cpp\core\nwl_rand.h" />
     <ClInclude Include="src_cpp\core\nwl_sing.h" />
     <ClInclude Include="src_cpp\core\nwl_str.h" />
-    <ClInclude Include="src_cpp\core\nwl_switch.h" />
+    <ClInclude Include="src_cpp\core\nwl_const.h" />
     <ClInclude Include="src_cpp\core\nwl_thr.h" />
     <ClInclude Include="src_cpp\core\nwl_time.h" />
+    <ClInclude Include="src_cpp\core\nwl_tree.h" />
     <ClInclude Include="src_cpp\core\nwl_type.h" />
     <ClInclude Include="src_cpp\core\nwl_type_id.h" />
     <ClInclude Include="src_cpp\data\data_cmp.h" />
     <ClInclude Include="src_cpp\data\data_ent.h" />
-    <ClInclude Include="src_cpp\data\data_err.h" />
-    <ClInclude Include="src_cpp\data\data_file.h" />
+    <ClInclude Include="src_cpp\data\data_info.h" />
     <ClInclude Include="src_cpp\data\data_layt.h" />
     <ClInclude Include="src_cpp\data\data_lib.h" />
     <ClInclude Include="src_cpp\data\data_path.h" />
     <ClInclude Include="src_cpp\data\data_rsc.h" />
     <ClInclude Include="src_cpp\data\data_status.h" />
-    <ClInclude Include="src_cpp\data\data_switch.h" />
     <ClInclude Include="src_cpp\data\data_sys.h" />
     <ClInclude Include="src_cpp\ecs\ecs_cmp.h" />
     <ClInclude Include="src_cpp\ecs\ecs_cmp_sys.h" />
@@ -150,15 +149,15 @@
     <ClCompile Include="src_cpp\core\nwl_info.cpp" />
     <ClCompile Include="src_cpp\core\nwl_rand.cpp" />
     <ClCompile Include="src_cpp\core\nwl_str.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_switch.cpp" />
+    <ClCompile Include="src_cpp\core\nwl_const.cpp" />
     <ClCompile Include="src_cpp\core\nwl_time.cpp" />
     <ClCompile Include="src_cpp\core\nwl_type.cpp" />
     <ClCompile Include="src_cpp\data\data_cmp.cpp" />
     <ClCompile Include="src_cpp\data\data_ent.cpp" />
+    <ClCompile Include="src_cpp\data\data_info.cpp" />
     <ClCompile Include="src_cpp\data\data_layt.cpp" />
     <ClCompile Include="src_cpp\data\data_path.cpp" />
     <ClCompile Include="src_cpp\data\data_rsc.cpp" />
-    <ClCompile Include="src_cpp\data\data_switch.cpp" />
     <ClCompile Include="src_cpp\data\data_sys.cpp" />
     <ClCompile Include="src_cpp\ecs\ecs_cmp_sys.cpp" />
     <ClCompile Include="src_cpp\ecs\ecs_ent_sys.cpp" />

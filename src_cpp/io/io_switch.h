@@ -3,7 +3,7 @@
 #include <nwl_core.hpp>
 namespace NW
 {
-	enum error_codes : ui32 {
+	enum error_codes : v1ui {
 		ERC_DEFAULT = 0,
 		ERC_NO_INIT = 1, ERC_NO_QUIT = 2,
 		ERC_NO_SUPPORT, ERC_NO_STATE,
@@ -15,26 +15,26 @@ namespace NW
 		ERC_INVALID_FORMAT, ERC_INVALID_SYNTAX, ERC_INVALID_TYPE, ERC_INVALID_ENUM,
 		ERC_COMPILLATION, ERC_LINKAGE
 	};
-	enum event_types : ui32 {
+	enum event_types : v1ui64 {
 		EVT_DEFAULT = 1 << 0,
 		EVT_MS_MOVE = 1 << 1, EVT_MS_COORD = 1 << 2, EVT_MS_SCROLL = 1 << 3, EVT_MS_PRESSED = 1 << 4, EVT_MS_RELEASED = 1 << 5, EVT_MS_DOUBLE_CLICK = 1 << 6,
 		EVT_KBD_RELEASED = 1 << 8, EVT_KBD_PRESSED = 1 << 9, EVT_KBD_CHAR = 1 << 10,
 		EVT_WND_CLOSE = 1 << 12, EVT_WND_RESIZE = 1 << 13, EVT_WND_MOVE = 1 << 14, EVT_WND_FOCUS = 1 << 15, EVT_WND_DEFOCUS = 1 << 16,
 		EVT_APP_DROP_FILE = 1 << 20
 	};
-	enum event_categories : ui32 {
+	enum event_categories : v1ui64 {
 		EVC_DEFAULT = EVT_DEFAULT,
 		EVC_MOUSE = EVT_MS_MOVE | EVT_MS_COORD | EVT_MS_SCROLL | EVT_MS_PRESSED | EVT_MS_RELEASED | EVT_MS_DOUBLE_CLICK,
 		EVC_KEYBOARD = EVT_KBD_PRESSED | EVT_KBD_RELEASED | EVT_KBD_CHAR,
 		EVC_WINDOW = EVT_WND_CLOSE | EVT_WND_RESIZE | EVT_WND_MOVE | EVT_WND_FOCUS | EVT_WND_DEFOCUS,
 		EVC_APPLICATION = EVT_APP_DROP_FILE
 	};
-	enum button_states : ui32 {
+	enum button_states : v1ui {
 		BS_DEFAULT = 0,
 		BS_HELD, BS_FREE,
 		BS_RELEASED, BS_PRESSED,
 	};
-	enum keyboard_codes : ui32 {
+	enum keyboard_codes : v1ui16 {
 		// controls
 		KBC_BACKSPACE = 8,	KBC_VTAB = 9,	KBC_HTAB = 11,	KBC_ENTER = 13,
 		KBC_LSHIFT = 16,	KBC_RSHIFT = 16,
@@ -84,7 +84,7 @@ namespace NW
 		KBC_RECT_DITHER = 177,	KBC_QUAD = 254,
 		KBC_COUNT = 255
 	};
-	enum mouse_codes : ui8 {
+	enum mouse_codes : v1ui16 {
 		MSC_DEFAULT = 0,
 		MSC_0 = 0, MSC_1 = 1, MSC_2 = 2,
 		MSC_3, MSC_4, MSC_5,

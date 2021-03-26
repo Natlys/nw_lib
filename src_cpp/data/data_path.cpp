@@ -7,11 +7,11 @@ namespace NW
 		path()
 	{
 	}
-	data_path::data_path(cstr source) :
+	data_path::data_path(csstr source) :
 		path(source)
 	{
 	}
-	data_path::data_path(cstr16 source) :
+	data_path::data_path(cwstr source) :
 		path(source)
 	{
 	}

@@ -2,7 +2,7 @@
 #define NW_ECS_COMPONENT_SYSTEM_H
 #include <nwl_core.hpp>
 #include <core/nwl_sing.h>
-#include <core/nwl_cln.h>
+#include <core/nwl_cont.h>
 #include <mem/mem_ref.h>
 #include "ecs_cmp.h"
 namespace NW
@@ -19,8 +19,8 @@ namespace NW
 	{
 	public:
 		using cmp_ref = mem_ref<rt>;				// base reference to an abstract component
-		using cmp_tab = dictionary<ui32, cmp_ref>;	// table of t_id and component references
-		using cmp_reg = dictionary<ui32, cmp_tab>;	// table of c_id and component containers
+		using cmp_tab = dictionary<v1ui, cmp_ref>;	// table of t_id and component references
+		using cmp_reg = dictionary<v1ui, cmp_tab>;	// table of c_id and component containers
 		template<class ct>
 		using cmp = mem_ref<ct>;					// reference to some typed component
 	protected:
@@ -29,14 +29,14 @@ namespace NW
 		virtual ~t_cmp_sys() = default;
 		// --getters
 		inline cmp_reg& get_cmp_reg()                       { return m_cmp_reg; }
-		inline cmp_tab& get_cmp_tab(ui32 t_id)              { return m_cmp_reg[t_id]; }
+		inline cmp_tab& get_cmp_tab(v1ui t_id)              { return m_cmp_reg[t_id]; }
 		template<class ct> cmp_tab& get_tab()               { return get_cmp_tab(ct::get_type_static()); }
-		inline cmp_ref& get_cmp_ref(ui32 t_id, ui32 c_id)   { return m_cmp_reg[t_id][c_id]; }
-		template<class ct> cmp_ref& get_cmp_ref(ui32 c_id)  { return get_cmp_ref(ct::get_type_static(), c_id); }
-		template<class ct> cmp<ct> get_cmp(ui32 c_id)       { return cmp<ct>(get_cmp_ref<ct>(c_id)); }
+		inline cmp_ref& get_cmp_ref(v1ui t_id, v1ui c_id)   { return m_cmp_reg[t_id][c_id]; }
+		template<class ct> cmp_ref& get_cmp_ref(v1ui c_id)  { return get_cmp_ref(ct::get_type_static(), c_id); }
+		template<class ct> cmp<ct> get_cmp(v1ui c_id)       { return cmp<ct>(get_cmp_ref<ct>(c_id)); }
 		// --predicates
-		inline bit has_cmp(ui32 t_id, ui32 c_id)            { return m_cmp_reg[t_id].find(c_id) != m_cmp_reg[t_id].end(); }
-		template<class ct> bit has_cmp(ui32 c_id)           { return has_cmp(ct::get_type_static(), c_id); }
+		inline bit has_cmp(v1ui t_id, v1ui c_id)            { return m_cmp_reg[t_id].find(c_id) != m_cmp_reg[t_id].end(); }
+		template<class ct> bit has_cmp(v1ui c_id)           { return has_cmp(ct::get_type_static(), c_id); }
 	protected:
 		cmp_reg m_cmp_reg;
 	};
@@ -63,12 +63,12 @@ namespace NW
 			m_cmp_reg[ref->get_type()][ref->get_id()].set_ref(ref);
 			return ref;
 		}
-		void del_cmp(ui32 t_id, ui32 c_id) {
+		void del_cmp(v1ui t_id, v1ui c_id) {
 			if (!has_cmp(t_id, c_id)) { return; }
 			m_cmp_reg[t_id].erase(c_id);
 		}
 		template<class ct>
-		void del_cmp(ui32 c_id) {
+		void del_cmp(v1ui c_id) {
 			del_cmp(ct::get_type_static(), c_id);
 		}
 	};

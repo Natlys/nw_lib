@@ -5,7 +5,7 @@
 #include "data/data_sys.h"
 #include "data/data_ent.h"
 #include "data/data_cmp.h"
+#include "data/data_info.h"
 #include "data/data_layt.h"
-#include "data/data_switch.h"
 
 #endif	// NWL_DATA_HPP

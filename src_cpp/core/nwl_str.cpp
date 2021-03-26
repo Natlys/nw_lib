@@ -23,26 +23,26 @@ namespace NW
 					// signed number
 				case 's':
 					switch (ccurr = format[++ncurr]) {
-					case 'b': _itoa(va_arg(arg_list, si8), &buffer[nend++], 10); break;
-					case 's': _itoa(va_arg(arg_list, si16), &buffer[nend++], 10); break;
-					case 'i': _itoa(va_arg(arg_list, si32), &buffer[nend++], 10); break;
-					case 'l': _itoa(va_arg(arg_list, si64), &buffer[nend++], 10); break;
+					case 'b': _itoa(va_arg(arg_list, v1si8), &buffer[nend++], 10); break;
+					case 's': _itoa(va_arg(arg_list, v1si16), &buffer[nend++], 10); break;
+					case 'i': _itoa(va_arg(arg_list, v1si32), &buffer[nend++], 10); break;
+					case 'l': _itoa(va_arg(arg_list, v1si64), &buffer[nend++], 10); break;
 					default:throw run_error(__FILE__, __LINE__); return; break;
 					} break;
 					// unsigned number
 				case 'u':
 					switch (ccurr = format[++ncurr]) {
-					case 'b': _itoa(va_arg(arg_list, ui8), &buffer[nend++], 10); break;
-					case 's': _itoa(va_arg(arg_list, ui16), &buffer[nend++], 10); break;
-					case 'i': _itoa(va_arg(arg_list, ui32), &buffer[nend++], 10); break;
-					case 'l': _itoa(va_arg(arg_list, ui64), &buffer[nend++], 10); break;
+					case 'b': _itoa(va_arg(arg_list, v1ui8), &buffer[nend++], 10); break;
+					case 's': _itoa(va_arg(arg_list, v1ui16), &buffer[nend++], 10); break;
+					case 'i': _itoa(va_arg(arg_list, v1ui), &buffer[nend++], 10); break;
+					case 'l': _itoa(va_arg(arg_list, v1ui64), &buffer[nend++], 10); break;
 					default: throw run_error(__FILE__, __LINE__); return; break;
 					} break;
 					// floating point number
 				case 'f':
 					switch (ccurr = format[++ncurr]) {
-					case 'f': strcpy(&buffer[nend++], &std::to_string(va_arg(arg_list, f32))[0]); break;
-					case 'd': strcpy(&buffer[nend++], &std::to_string(va_arg(arg_list, f64))[0]);  break;
+					case 'f': strcpy(&buffer[nend++], &std::to_string(va_arg(arg_list, v1f32))[0]); break;
+					case 'd': strcpy(&buffer[nend++], &std::to_string(va_arg(arg_list, v1f64))[0]);  break;
 					default: throw run_error(__FILE__, __LINE__); return; break;
 					} break;
 					// bytes
@@ -74,26 +74,26 @@ namespace NW
 					// signed number
 				case 's':
 					switch (ccurr = format[ncurr++]) {
-					case 'b': _itoa_s(va_arg(arg_list, si8), &result.back(), result.size(), 10); break;
-					case 's': _itoa_s(va_arg(arg_list, si16), &result.back(), result.size(), 10); break;
-					case 'i': _itoa_s(va_arg(arg_list, si32), &result.back(), result.size(), 10); break;
-					case 'l': _itoa_s(va_arg(arg_list, si64), &result.back(), result.size(), 10); break;
+					case 'b': _itoa_s(va_arg(arg_list, v1si8), &result.back(), result.size(), 10); break;
+					case 's': _itoa_s(va_arg(arg_list, v1si16), &result.back(), result.size(), 10); break;
+					case 'i': _itoa_s(va_arg(arg_list, v1si32), &result.back(), result.size(), 10); break;
+					case 'l': _itoa_s(va_arg(arg_list, v1si64), &result.back(), result.size(), 10); break;
 					default:throw run_error(__FILE__, __LINE__); return result; break;
 					} break;
 					// unsigned number
 				case 'u':
 					switch (ccurr = format[ncurr++]) {
-					case 'b': _itoa_s(va_arg(arg_list, ui8), &result.back(), result.size(), 10); break;
-					case 's': _itoa_s(va_arg(arg_list, ui16), &result.back(), result.size(), 10); break;
-					case 'i': _itoa_s(va_arg(arg_list, ui32), &result.back(), result.size(), 10); break;
-					case 'l': _itoa_s(va_arg(arg_list, ui64), &result.back(), result.size(), 10); break;
+					case 'b': _itoa_s(va_arg(arg_list, v1ui8), &result.back(), result.size(), 10); break;
+					case 's': _itoa_s(va_arg(arg_list, v1ui16), &result.back(), result.size(), 10); break;
+					case 'i': _itoa_s(va_arg(arg_list, v1ui), &result.back(), result.size(), 10); break;
+					case 'l': _itoa_s(va_arg(arg_list, v1ui64), &result.back(), result.size(), 10); break;
 					default: throw run_error(__FILE__, __LINE__); return result; break;
 					} break;
 					// floating point number
 				case 'f':
 					switch (ccurr = format[++ncurr]) {
-					case 'f': result += std::to_string(va_arg(arg_list, f32)); break;
-					case 'd': result += std::to_string(va_arg(arg_list, f64));  break;
+					case 'f': result += std::to_string(va_arg(arg_list, v1f32)); break;
+					case 'd': result += std::to_string(va_arg(arg_list, v1f64));  break;
 					default: throw run_error(__FILE__, __LINE__); return result; break;
 					} break;
 					// characters
@@ -118,21 +118,21 @@ namespace NW
 		va_end(arg_list);
 		return result;
 	}
-	cstr str_part_left(cstr source, schar delim_char, ui32 offset_from_left) {
+	cstr str_part_left(cstr source, schar delim_char, size offset_from_left) {
 		size length = strlen(source);
 		if (length == 0) { return ""; }
 		size ncurr = offset_from_left % length;
 		while (source[ncurr] != delim_char && ncurr <= length) { ncurr += 1; }
 		return &source[ncurr];
 	}
-	cstr str_part_right(cstr source, schar delim_char, ui32 offset_from_right) {
+	cstr str_part_right(cstr source, schar delim_char, size offset_from_right) {
 		size length = strlen(source);
 		if (length == 0) { return ""; }
 		size ncurr= length - (offset_from_right % length);
 		while (source[ncurr] != delim_char && ncurr <= length) { ncurr -= 1; }
 		return &source[ncurr];
 	}
-	cstr str_sub_left(cstr source, ui32 nof_chars, ui32 offset) {
+	cstr str_sub_left(cstr source, size nof_chars, size offset) {
 		size length = strlen(source) - nof_chars - offset;
 		if (length < strlen(source)) { throw run_error(__FILE__, __LINE__); }
 		schar* buf = mem_sys::get().new_arr<schar>(length);
@@ -141,7 +141,7 @@ namespace NW
 		mem_sys::get().del_arr<schar>(buf, length);
 		return result;
 	}
-	cstr str_sub_right(cstr source, ui32 nof_chars, ui32 offset) {
+	cstr str_sub_right(cstr source, size nof_chars, size offset) {
 		size length = strlen(source) - nof_chars - offset;
 		if (length < strlen(source)) { throw run_error(__FILE__, __LINE__); }
 		schar* buf = mem_sys::get().new_arr<schar>(length);

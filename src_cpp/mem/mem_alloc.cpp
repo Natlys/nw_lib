@@ -64,7 +64,7 @@ namespace NW
 		if (has_block(block_ptr)) {
 			dealloc_size = NW_ALIGN_FORWARD(dealloc_size, sizeof(mem_link));
 			if (dealloc_size < sizeof(mem_link)) { dealloc_size = sizeof(mem_link); }
-			if ((static_cast<si64>(m_alloc_size) - static_cast<si64>(dealloc_size)) < 0) {
+			if ((static_cast<v1si>(m_alloc_size) - static_cast<v1si>(dealloc_size)) < 0) {
 				throw mem_error(__FILE__, __LINE__); return;
 			}
 			mem_link* next_free_list = new(block_ptr)mem_link();

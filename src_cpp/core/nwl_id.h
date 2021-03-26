@@ -9,14 +9,14 @@ namespace NW
 	/// --contains one single id for any class;
 	/// --you can get new id during construction of and object and put it back into the stack;
 	/// --if any destroyed instance gives back own id to the stack - there is no loss;
-	class NW_API id_stack : protected std::stack<ui32>
+	class NW_API id_stack : protected std::stack<v1ui>
 	{
 	public:
-		id_stack(ui32 first_id = 1);
+		id_stack(v1ui first_id = 1);
 		// -- getters
-		inline ui32 get_id() { ui32 free_id = top(); if (size() == 1) { top()++; } else { pop(); } return free_id; }
+		inline v1ui get_id() { v1ui free_id = top(); if (size() == 1) { top()++; } else { pop(); } return free_id; }
 		// -- setters
-		void set_id(ui32 free_id);
+		void set_id(v1ui free_id);
 	};
 }
 namespace NW
@@ -26,10 +26,10 @@ namespace NW
 	{
 		using stack = id_stack;
 	public:
-		template<typename it> static ui32 get_id()			{ return get_stack<it>().get_id(); }
-		template<typename it> static void set_id(ui32 id)	{ get_stack<it>().set_id(id); }
+		template<typename it> static v1ui get_id()        { return get_stack<it>().get_id(); }
+		template<typename it> static void set_id(v1ui id) { get_stack<it>().set_id(id); }
 	private:
-		template<typename it> static stack& get_stack()		{ static stack s_stack(0); return s_stack; }
+		template<typename it> static stack& get_stack()    { static stack s_stack(0); return s_stack; }
 	};
 }
 namespace NW
@@ -42,7 +42,7 @@ namespace NW
 	public:
 		virtual ~a_id_owner();
 		// --getters
-		virtual inline ui32 get_id() const = 0;
+		virtual inline v1ui get_id() const = 0;
 	};
 	/// templated id_owner class
 	template<class type>
@@ -53,9 +53,9 @@ namespace NW
 	public:
 		virtual ~t_id_owner() { id_indexator::set_id<type>(m_id); }
 		// --getters
-		virtual inline ui32 get_id() const override	{ return m_id; }
+		virtual inline v1ui get_id() const override { return m_id; }
 	protected:
-		ui32 m_id;
+		v1ui m_id;
 	};
 }
 #endif	// NWL_ID_H
