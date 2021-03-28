@@ -55,7 +55,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>nwl_pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>nwlib_pch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NW_PLATFORM_WINDOWS;DEBUG;NW_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -73,7 +73,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>nwl_pch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>nwlib_pch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NW_PLATFORM_WINDOWS;NDEBUG;NW_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src_cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -93,84 +93,68 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\nwl_cont.h" />
-    <ClInclude Include="src_cpp\core\nwl_id.h" />
-    <ClInclude Include="src_cpp\core\nwl_info.h" />
-    <ClInclude Include="src_cpp\core\nwl_rand.h" />
-    <ClInclude Include="src_cpp\core\nwl_sing.h" />
-    <ClInclude Include="src_cpp\core\nwl_str.h" />
-    <ClInclude Include="src_cpp\core\nwl_const.h" />
-    <ClInclude Include="src_cpp\core\nwl_thr.h" />
-    <ClInclude Include="src_cpp\core\nwl_time.h" />
-    <ClInclude Include="src_cpp\core\nwl_tree.h" />
-    <ClInclude Include="src_cpp\core\nwl_type.h" />
-    <ClInclude Include="src_cpp\core\nwl_type_id.h" />
-    <ClInclude Include="src_cpp\data\data_cmp.h" />
-    <ClInclude Include="src_cpp\data\data_ent.h" />
-    <ClInclude Include="src_cpp\data\data_info.h" />
-    <ClInclude Include="src_cpp\data\data_layt.h" />
-    <ClInclude Include="src_cpp\data\data_lib.h" />
-    <ClInclude Include="src_cpp\data\data_path.h" />
-    <ClInclude Include="src_cpp\data\data_rsc.h" />
-    <ClInclude Include="src_cpp\data\data_status.h" />
-    <ClInclude Include="src_cpp\data\data_sys.h" />
-    <ClInclude Include="src_cpp\ecs\ecs_cmp.h" />
-    <ClInclude Include="src_cpp\ecs\ecs_cmp_sys.h" />
-    <ClInclude Include="src_cpp\ecs\ecs_ent.h" />
-    <ClInclude Include="src_cpp\ecs\ecs_ent_sys.h" />
-    <ClInclude Include="src_cpp\io\io_dvc.h" />
-    <ClInclude Include="src_cpp\io\io_err.h" />
-    <ClInclude Include="src_cpp\io\io_evt.h" />
-    <ClInclude Include="src_cpp\io\io_stm.h" />
-    <ClInclude Include="src_cpp\io\io_switch.h" />
-    <ClInclude Include="src_cpp\io\io_sys.h" />
-    <ClInclude Include="src_cpp\math\math_base.h" />
-    <ClInclude Include="src_cpp\math\math_mat.h" />
-    <ClInclude Include="src_cpp\math\math_tform.h" />
-    <ClInclude Include="src_cpp\math\math_trig.h" />
-    <ClInclude Include="src_cpp\math\math_vec.h" />
-    <ClInclude Include="src_cpp\mem\mem_alloc.h" />
-    <ClInclude Include="src_cpp\mem\mem_ref.h" />
-    <ClInclude Include="src_cpp\mem\mem_sys.h" />
-    <ClInclude Include="src_cpp\nwl.hpp" />
-    <ClInclude Include="src_cpp\nwl_core.hpp" />
-    <ClInclude Include="src_cpp\nwl_data.hpp" />
-    <ClInclude Include="src_cpp\nwl_ecs.hpp" />
-    <ClInclude Include="src_cpp\nwl_io.hpp" />
-    <ClInclude Include="src_cpp\nwl_math.hpp" />
-    <ClInclude Include="src_cpp\nwl_mem.hpp" />
-    <ClInclude Include="src_cpp\nwl_os.hpp" />
-    <ClInclude Include="src_cpp\nwl_pch.hpp" />
-    <ClInclude Include="src_cpp\nwl_physx.hpp" />
-    <ClInclude Include="src_cpp\physx\physx_col.h" />
+    <ClInclude Include="src_cpp\ecs\nwlib_ecs_cmp.h" />
+    <ClInclude Include="src_cpp\ecs\nwlib_ecs_cmp_sys.h" />
+    <ClInclude Include="src_cpp\ecs\nwlib_ecs_ent.h" />
+    <ClInclude Include="src_cpp\ecs\nwlib_ecs_ent_sys.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_cmp.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_const.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_dvc.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_err.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_evt.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_flib.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_fpath.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_stm.h" />
+    <ClInclude Include="src_cpp\io\nwlib_io_sys.h" />
+    <ClInclude Include="src_cpp\mem\nwlib_mem_alloc.h" />
+    <ClInclude Include="src_cpp\mem\nwlib_mem_ref.h" />
+    <ClInclude Include="src_cpp\mem\nwlib_mem_sys.h" />
+    <ClInclude Include="src_cpp\nwlib.hpp" />
+    <ClInclude Include="src_cpp\nwlib_core.hpp" />
+    <ClInclude Include="src_cpp\nwlib_ecs.hpp" />
+    <ClInclude Include="src_cpp\nwlib_io.hpp" />
+    <ClInclude Include="src_cpp\nwlib_mem.hpp" />
+    <ClInclude Include="src_cpp\nwlib_pch.hpp" />
+    <ClInclude Include="src_cpp\nwlib_std.hpp" />
+    <ClInclude Include="src_cpp\std\nwlib_std_const.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_cont.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_id.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_info.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_math.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_os.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_phys.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_rand.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_sing.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_str.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_thr.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_time.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_tree.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_type.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_type_id.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_val.h" />
+    <ClInclude Include="src_cpp\std\nwlib_std_vlayt.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src_cpp\core\nwl_id.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_info.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_rand.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_str.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_const.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_time.cpp" />
-    <ClCompile Include="src_cpp\core\nwl_type.cpp" />
-    <ClCompile Include="src_cpp\data\data_cmp.cpp" />
-    <ClCompile Include="src_cpp\data\data_ent.cpp" />
-    <ClCompile Include="src_cpp\data\data_info.cpp" />
-    <ClCompile Include="src_cpp\data\data_layt.cpp" />
-    <ClCompile Include="src_cpp\data\data_path.cpp" />
-    <ClCompile Include="src_cpp\data\data_rsc.cpp" />
-    <ClCompile Include="src_cpp\data\data_sys.cpp" />
-    <ClCompile Include="src_cpp\ecs\ecs_cmp_sys.cpp" />
-    <ClCompile Include="src_cpp\ecs\ecs_ent_sys.cpp" />
-    <ClCompile Include="src_cpp\io\io_dvc.cpp" />
-    <ClCompile Include="src_cpp\io\io_err.cpp" />
-    <ClCompile Include="src_cpp\io\io_evt.cpp" />
-    <ClCompile Include="src_cpp\io\io_sys.cpp" />
-    <ClCompile Include="src_cpp\mem\mem_alloc.cpp" />
-    <ClCompile Include="src_cpp\mem\mem_sys.cpp" />
-    <ClCompile Include="src_cpp\nwl_pch.cpp">
+    <ClCompile Include="src_cpp\ecs\nwlib_cmp_sys.cpp" />
+    <ClCompile Include="src_cpp\ecs\nwlib_ecs_ent_sys.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_cmp.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_dvc.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_err.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_evt.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_fpath.cpp" />
+    <ClCompile Include="src_cpp\io\nwlib_io_sys.cpp" />
+    <ClCompile Include="src_cpp\mem\nwlib_mem_alloc.cpp" />
+    <ClCompile Include="src_cpp\mem\nwlib_mem_sys.cpp" />
+    <ClCompile Include="src_cpp\nwlib_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src_cpp\physx\physx_col.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_info.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_math.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_phys.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_rand.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_str.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_time.cpp" />
+    <ClCompile Include="src_cpp\std\nwlib_std_vlayt.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

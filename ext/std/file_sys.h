@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 #pragma once
-#ifndef NWL_STD_FILE_SYSTEM_H
-#define NWL_STD_FILE_SYSTEM_H
+#ifndef NWLIB_STD_FILE_SYSTEM_H
+#define NWLIB_STD_FILE_SYSTEM_H
 #include <yvals_core.h>
 #if _STL_COMPILER_PREPROCESSOR
 
@@ -2772,4 +2772,4 @@ _STL_RESTORE_CLANG_WARNINGS
 #pragma pack(pop)
 
 #endif // _STL_COMPILER_PREPROCESSOR
-#endif // NWL_STD_FILE_SYSTEM_H
+#endif // NWLIB_STD_FILE_SYSTEM_H
