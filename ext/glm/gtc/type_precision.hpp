@@ -15,13 +15,10 @@
 
 // Dependency:
 #include "../gtc/quaternion.hpp"
-#include "../gtc/vec1.hpp"
-#include "../ext/vector_int1_sized.hpp"
 #include "../ext/vector_int2_sized.hpp"
 #include "../ext/vector_int3_sized.hpp"
 #include "../ext/vector_int4_sized.hpp"
 #include "../ext/scalar_int_sized.hpp"
-#include "../ext/vector_uint1_sized.hpp"
 #include "../ext/vector_uint2_sized.hpp"
 #include "../ext/vector_uint3_sized.hpp"
 #include "../ext/vector_uint4_sized.hpp"
