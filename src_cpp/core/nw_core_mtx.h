@@ -2,129 +2,6 @@
 #define NW_CORE_MATRIX_H
 #include "nw_lib_pch.hpp"
 #if (defined NW_LIB_CORE_HPP)
-#	if (NW_GAPI & NW_GAPI_OGL && false)
-#		include "../ext/glm/matrix.hpp"
-#		include "../ext/glm/ext/matrix_transform.hpp"
-namespace NW
-{
-	template<typename vtype, csize size_x, csize size_y = size_x>
-	struct mat_t : public glm::mat<size_x, size_y, vtype, glm::defaultp>
-	{
-		static_assert(size_x > 1u && size_y > 1u, "matrix must be greater than one value or a vector");
-		// value type
-		using val = vtype;
-		using cval = const val;
-		using vec = vec_t<vtype, size_y>;
-		using cvec = const vec;
-		// vector type
-		template<csize vec_size>
-		using vec_s = vec_t<vtype, vec_size>;
-		template<csize vec_size>
-		using cvec_s = const vec_s<vec_size>;
-		// matrix type
-		using mat = mat_t<vtype, size_x, size_y>;
-		using cmat = const mat;
-		// // same vtype, same size_y
-		template<csize mat_size_x>
-		using mat_x = mat_t<vtype, mat_size_x, size_y>;
-		template<csize mat_size_x>
-		using cmat_x = const mat_x<mat_size_x>;
-		// // same vtype, same size_x
-		template<csize mat_size_y>
-		using mat_y = mat_t<vtype, size_x, mat_size_y>;
-		template<csize mat_size_y>
-		using cmat_y = const mat_y<mat_size_y>;
-		// // same vtype
-		template<csize mat_size_x, csize mat_size_y>
-		using mat_xy = mat_t<vtype, mat_size_x, mat_size_y>;
-		template<csize mat_size_x, csize mat_size_y>
-		using cmat_xy = const mat_xy<mat_size_x, mat_size_y>;
-		// // same vtype, square size
-		template<csize mat_size_xy>
-		using mat_s = mat_t<vtype, mat_size_xy, mat_size_xy>;
-		template<csize mat_size_xy>
-		using cmat_s = const mat_s<mat_size_xy>;
-	public:
-		// --getters
-		static constexpr inline csize get_size() { return size_x * size_y; }
-		static constexpr inline csize get_size_x() { return size_x; }
-		static constexpr inline csize get_size_y() { return size_y; }
-		static constexpr inline csize get_size_min() { return size_x < size_y ? size_x : size_y; }
-		static constexpr inline csize get_size_max() { return size_x > size_y ? size_x : size_y; }
-		static constexpr inline csize get_rows() { return size_y; }
-		static constexpr inline csize get_cols() { return size_x; }
-		// --core_methods
-		static constexpr inline cmat make_ident(vtype value = static_cast<vtype>(1)) {
-			return glm::mat4(value);
-		}
-		static constexpr inline cmat make_trpos(cmat& matrix) {
-			return glm::transpose(matrix);
-		}
-		static constexpr inline cmat make_inver(cmat& matrix) {
-			static_assert(size_x == size_y, "not square matrix cannot be inversed");
-			return glm::inverse(matrix);
-		}
-		template<csize diag_size>
-		static constexpr inline cmat make_scale(cvec_s<diag_size>& diagonal) {
-			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
-			static_assert(diag_size <= get_size_min(), "diagonal is too big for this matrix");
-			return glm::scale(glm::mat4(1.0f), vector);
-		}
-		template<csize vec_size>
-		static constexpr inline cmat make_coord(cvec_s<vec_size>& vector) {
-			static_assert(size_x > 1u, "matrix is too small for this operation");
-			static_assert(vec_size <= size_y, "vector is too big for this matrix");
-			return glm::translate(glm::mat4(1.0f), vector);
-		}
-		static constexpr inline cmat make_rotat_x(cv1f& value) { // rotate around axis "x"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
-			return glm::rotate(glm::mat4(1.0f), value, glm::vec3(1.0f, 0.0f, 0.0f));
-		}
-		static constexpr inline cmat make_rotat_y(cv1f& value) { // rotate around axis "y"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
-			return glm::rotate(glm::mat4(1.0f), value, glm::vec3(1.0f, 0.0f, 0.0f));
-		}
-		static constexpr inline cmat make_rotat_z(cv1f& value) { // rotate around axis "z"
-			static_assert(size_x >= 2u && size_y >= 2u, "matrix size is too small for this operation");
-			return glm::rotate(glm::mat4(1.0f), value, glm::vec3(0.0f, 0.0f, 1.0f));
-		}
-		static constexpr inline cmat make_rotat_xyz(cvec_s<3u>& vector) { // rotate around "x" "y" "z"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
-			/// i advice you not to change this order;
-			/// we were suffering two weeks with "drunk" gfx_cam because of this;
-			return make_rotat_y(vector[1]) * make_rotat_x(vector[0]) * make_rotat_z(vector[2]);
-		}
-		inline mat& ident(v1f value) {
-			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
-			*this = glm::mat4(1.0f);
-			return *this;
-		}
-		inline mat& inver() {
-			static_assert(size_x == size_y, "not square matrix cannot be inversed");
-			*this = glm::inverse(*this);
-			return *this;
-		}
-		inline mat& trpos() {
-			*this = glm::transpose(*this);
-			return *this;
-		}
-		template<csize vec_size>
-		inline mat& scale(cvec_s<vec_size>& vector) {
-			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
-			static_assert(vec_size <= size_y, "vector size is too big for this operation");
-			*this = glm::scale(glm::mat4(1.0f), vector);
-			return *this;
-		}
-		template<csize vec_size>
-		inline mat& coord(cvec_s<vec_size>& vector) {
-			static_assert(size_x > 1u, "matrix size is too small for this operation");
-			static_assert(vec_size <= size_y, "vector size is too big for this operation");
-			*this = glm::translate(glm::mat4(1.0f), vector);
-			return *this;
-		}
-	};
-}
-#	else
 namespace NW
 {
 	/// value matrix struct template
@@ -186,6 +63,7 @@ namespace NW
 		constexpr inline mat_t(mat&& cpy) = default;
 		inline ~mat_t() = default;
 		// --getters
+#	if (1)
 		static constexpr inline csize get_size() { return size_x * size_y; }
 		static constexpr inline csize get_size_x() { return size_x; }
 		static constexpr inline csize get_size_y() { return size_y; }
@@ -193,9 +71,12 @@ namespace NW
 		static constexpr inline csize get_size_max() { return size_x > size_y ? size_x : size_y; }
 		static constexpr inline csize get_rows() { return size_y; }
 		static constexpr inline csize get_cols() { return size_x; }
+#	endif
 		// --operators
 		// math
+#	if (1)
 		// // matrix - value
+#		if (1)
 		inline cmat operator+(cval& value) const {
 			mat result(static_cast<val>(0));
 			for (v1u iy = 0u; iy < size_y; iy++) {
@@ -272,7 +153,9 @@ namespace NW
 			}
 			return *this;
 		}
+#		endif
 		// // matrix - vector
+#		if (1)
 		inline cvec operator*(cvec& vector) const {
 			cvec result(static_cast<val>(0));
 			for (v1u iy; iy < size_x; iy++) {
@@ -281,7 +164,9 @@ namespace NW
 				}
 			}
 		}
+#		endif
 		// // matrix - matrix
+#		if (1)
 		inline cmat operator+(cmat& matrix) const {
 			mat result(static_cast<val>(0));
 			for (v1u iy; iy < size_y; iy++) {
@@ -345,17 +230,21 @@ namespace NW
 			}
 			return *this;
 		}
+#		endif
 		// logic
 		// accessors
+#		if (1)
 		inline vec& operator[](csize idx) { return this->elems[idx]; }
 		inline cvec& operator[](csize idx) const { return this->elems[idx]; }
+#		endif
+		// input_output
+#		if (1)
 		inline std::ostream& operator<<(std::ostream& stm) const {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				stm << this->elems[ix] << NW_STR_EOL;
 			}
 			return stm;
 		}
-		// input_output
 		inline std::istream& operator>>(std::istream& stm) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				stm >> this->elems[ix];
@@ -363,7 +252,10 @@ namespace NW
 			}
 			return stm;
 		}
+#		endif
+#	endif
 		// --core_methods
+#	if (1)
 		static constexpr inline cmat make_ident(vtype value = static_cast<vtype>(1)) {
 			mat result(static_cast<vtype>(0));
 			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
@@ -481,6 +373,30 @@ namespace NW
 			/// we were suffering two weeks with "drunk" gfx_cam because of this;
 			return make_rotat_y(vector[1]) * make_rotat_x(vector[0]) * make_rotat_z(vector[2]);
 		}
+		static constexpr inline cmat_xy<size_x - 1u, size_y - 1u> make_erase(cmat& matrix, v1u erase_x, v1u erase_y) {
+			mat_xy<size_x - 1u, size_y - 1u> result(static_cast<vtype>(0));
+			for (v1u iy = 0u; iy < size_y; iy++) {
+				for (v1u ix = 0u; ix < size_x; ix++) {
+					if (iy < erase_y) {
+						if (ix < erase_x) {
+							result[iy - 0u][ix - 0u] = matrix[iy + 0u][ix + 0u];
+						}
+						else if (ix > erase_x) {
+							result[iy - 0u][ix - 1u] = matrix[iy + 0u][ix + 0u];
+						}
+					}
+					else if (iy > erase_y) {
+						if (ix < erase_x) {
+							result[iy - 1u][ix - 0u] = matrix[iy + 0u][ix + 0u];
+						}
+						else if (ix > erase_x) {
+							result[iy - 1u][ix - 1u] = matrix[iy + 0u][ix + 0u];
+						}
+					}
+				}
+			}
+			return result;
+		}
 		inline mat& ident(v1f value) {
 			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
 			for (v1u idiag = 0u; idiag < get_size_max(); idiag++) {
@@ -519,11 +435,12 @@ namespace NW
 			}
 			return *this;
 		}
+		inline cmat_xy<size_x - 1u, size_y - 1u> erase(v1u erase_x, v1u erase_y) const { return make_erase(*this, erase_x, erase_y); }
+#	endif
 	public:
 		vec elems[size_y];
 	};
 }
-#	endif	// NW_GAPI
 namespace NW
 {
 	// value matrix bool 8 bit

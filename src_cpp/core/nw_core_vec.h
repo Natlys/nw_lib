@@ -2,50 +2,6 @@
 #define NW_CORE_VECTOR_H
 #include "nw_lib_pch.hpp"
 #if (defined NW_LIB_CORE_HPP)
-#	if (NW_GAPI & NW_GAPI_OGL && 0)
-#		include "../ext/glm/vector_relational.hpp"
-namespace NW
-{
-	/// value vector struct template
-	template<typename vtype, csize size_x>
-	struct vec_t : public glm::vec<size_x, vtype, glm::defaultp>
-	{
-		static_assert(size_x > 1u, "vector must be greater than a single value");
-		using val = vtype;
-		using cval = const val;
-		using vec = vec_t<vtype, size_x>;
-		using cvec = const vec;
-	public:
-		// --getters
-		static constexpr inline csize get_size() { return size_x; }
-		inline cval get_len() const {
-			return glm::length(*this);
-		}
-		static constexpr inline cv1f get_dot(cvec& vector_0, cvec& vector_1) {
-			return glm::dot(vector_0, vector_1)
-		}
-		inline cv1f get_dot(cvec& vector) const {
-			return glm::dot(*this, vector);
-		}
-		static constexpr inline cvec make_norm(cvec& vector) {
-			return glm::normalize(vector);
-		}
-		static constexpr inline cvec make_cross(cvec& vector_0, cvec& vector_1) {
-			static_assert(size_x >= 3, "not enough dimensions for cross product");
-			return glm::cross(vector_0, vector_1);
-		}
-		// --methods
-		inline vec& norm() {
-			*this = glm::normalize(*this);
-			return *this;
-		}
-		inline vec& cross(cvec& vector) {
-			*this = glm::cross(*this, vector);
-			return *this;
-		}
-	};
-}
-#	else
 namespace NW
 {
 	/// value vector struct template
@@ -74,6 +30,7 @@ namespace NW
 		constexpr inline vec_t(vec&& cpy) = default;
 		inline ~vec_t() = default;
 		// --getters
+#	if (1)
 		static constexpr inline csize get_size() { return size_x; }
 		inline cval get_len() const {
 			val len = static_cast<val>(0);
@@ -88,6 +45,9 @@ namespace NW
 				dot += vector_0[ix] * vector_1[ix];
 			}
 			return dot;
+		}
+		static constexpr inline cv1f get_cos(cvec& vector_0, cvec& vector_1) {
+			return get_dot(vector_0, vector_1) / (vector_0.get_len() * vector_1.get_len());
 		}
 		inline cv1f get_dot(cvec& vector) const {
 			v1f dot = static_cast<v1f>(0);
@@ -108,9 +68,12 @@ namespace NW
 			result[2] = (vector_0[0] * vector_1[1]) - (vector_0[1] * vector_1[0]);
 			return result;
 		}
+#	endif
 		// --operators
 		// math
+#	if (1)
 		// // vector - value
+#		if (1)
 		inline cvec operator+(cval& value) const {
 			vec result(static_cast<val>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
@@ -169,7 +132,9 @@ namespace NW
 			}
 			return *this;
 		}
+#		endif
 		// // vector - vector
+#		if (1)
 		inline cvec operator+(cvec& vector) const {
 			vec result(static_cast<val>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
@@ -228,6 +193,8 @@ namespace NW
 			}
 			return *this;
 		}
+#		endif
+#		if (1)
 		// // vector only
 		inline cvec operator+() const {
 			vec result(*this); for (v1f ix = 0u; ix < size_x; ix++) { result[ix] = +this->elems[ix]; }
@@ -238,17 +205,23 @@ namespace NW
 			for (v1u ix = 0u; ix < size_x; ix++) { result[ix] = -this->elems[ix]; }
 			return result;
 		}
+#		endif
 		// logic
+#		if (1)
 		inline v1b operator==(cvec& vector) const {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				if (this->elems[ix] != vector[ix]) { return false; }
 			}
 			return true;
 		}
+#		endif
 		// accessors
+#		if (1)
 		inline val& operator[](csize idx) { return this->elems[idx]; }
 		inline cval& operator[](csize idx) const { return this->elems[idx]; }
+#		endif
 		// input_output
+#		if (1)
 		inline std::ostream& operator<<(std::ostream& stm) const {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				stm << this->elems[ix] << "\t";
@@ -262,17 +235,20 @@ namespace NW
 			}
 			return stm;
 		}
-		// --methods
+#		endif
+#	endif
+		// --core_methods
+#	if (1)
 		inline vec& norm() {
 			*this /= this->get_len();
 			return *this;
 		}
 		inline vec& cross(cvec& vector) { return *this = make_cross(*this, vector);; }
+#	endif
 	public:
 		val elems[size_x];
 	};
 }
-#	endif	// NW_GAPI
 namespace NW
 {
 	// values boolean 8 bit

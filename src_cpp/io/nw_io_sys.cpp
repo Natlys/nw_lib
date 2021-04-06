@@ -184,7 +184,7 @@ namespace NW
 			"::message:" << format << std::endl <<
 			"--==</log_warning>==--" << std::endl;
 		va_end(arguments);
-		NW_BREAK();
+        NW_BREAK;
 	}
 	void io_sys::write_error(error_codes err_code, cstr format, ...)
 	{
@@ -196,7 +196,7 @@ namespace NW
 			"::message:" << format << std::endl <<
 			"--==</log_error>==--" << std::endl;
 		va_end(arguments);
-		NW_BREAK();
+		NW_BREAK;
 	}
 	// --==</logging>==--
 }

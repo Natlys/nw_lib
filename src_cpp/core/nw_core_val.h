@@ -5,7 +5,7 @@
 #include "nw_core_mem.h"
 namespace NW
 {
-	typedef bool                v1b;
+	typedef bool              v1bit;
 	typedef signed __int8      v1s8;
 	typedef unsigned __int8    v1u8;
 	typedef signed __int16    v1s16;
@@ -17,7 +17,7 @@ namespace NW
 	typedef float             v1f32;
 	typedef double            v1f64;
 	typedef long double      v1f128;
-	typedef const   v1b        cv1b;
+	typedef const v1bit      cv1bit;
 	typedef const  v1s8       cv1s8;
 	typedef const  v1u8       cv1u8;
 	typedef const v1s16      cv1s16;
@@ -29,12 +29,18 @@ namespace NW
 	typedef const v1f32      cv1f32;
 	typedef const v1f64      cv1f64;
 	typedef const v1f128    cv1f128;
+	typedef v1bit v1b;      // default boolean type
 	typedef v1s32 v1s;      // default signed integer
 	typedef v1u32 v1u;      // default unsigned integer
 	typedef v1f32 v1f;      // default float
+	typedef v1f32 v1n;      // default number
+	typedef const v1b cv1b; // default constant boolean
 	typedef const v1s cv1s; // default constant signed integer
 	typedef const v1u cv1u; // default constant unsigned integer
 	typedef const v1f cv1f; // default constant float
+	typedef const v1n cv1n; // default constant number
+	typedef v1u            enum_id; // default enumeration type
+	typedef const enum_id cenum_id; // default enumeration type
 }
 #else
 #	error "nw_lib_core.hpp must be included before this file"

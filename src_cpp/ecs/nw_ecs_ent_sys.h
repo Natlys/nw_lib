@@ -49,7 +49,7 @@ namespace NW
 		// --core_methods
 		template<class et, typename ... args>
 		mem_ref<et> new_ent(args&& ... arguments) {
-			NW_CHECK_TYPE_BASE(a_ent, et);
+			NW_CHECK_TYPE_BASE(et, a_ent);
 			mem_ref<et> ref;
 			ref.make_ref<et>(std::forward<args>(arguments)...);
 			m_ent_reg[ref->get_type()][ref->get_id()].set_ref<et>(ref);
@@ -57,7 +57,8 @@ namespace NW
 		}
 		template<class aet, class et, typename ... args>
 		mem_ref<aet> new_ent(args&& ... arguments) {
-			NW_CHECK_TYPE_BASE(a_ent, et); NW_CHECK_TYPE_BASE(a_ent, aet);
+			NW_CHECK_TYPE_BASE(et, a_ent);
+			NW_CHECK_TYPE_BASE(aet, a_ent);
 			mem_ref<aet> ref;
 			ref.make_ref<et>(std::forward<args>(arguments)...);
 			m_ent_reg[ref->get_type()][ref->get_id()].set_ref<aet>(ref);
@@ -69,7 +70,7 @@ namespace NW
 		}
 		template<class et>
 		void del_ent(v1u e_id) {
-			NW_CHECK_TYPE_BASE(a_ent, et);
+			NW_CHECK_TYPE_BASE(et, a_ent);
 			del_ent(et::get_type_static(), e_id);
 		}
 	};

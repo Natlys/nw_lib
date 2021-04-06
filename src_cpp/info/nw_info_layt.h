@@ -6,31 +6,34 @@
 #include "nw_info_type.h"
 namespace NW
 {
-	/// value_element class
+	/// info_element class
 	class NW_API info_elem
 	{
-		using vtype = value_types;
 	public:
 		info_elem();
-		info_elem(cstr name, vtype type, v1u count);
-		info_elem(cstr name, vtype type, v1u count, v1u index);
-		info_elem(cstr name, vtype type, v1u count, v1u index, size offset_size);
+		info_elem(cstr name, cenum_id type);
+		info_elem(cstr name, cenum_id type, v1u index);
+		info_elem(cstr name, cenum_id type, v1u index, size offset_size);
+		//info_elem(const info_elem& copy) = default;
+		//info_elem(info_elem&& copy) = default;
+		~info_elem() = default;
 		// --getters
-		inline size get_size() const  { return NW_GET_VTYPE_SIZE_D(m_type) * m_count; }
-		inline vtype get_type() const { return m_type; }
-		inline cv1u get_count() const { return m_count; }
+		inline cstr get_name() const     { return NW_GET_TYPE_NAME_D(m_enum); }
+		inline size get_size() const     { return NW_GET_TYPE_SIZE_D(m_enum); }
+		inline size get_count() const    { return NW_GET_TYPE_COUNT_D(m_enum); }
+		inline cenum_id get_enum() const { return NW_GET_TYPE_ENUM_D(m_enum); }
+		inline cenum_id get_gapi() const { return NW_GET_TYPE_GAPI_D(m_enum); }
 		// --setters
 		// --predicates
-		inline cv1b check_type(vtype type) const      { return m_type == type; }
-		template<typename vt> cv1b check_type() const { return m_type == NW_GET_VTYPE_ENUM_S(vt); }
+		inline cv1b check_enum(cenum_id type) const   { return get_enum() == type; }
+		template<typename vt> cv1b check_enum() const { return get_enum() == NW_GET_TYPE_ENUM_S(vt); }
+		// --operators
 		// --core_methods
-	public:
 		cstr name;
 		v1u idx;
 		size offset;
 	private:
-		vtype m_type;
-		v1u m_count;
+		enum_id m_enum;
 	};
 }
 namespace NW
@@ -59,9 +62,9 @@ namespace NW
 		void add_elem(elem&& element);
 		void add_elem(celem& element, v1u nof_elements = 1);
 		template<typename type>
-		void add_elem(cstr name, v1u count, v1u idx) { add_elem({ name, NW_GET_VTYPE_ENUM_S(type), count, idx }); }
+		void add_elem(cstr name, v1u count, v1u idx) { add_elem({ name, NW_GET_TYPE_ENUM_S(type), count, idx }); }
 		template<typename type>
-		void add_elem(cstr name, v1u count, v1u idx, size offset) { add_elem({ name, NW_GET_VTYPE_ENUM_S(type), count, idx, offset }); }
+		void add_elem(cstr name, v1u count, v1u idx, size offset) { add_elem({ name, NW_GET_TYPE_ENUM_S(type), count, idx, offset }); }
 		void rmv_elem(v1u idx);
 		// --predicates
 		inline v1b has_elem(v1u) {}

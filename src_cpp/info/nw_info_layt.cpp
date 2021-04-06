@@ -4,23 +4,23 @@
 namespace NW
 {
 	info_elem::info_elem() :
-		name("default"), idx(0u), offset(0u),
-		m_type(VTYPE_DEFAULT), m_count(1u)
+		m_enum(NW_DEFAULT_VAL),
+		name("default"), idx(0u), offset(0u)
 	{
 	}
-	info_elem::info_elem(cstr name, vtype type, v1u count) :
-		name(name), idx(0u), offset(0u),
-		m_type(type), m_count(count)
+	info_elem::info_elem(cstr name, cenum_id tenum) :
+		m_enum(tenum),
+		name(name), idx(0u), offset(0u)
 	{
 	}
-	info_elem::info_elem(cstr name, vtype type, v1u count, v1u index) :
-		name(name), idx(index), offset(0u),
-		m_type(type), m_count(count)
+	info_elem::info_elem(cstr name, cenum_id tenum, v1u index) :
+		m_enum(tenum),
+		name(name), idx(index), offset(0u)
 	{
 	}
-	info_elem::info_elem(cstr name, vtype type, v1u count, v1u index, size offset_size) :
-		name(name), idx(index), offset(offset_size),
-		m_type(type), m_count(count)
+	info_elem::info_elem(cstr name, cenum_id tenum, v1u index, size offset_size) :
+		m_enum(tenum),
+		name(name), idx(index), offset(offset_size)
 	{
 	}
 }

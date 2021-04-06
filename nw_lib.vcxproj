@@ -93,8 +93,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ext\stb\nw_stb_img.h" />
     <ClInclude Include="src_cpp\core\nw_core_capi.h" />
     <ClInclude Include="src_cpp\core\nw_core_gapi.h" />
+    <ClInclude Include="src_cpp\std\nw_std_img.h" />
+    <ClInclude Include="src_cpp\std\nw_std_cam.h" />
     <ClInclude Include="src_cpp\std\nw_std_cont.h" />
     <ClInclude Include="src_cpp\std\nw_std_func.h" />
     <ClInclude Include="src_cpp\core\nw_core_mem.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="src_cpp\nw_std.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ext\stb\nw_stb_img.cpp" />
     <ClCompile Include="src_cpp\ecs\nw_ecs_cmp_sys.cpp" />
     <ClCompile Include="src_cpp\ecs\nw_ecs_ent_sys.cpp" />
     <ClCompile Include="src_cpp\info\nw_info_img.cpp" />
@@ -154,6 +158,8 @@
     <ClCompile Include="src_cpp\nw_lib_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src_cpp\std\nw_std_img.cpp" />
+    <ClCompile Include="src_cpp\std\nw_std_cam.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

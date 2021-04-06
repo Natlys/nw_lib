@@ -39,9 +39,6 @@
     <ClInclude Include="src_cpp\info\nw_info_img.h">
       <Filter>info</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\info\nw_info_layt.h">
-      <Filter>info</Filter>
-    </ClInclude>
     <ClInclude Include="src_cpp\info\nw_info_type.h">
       <Filter>info</Filter>
     </ClInclude>
@@ -104,6 +101,12 @@
     <ClInclude Include="src_cpp\core\nw_core_vec.h" />
     <ClInclude Include="src_cpp\core\nw_core_mtx.h" />
     <ClInclude Include="src_cpp\core\nw_core_math.h" />
+    <ClInclude Include="ext\stb\nw_stb_img.h" />
+    <ClInclude Include="src_cpp\std\nw_std_img.h" />
+    <ClInclude Include="src_cpp\std\nw_std_cam.h" />
+    <ClInclude Include="src_cpp\info\nw_info_layt.h">
+      <Filter>info</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src_cpp\ecs\nw_ecs_cmp_sys.cpp">
@@ -143,5 +146,8 @@
       <Filter>mem</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\nw_lib_pch.cpp" />
+    <ClCompile Include="ext\stb\nw_stb_img.cpp" />
+    <ClCompile Include="src_cpp\std\nw_std_img.cpp" />
+    <ClCompile Include="src_cpp\std\nw_std_cam.cpp" />
   </ItemGroup>
 </Project>
