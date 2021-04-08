@@ -28,7 +28,7 @@ namespace NW
 	public:
 		a_error(cstr comment = "default", v1u err_code = ERC_DEFAULT, cstr location = "default", v1u line = -1);
 		// --getters
-		inline cstr get_str() const;
+		cstr get_str() const;
 		inline code get_code() const { return m_code; }
 		inline cstr get_com() const  { return &m_comment[0]; }
 		inline cstr get_loc() const  { return &m_location[0]; }

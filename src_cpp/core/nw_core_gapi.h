@@ -3,6 +3,9 @@
 #include "nw_lib_pch.hpp"
 #if(defined NW_LIB_CORE_HPP & defined NW_GAPI)
 #	if (NW_GAPI & NW_GAPI_OGL)
+// // types
+#		define device_handle    wapi_device_handle
+#		define context_handle   wapi_context_handle
 namespace NW
 {
 	typedef signed char    GLbyte;
@@ -42,8 +45,8 @@ namespace NW
 // // operators
 #		define NW_LOGIC_ALWAYS  0x0207 // GL_ALWAYS
 #		define NW_LOGIC_NEVER   0x0200 // GL_NEVER
-#		define NW_LOGIC_GRETR   0x0204 // GL_GREATER
-#		define NW_LOGIC_LESSR   0x0201 // GL_LESS
+#		define NW_LOGIC_GREATER 0x0204 // GL_GREATER
+#		define NW_LOGIC_LESSER  0x0201 // GL_LESS
 #		define NW_LOGIC_EQUAL   0x0202 // GL_EQUAL
 #		define NW_LOGIC_NEQUAL  0x0205 // GL_NEQUAL
 #		define NW_LOGIC_GEQUAL  0x0206 // GL_GEQUAL
@@ -123,13 +126,7 @@ namespace NW
 #	endif	// GAPI_D3D
 #	if (NW_GAPI & NW_GAPI_D3D)
 // // types
-#		if (defined device_handle)
-#			undef device_handle
-#		endif
 #		define device_handle    ID3D11Device*
-#		if (defined device_handle)
-#			undef context_handle
-#		endif
 #		define context_handle   ID3D11DeviceContext*
 #	endif	// GAPI_D3D
 #else

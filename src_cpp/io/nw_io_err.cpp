@@ -5,10 +5,10 @@ namespace NW
 	a_error::a_error(cstr comment, v1u err_code, cstr location, v1u line) :
 		m_comment(comment), m_location(location), m_code(static_cast<error_codes>(err_code)), m_line(line)
 	{
-		NW_ERROR(*this);
+		NW_ERROR(*this, return);
 	}
 	// --getters
-	inline cstr a_error::get_str() const {
+	cstr a_error::get_str() const {
 		static stm_io_str stm;
 		stm << *this;
 		return &stm.str()[0];

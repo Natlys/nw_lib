@@ -441,107 +441,44 @@ namespace NW
 		vec elems[size_y];
 	};
 }
+#	if (defined NW_FOREACH || defined NW_INVOKER || defined NW_ITERATOR)
+#		error "macroses named above must not be defined here"
+#	else
+#	define NW_FOREACH(INVOKER, ITERATOR) \
+	INVOKER(bit, ITERATOR) \
+	INVOKER(s08, ITERATOR) \
+	INVOKER(u08, ITERATOR) \
+	INVOKER(s16, ITERATOR) \
+	INVOKER(u16, ITERATOR) \
+	INVOKER(s32, ITERATOR) \
+	INVOKER(u32, ITERATOR) \
+	INVOKER(s64, ITERATOR) \
+	INVOKER(u64, ITERATOR) \
+	INVOKER(f32, ITERATOR) \
+	INVOKER(f64, ITERATOR) \
+	INVOKER(b, ITERATOR) \
+	INVOKER(s, ITERATOR) \
+	INVOKER(u, ITERATOR) \
+	INVOKER(f, ITERATOR) \
+	INVOKER(n, ITERATOR) \
+// that's it
+#	define NW_INVOKER(tname, ITERATOR)     \
+	ITERATOR(m2##tname, v1##tname, 2u, 2u) \
+	ITERATOR(m3##tname, v1##tname, 3u, 3u) \
+	ITERATOR(m4##tname, v1##tname, 4u, 4u) \
+// that's it
+#	endif	// NW_FOREACH & NW_INVOKER & NW_ITERATOR
 namespace NW
 {
-	// value matrix bool 8 bit
-	typedef mat_t<v1b, 2u>      m2b;
-	typedef mat_t<v1b, 3u>      m3b;
-	typedef mat_t<v1b, 4u>      m4b;
-	typedef const m2b          cm2b;
-	typedef const m3b          cm3b;
-	typedef const m4b          cm4b;
-	// value matrix signed int 8 bit
-	typedef mat_t<v1s8, 2u>    m2s8;
-	typedef mat_t<v1s8, 3u>    m3s8;
-	typedef mat_t<v1s8, 4u>    m4s8;
-	typedef const m2s8        cm2s8;
-	typedef const m3s8        cm3s8;
-	typedef const m4s8        cm4s8;
-	// value matrix unsigned int 8 bit
-	typedef mat_t<v1u8, 2u>    m2u8;
-	typedef mat_t<v1u8, 3u>    m3u8;
-	typedef mat_t<v1u8, 4u>    m4u8;
-	typedef const m2u8        cm2u8;
-	typedef const m3u8        cm3u8;
-	typedef const m4u8        cm4u8;
-	// value matrix signed int 16 bit
-	typedef mat_t<v1s16, 2u>  m2s16;
-	typedef mat_t<v1s16, 3u>  m3s16;
-	typedef mat_t<v1s16, 4u>  m4s16;
-	typedef const m2s16      cm2s16;
-	typedef const m3s16      cm3s16;
-	typedef const m4s16      cm4s16;
-	// value matrix unsigned int 16 bit
-	typedef mat_t<v1u16, 2u>  m2u16;
-	typedef mat_t<v1u16, 3u>  m3u16;
-	typedef mat_t<v1u16, 4u>  m4u16;
-	typedef const m2u16      cm2u16;
-	typedef const m3u16      cm3u16;
-	typedef const m4u16      cm4u16;
-	// value matrix signed int 32 bit
-	typedef mat_t<v1s32, 2u>  m2s32;
-	typedef mat_t<v1s32, 3u>  m3s32;
-	typedef mat_t<v1s32, 4u>  m4s32;
-	typedef const m2s32      cm2s32;
-	typedef const m3s32      cm3s32;
-	typedef const m4s32      cm4s32;
-	// value matrix unsigned int 32 bit
-	typedef mat_t<v1u32, 2u>  m2u32;
-	typedef mat_t<v1u32, 3u>  m3u32;
-	typedef mat_t<v1u32, 4u>  m4u32;
-	typedef const m2u32      cm2u32;
-	typedef const m3u32      cm3u32;
-	typedef const m4u32      cm4u32;
-	// value matrix signed int 64 bit
-	typedef mat_t<v1s64, 2u>  m2s64;
-	typedef mat_t<v1s64, 3u>  m3s64;
-	typedef mat_t<v1s64, 4u>  m4s64;
-	typedef const m2s64      cm2s64;
-	typedef const m3s64      cm3s64;
-	typedef const m4s64      cm4s64;
-	// value matrix unsigned int 64 bit
-	typedef mat_t<v1u64, 2u>  m2u64;
-	typedef mat_t<v1u64, 3u>  m3u64;
-	typedef mat_t<v1u64, 4u>  m4u64;
-	typedef const m2u64      cm2u64;
-	typedef const m3u64      cm3u64;
-	typedef const m4u64      cm4u64;
-	// value matrix float 32 bit
-	typedef mat_t<v1f32, 2u>  m2f32;
-	typedef mat_t<v1f32, 3u>  m3f32;
-	typedef mat_t<v1f32, 4u>  m4f32;
-	typedef const m2f32      cm2f32;
-	typedef const m3f32      cm3f32;
-	typedef const m4f32      cm4f32;
-	// value matrix float 64 bit
-	typedef mat_t<v1f64, 2u>  m2f64;
-	typedef mat_t<v1f64, 3u>  m3f64;
-	typedef mat_t<v1f64, 4u>  m4f64;
-	typedef const m2f64      cm2f64;
-	typedef const m3f64      cm3f64;
-	typedef const m4f64      cm4f64;
-	// default value matrix signed integer
-	typedef m2s32          m2s;
-	typedef m3s32          m3s;
-	typedef m4s32          m4s;
-	typedef const m2s32   cm2s;
-	typedef const m3s32   cm3s;
-	typedef const m4s32   cm4s;
-	// default value matrix unsigned integer
-	typedef m2u32          m2u;
-	typedef m3u32          m3u;
-	typedef m4u32          m4u;
-	typedef const m2u32   cm2u;
-	typedef const m3u32   cm3u;
-	typedef const m4u32   cm4u;
-	// default value matrix float
-	typedef m2f32          m2f;
-	typedef m3f32          m3f;
-	typedef m4f32          m4f;
-	typedef const m2f32   cm2f;
-	typedef const m3f32   cm3f;
-	typedef const m4f32   cm4f;
+#	define NW_ITERATOR(tname, vname, size_x, size_y)    \
+	typedef mat_t<vname, size_x, size_y> tname;  \
+	typedef const tname               c##tname;  \
+// that's it
+	NW_FOREACH(NW_INVOKER, NW_ITERATOR);
+#	undef NW_ITERATOR
 }
+#	undef NW_FOREACH
+#	undef NW_INVOKER
 #else
 #	error "nw_lib_core.hpp must be included before this header"
 #endif	// NW_LIB_CORE_HPP

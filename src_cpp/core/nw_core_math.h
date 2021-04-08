@@ -2,6 +2,22 @@
 #define NW_CORE_MATH_H
 #include "nw_lib_pch.hpp"
 #if (defined NW_LIB_CORE_HPP)
+#define NW_MATH_PI              ( NW_CAST_FLOAT(3.1416) )
+#define NW_MATH_RAD             ( NW_CAST_FLOAT(57.295) )
+#define NW_MATH_TO_DEG(angle)   ( NW_CAST_FLOAT(angle) / NW_MATH_PI * NW_CAST_FLOAT(180.0))
+#define NW_MATH_TO_RAD(angle)   ( NW_CAST_FLOAT(angle) * NW_MATH_PI / NW_CAST_FLOAT(180.0))
+#define NW_MATH_ANGLE(angle)    ( NW_MATH_TO_RAD(angle) )
+#define NW_MATH_COS(angle)      ( std::cosf(NW_MATH_ANGLE(angle)) )
+#define NW_MATH_SIN(angle)      ( std::sinf(NW_MATH_ANGLE(angle)) )
+#define NW_MATH_TANG(angle)     ( NW_MATH_SIN(angle) / NW_MATH_COS(angle) )
+#define NW_MATH_CTAN(angle)     ( NW_MATH_COS(angle) / NW_MATH_SIN(angle) )
+#define NW_MATH_ROOT(num, base) ( std::pow(num, 1.0f / base) )
+#define NW_MATH_POW(num, base)  ( std::pow(num, base) )
+#define NW_MATH_ABS(num)        ( std::abs(num) )
+#define NW_MATH_MIN(num0, num1) ( std::min(num0, num1) )
+#define NW_MATH_MAX(num0, num1) ( std::max(num0, num1) )
+#define NW_MATH_CLAMP(num, lower, upper)    ( NW_MATH_MIN(NW_MATH_MAX(num, lower), upper) )
+#define NW_MATH_LERP(lower, upper, percent) ( (upper - lower) * (1.0f - percent) )
 namespace NW
 {
 	template<typename ntype> ntype get_abs(ntype n) { return n < 0 ? -n : n; }

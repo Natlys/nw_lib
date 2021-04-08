@@ -2,6 +2,7 @@
 #define NW_CORE_STRING_H
 #include "nw_lib_pch.hpp"
 #if (defined NW_LIB_CORE_HPP)
+#define NW_STR_EQUAL(str0, str1) ( strcmp(str0, str1) == 0 )
 namespace NW
 {
 	// narrow character set

@@ -249,107 +249,44 @@ namespace NW
 		val elems[size_x];
 	};
 }
+#	if (defined NW_FOREACH || defined NW_INVOKER || defined NW_ITERATOR)
+#		error "macroses named above must not be defined here"
+#	else
+#	define NW_FOREACH(INVOKER, ITERATOR) \
+	INVOKER(bit, ITERATOR) \
+	INVOKER(s08, ITERATOR) \
+	INVOKER(u08, ITERATOR) \
+	INVOKER(s16, ITERATOR) \
+	INVOKER(u16, ITERATOR) \
+	INVOKER(s32, ITERATOR) \
+	INVOKER(u32, ITERATOR) \
+	INVOKER(s64, ITERATOR) \
+	INVOKER(u64, ITERATOR) \
+	INVOKER(f32, ITERATOR) \
+	INVOKER(f64, ITERATOR) \
+	INVOKER(b, ITERATOR) \
+	INVOKER(s, ITERATOR) \
+	INVOKER(u, ITERATOR) \
+	INVOKER(f, ITERATOR) \
+	INVOKER(n, ITERATOR) \
+// that's it
+#	define NW_INVOKER(tname, ITERATOR) \
+	ITERATOR(v2##tname, v1##tname, 2u)  \
+	ITERATOR(v3##tname, v1##tname, 3u)  \
+	ITERATOR(v4##tname, v1##tname, 4u)  \
+// that's it
+#	endif	// NW_FOREACH & NW_INVOKER & NW_ITERATOR
 namespace NW
 {
-	// values boolean 8 bit
-	typedef vec_t<v1b, 2u>        v2b;
-	typedef vec_t<v1b, 3u>        v3b;
-	typedef vec_t<v1b, 4u>        v4b;
-	typedef const v2b            cv2b;
-	typedef const v3b            cv3b;
-	typedef const v4b            cv4b;
-	// values signed int 8 bit
-	typedef vec_t<v1s8, 2u>      v2s8;
-	typedef vec_t<v1s8, 3u>      v3s8;
-	typedef vec_t<v1s8, 4u>      v4s8;
-	typedef const v2s8          cv2s8;
-	typedef const v3s8          cv3s8;
-	typedef const v4s8          cv4s8;
-	// values unsigned int 8 bit
-	typedef vec_t<v1u8, 2u>      v2u8;
-	typedef vec_t<v1u8, 3u>      v3u8;
-	typedef vec_t<v1u8, 4u>      v4u8;
-	typedef const v2u8          cv2u8;
-	typedef const v3u8          cv3u8;
-	typedef const v4u8          cv4u8;
-	// values signed int 16 bit
-	typedef vec_t<v1s16, 2u>    v2s16;
-	typedef vec_t<v1s16, 3u>    v3s16;
-	typedef vec_t<v1s16, 4u>    v4s16;
-	typedef const v2s16        cv2s16;
-	typedef const v3s16        cv3s16;
-	typedef const v4s16        cv4s16;
-	// values unsigned int 16 bit
-	typedef vec_t<v1u16, 2u>    v2u16;
-	typedef vec_t<v1u16, 3u>    v3u16;
-	typedef vec_t<v1u16, 4u>    v4u16;
-	typedef const v2u16        cv2u16;
-	typedef const v3u16        cv3u16;
-	typedef const v4u16        cv4u16;
-	// values signed int 32 bit
-	typedef vec_t<v1s32, 2u>    v2s32;
-	typedef vec_t<v1s32, 3u>    v3s32;
-	typedef vec_t<v1s32, 4u>    v4s32;
-	typedef const v2s32        cv2s32;
-	typedef const v3s32        cv3s32;
-	typedef const v4s32        cv4s32;
-	// values unsigned int 32 bit
-	typedef vec_t<v1u32, 2u>    v2u32;
-	typedef vec_t<v1u32, 3u>    v3u32;
-	typedef vec_t<v1u32, 4u>    v4u32;
-	typedef const v2u32        cv2u32;
-	typedef const v3u32        cv3u32;
-	typedef const v4u32        cv4u32;
-	// values signed int 64 bit
-	typedef vec_t<v1s64, 2u>    v2s64;
-	typedef vec_t<v1s64, 3u>    v3s64;
-	typedef vec_t<v1s64, 4u>    v4s64;
-	typedef const v2s64        cv2s64;
-	typedef const v3s64        cv3s64;
-	typedef const v4s64        cv4s64;
-	// values unsigned int 64 bit
-	typedef vec_t<v1u64, 2u>    v2u64;
-	typedef vec_t<v1u64, 3u>    v3u64;
-	typedef vec_t<v1u64, 4u>    v4u64;
-	typedef const v2u64        cv2u64;
-	typedef const v3u64        cv3u64;
-	typedef const v4u64        cv4u64;
-	// values float 32 bit
-	typedef vec_t<v1f32, 2u>    v2f32;
-	typedef vec_t<v1f32, 3u>    v3f32;
-	typedef vec_t<v1f32, 4u>    v4f32;
-	typedef const v2f32        cv2f32;
-	typedef const v3f32        cv3f32;
-	typedef const v4f32        cv4f32;
-	// values float 64 bit
-	typedef vec_t<v1f64, 2u>    v2f64;
-	typedef vec_t<v1f64, 3u>    v3f64;
-	typedef vec_t<v1f64, 4u>    v4f64;
-	typedef const v2f64        cv2f64;
-	typedef const v3f64        cv3f64;
-	typedef const v4f64        cv4f64;
-	// default values signed int
-	typedef v2s32            v2s;
-	typedef v3s32            v3s;
-	typedef v4s32            v4s;
-	typedef const v2s32     cv2s;
-	typedef const v3s32     cv3s;
-	typedef const v4s32     cv4s;
-	// default values unsigned int
-	typedef v2u32            v2u;
-	typedef v3u32            v3u;
-	typedef v4u32            v4u;
-	typedef const v2u32     cv2u;
-	typedef const v3u32     cv3u;
-	typedef const v4u32     cv4u;
-	// default values float
-	typedef v2f32            v2f;
-	typedef v3f32            v3f;
-	typedef v4f32            v4f;
-	typedef const v2f32     cv2f;
-	typedef const v3f32     cv3f;
-	typedef const v4f32     cv4f;
+#	define NW_ITERATOR(tname, vname, size_x)   \
+	typedef vec_t<vname, size_x> tname; \
+	typedef const tname       c##tname; \
+// that's it
+	NW_FOREACH(NW_INVOKER, NW_ITERATOR);
+#	undef NW_ITERATOR
 }
+#	undef NW_INVOKER
+#	undef NW_FOREACH
 #else
 #	error "nw_lib_core.hpp must be included before this header"
 #endif	// NW_LIB_CORE_HPP

@@ -23,7 +23,7 @@ namespace NW
 	class NW_API a_mem_alloc
 	{
 	public:
-		a_mem_alloc(ptr memory_ptr = nullptr, size memory_size = 0ul);
+		a_mem_alloc(ptr memory_ptr = nullptr, size memory_size = 0u);
 		virtual ~a_mem_alloc();
 		// --getters
 		inline ptr get_data()               { return &m_data_ptr[0]; }

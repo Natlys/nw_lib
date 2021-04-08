@@ -17,10 +17,10 @@
 #		define NW_API_ENTRY     __stdcall
 #		define NW_API_ENTRYP    NW_API_ENTRY*
 // // types
-#		define window_handle    HWND
-#		define library_handle   HMODULE
-#		define device_handle    HDC
-#		define context_handle   HGLRC
+#		define window_handle       HWND
+#		define library_handle      HMODULE
+#		define wapi_device_handle  HDC
+#		define wapi_context_handle HGLRC
 // // constants
 #			define NW_NULL          NULL
 // // strings
