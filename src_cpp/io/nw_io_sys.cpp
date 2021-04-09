@@ -13,7 +13,7 @@ namespace NW
 		m_output = &std::cout;
         
         if (!get_fpath().has_parent_path()) { throw init_error(__FILE__, __LINE__); return; }
-        if (get_fpath().parent_path().filename() != NW_NAME) { throw init_error(__FILE__, __LINE__); return; }
+        if (get_fpath().parent_path().filename() != NW_NAME_STR) { throw init_error(__FILE__, __LINE__); return; }
         set_path_curr(&get_fpath().get_over().get_full()[0]);
 
         std::cout << "nw_io_system has been initialized;" << std::endl;

@@ -3,10 +3,11 @@
 #include "nw_lib_core.hpp"
 #	if (defined NW_API)
 #	include "../std/nw_std_cont.h"
+#	include "../io/nw_io_cmp.h"
 namespace NW
 {
 	/// type_information static class
-	class NW_API type_info
+	class NW_API type_info : public a_io_cmp
 	{
 	public:
 		using info = type_info;
@@ -14,37 +15,42 @@ namespace NW
 		using tab = darray<type_info>;
 		using ctab = const tab;
 	private:
-		type_info(cv1u tid = NW_NULL, cstr tname = NW_NULL, csize tsize = NW_NULL, csize talign = NW_NULL) :
-			id(tid),
-			name(tname),
-			size(tsize),
-			align(talign)
-		{
-			get_tab_static().push_back(*this);
-		}
+		type_info(cv1u tid = NW_NULL, cstr tname = NW_NULL, csize tsize = NW_NULL, csize talign = NW_NULL);
 	public:
 		cv1u id;
-		dstr name;
+		cstr name;
 		csize size;
 		csize align;
 	public:
-#		define NW_INFO_TYPE_DEF(tid, tname) (tid, #tname, sizeof(tname), alignof(tname));
 		// --getters
 		template <typename tname>
-		static inline cinfo& get()         { static type_info inf NW_INFO_TYPE_DEF(get_id_static()++, tname); return inf; }
+		static cinfo& get()                { static info s_inf (get_id_static()++, get_name<tname>(), sizeof(tname), alignof(tname)); return s_inf; }
 		static inline cinfo& get(cv1u tid) { return get_tab_static()[tid]; }
 		static inline cv1u& get_id()       { return get_id_static(); }
 		template <typename tname>
 		static inline cv1u get_id()        { return get<tname>().id; }
+		template<typename tname>
+		static inline cstr get_name() {
+#		define NW_NAME_FRONT "const char *__cdecl" NW_NAMESPACE_STR "::type_info::get_name<"
+#		define NW_NAME_BACK ">(void)"
+#		define NW_NAME_LENGTH sizeof(__FUNCSIG__) - sizeof(NW_NAME_FRONT) - sizeof(NW_NAME_BACK)
+			static schar name[NW_NAME_LENGTH] { NW_NULL };
+			memcpy(&name[0], &__FUNCSIG__[sizeof(NW_NAME_FRONT)], NW_NAME_LENGTH);
+#		undef NW_NAME_FRONT
+#		undef NW_NAME_BACK
+#		undef NW_NAME_LENGTH
+			return name;
+		}
 		// --predicates
 		static inline cv1b is_valid(cv1u tid) { return tid < get_tab_static().size(); }
 		template<typename tname>
-		static inline cv1b is_valid()         { return has_info(get_id<tname>()); }
-		// operaotrs
+		static inline cv1b is_valid()         { return is_valid(get_id<tname>()); }
+		// --operators
+		virtual stm_out& operator<<(stm_out& stm) const override;
+		virtual stm_in& operator>>(stm_in& stm) override { return stm; }
 	private:
 		static inline v1u& get_id_static()  { static v1u s_curr_id = NW_NULL; return s_curr_id; }
 		static inline tab& get_tab_static() { static tab s_table; return s_table; }
-#		undef NW_INFO_TYPE_DEF
 	};
 }
 namespace NW

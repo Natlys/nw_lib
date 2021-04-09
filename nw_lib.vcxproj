@@ -145,6 +145,7 @@
     <ClCompile Include="src_cpp\ecs\nw_ecs_cmp_sys.cpp" />
     <ClCompile Include="src_cpp\ecs\nw_ecs_ent_sys.cpp" />
     <ClCompile Include="src_cpp\info\nw_info_img.cpp" />
+    <ClCompile Include="src_cpp\info\nw_info_type.cpp" />
     <ClCompile Include="src_cpp\mem\nw_mem_elem.cpp" />
     <ClCompile Include="src_cpp\io\nw_io_cmp.cpp" />
     <ClCompile Include="src_cpp\io\nw_io_dvc.cpp" />

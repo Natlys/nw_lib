@@ -21,12 +21,15 @@
 // --==</configuration>==--
 
 // --==<helpers>==--
-#define NW_NAME    "native_world"
-#define NW_NULL    NULL
-#define NW_ZERO    0
-#define NW_UNIT    1
-#define NW_FALSE   0
-#define NW_TRUE    1
+#define NW_NAME          native_world
+#define NW_NAME_STR      "native_world"
+#define NW_NAMESPACE     NW
+#define NW_NAMESPACE_STR "NW"
+#define NW_NULL   NULL
+#define NW_ZERO   0
+#define NW_UNIT   1
+#define NW_FALSE  0
+#define NW_TRUE   1
 #define NW_DEFAULT       // just empty macro
 #define NW_DEFAULT_VAL   0
 #define NW_DEFAULT_STR   "default"

@@ -146,5 +146,6 @@
     <ClCompile Include="src_cpp\mem\nw_mem_elem.cpp">
       <Filter>info</Filter>
     </ClCompile>
+    <ClCompile Include="src_cpp\info\nw_info_type.cpp" />
   </ItemGroup>
 </Project>
