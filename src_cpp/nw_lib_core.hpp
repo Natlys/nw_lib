@@ -69,7 +69,6 @@
 #include "core/nw_core_mtx.h"
 #include "core/nw_core_str.h"
 #include "core/nw_core_mem.h"
-#include "core/nw_core_info.h"
 // --==</core_files>==--
 
 // --==<linkage>==--

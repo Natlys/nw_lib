@@ -102,10 +102,10 @@
     <ClInclude Include="src_cpp\core\nw_core_mtx.h" />
     <ClInclude Include="src_cpp\core\nw_core_math.h" />
     <ClInclude Include="ext\stb\nw_stb_img.h" />
-    <ClInclude Include="src_cpp\core\nw_core_info.h" />
     <ClInclude Include="src_cpp\mem\nw_mem_elem.h">
       <Filter>info</Filter>
     </ClInclude>
+    <ClInclude Include="src_cpp\mem\nw_mem_cmp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src_cpp\ecs\nw_ecs_cmp_sys.cpp">

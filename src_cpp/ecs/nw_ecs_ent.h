@@ -11,7 +11,7 @@ namespace NW
 	/// --base class for complex objects;
 	/// --allows to construct an object of different components;
 	/// --takes responsibility for creation and destruction of all components
-	class NW_API a_ent : public a_type_id_owner, public a_mem_user
+	class NW_API a_ent : public a_type_id_owner
 	{
 	protected:
 		a_ent() : a_type_id_owner() { }

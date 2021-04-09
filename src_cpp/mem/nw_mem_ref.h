@@ -4,6 +4,7 @@
 #if (defined NW_API)
 #include "nw_mem_alloc.h"
 #include "nw_mem_sys.h"
+#include "nw_mem_cmp.h"
 namespace NW
 {
 	/// mem_ref class
@@ -14,7 +15,7 @@ namespace NW
 	/// Interface:
 	/// -> Create mem_ref -> MakeRef with particular allocator -> set_ref for other keepers -> use as a pointer
 	template <typename mt>
-	class mem_ref : public a_mem_user
+	class mem_ref : public a_mem_cmp
 	{
 		using cmt = const mt;
 	public:

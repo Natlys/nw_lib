@@ -7,10 +7,10 @@
 namespace NW
 {
 	/// abstract component class
-	class NW_API a_cmp : public a_type_id_owner, public a_mem_user
+	class NW_API a_cmp : public a_type_id_owner
 	{
 	protected:
-		a_cmp() : a_type_id_owner(), a_mem_user() { }
+		a_cmp() : a_type_id_owner() { }
 	public:
 		virtual ~a_cmp() = default;
 	};

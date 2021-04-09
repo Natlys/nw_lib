@@ -26,8 +26,8 @@ namespace NW
 	public:
 		virtual ~t_type_id_owner() = default;
 		// --getters
-		virtual inline cv1u get_type() const override { return type_indexator::get_id<type>(); }
-		virtual inline cv1u get_id() const override { return m_id; }
+		virtual inline cv1u get_type() const override { return type_info::get_id<type>(); }
+		virtual inline cv1u get_id() const override   { return m_id; }
 	};
 }
 #endif	// NW_API

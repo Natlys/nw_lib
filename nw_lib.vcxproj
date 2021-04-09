@@ -96,7 +96,7 @@
     <ClInclude Include="ext\stb\nw_stb_img.h" />
     <ClInclude Include="src_cpp\core\nw_core_capi.h" />
     <ClInclude Include="src_cpp\core\nw_core_gapi.h" />
-    <ClInclude Include="src_cpp\core\nw_core_info.h" />
+    <ClInclude Include="src_cpp\mem\nw_mem_cmp.h" />
     <ClInclude Include="src_cpp\std\nw_std_cont.h" />
     <ClInclude Include="src_cpp\std\nw_std_func.h" />
     <ClInclude Include="src_cpp\core\nw_core_mem.h" />
