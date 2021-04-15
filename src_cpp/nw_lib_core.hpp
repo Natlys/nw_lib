@@ -36,7 +36,7 @@
 #define NW_CAST_SINT(num)     ( static_cast<v1s>(num) )
 #define NW_CAST_UINT(num)     ( static_cast<v1u>(num) )
 #define NW_CAST_FLOAT(num)    ( static_cast<v1f>(num) )
-#define NW_CAST_SIZE(num)     ( static_cast<size>(num) )
+#define NW_CAST_SIZE(num)     ( static_cast<size_t>(num) )
 #define NW_XY_TO_X(x, y, w)   ( (NW_CAST_SIZE(y) * NW_CAST_SIZE(w)) + NW_CAST_SIZE(x) )
 #define NW_XY_SIZE(x, y)      ( NW_CAST_SIZE(x) * NW_CAST_SIZE(y) )
 #define NW_ALIGN(data, align) ( (NW_CAST_SIZE(data) + (NW_CAST_SIZE(align) - 1)) & ~(NW_CAST_SIZE(align) - 1) )
@@ -47,9 +47,8 @@
 	std::cout << mesg << NW_STR_EOL; NW_BREAK; error_action;
 #	define NW_CHECK(expr, mesg, error_action) \
 	if ((expr) == NW_FALSE) { NW_ERROR(mesg, error_action); }
-#	define NW_CHECK_TYPE_BASE(type, base) \
-//	NW_CHECK( (std::is_base_of<base, type> ), "invalid base type")
-
+#	define NW_CHECK_TYPE_BASE(tname, tbase, mesg) \
+		static_assert(std::is_base_of<tbase, tname>(), mesg);
 #else
 #	define NW_BREAK() NW_DEFAULT
 #	define NW_ERROR() NW_DEFAULT

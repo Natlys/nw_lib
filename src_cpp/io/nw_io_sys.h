@@ -34,33 +34,33 @@ namespace NW
 		inline fpath get_fpath() const                       { return flib::current_path(); }
 		inline fpath get_fpath(cstr fpath) const             { return get_fpath() / fpath; }
 		inline fpath get_fpath(cstr fpath, cstr fname) const { return get_fpath() / fpath / fname; }
-		inline size get_fsize(cstr fpath) const              { return flib::file_size(fpath); }
+		inline size_t get_fsize(cstr fpath) const            { return flib::file_size(fpath); }
 		inline fspace get_fspace(cstr fpath) const           { return flib::space(fpath); }
 		// --setters
-		void set_output(stm_out& out);
-		void set_path_curr(cstr cpath);
+		v1nil set_output(stm_out& out);
+		v1nil set_path_curr(cstr cpath);
 		// --predicates
 		inline v1b is_drct_path(cstr fpath) { return flib::is_directory(fpath); }
 		inline v1b is_file_path(cstr fpath) { return flib::exists(fpath); }
 		// --core_methods
-		void update();
+		v1nil update();
 		// --directories
-		void new_drct(cstr dir_path);
-		void del_drct(cstr dir_path);
+		v1nil new_drct(cstr dir_path);
+		v1nil del_drct(cstr dir_path);
 		// --file_loading
 		cstr load_dlg(cstr filter, window_handle wnd);
-		bool load_file(cstr file_path, ptr destination, size nof_bytes);
-		bool load_file(cstr file_path, dstr& destination);
-		bool load_file(cstr file_path, cmp& destination);
+		v1bit load_file(cstr file_path, ptr_t destination, size_t nof_bytes);
+		v1bit load_file(cstr file_path, dstr& destination);
+		v1bit load_file(cstr file_path, cmp& destination);
 		// --file_saving
 		cstr save_dlg(cstr filter, window_handle wnd);
-		bool save_file(cstr file_path, cptr destination, size nof_bytes);
-		bool save_file(cstr file_path, cdstr& destination);
-		bool save_file(cstr file_path, ccmp& destination);
+		v1bit save_file(cstr file_path, ptr_tc source, size_t nof_bytes);
+		v1bit save_file(cstr file_path, cdstr& source);
+		v1bit save_file(cstr file_path, ccmp& source);
 		// --logging
-		void write_info(cstr format, ...);
-		void write_warn(cstr format, ...);
-		void write_error(error_codes err_code, cstr format, ...);
+		v1nil write_info(cstr format, ...);
+		v1nil write_warn(cstr format, ...);
+		v1nil write_error(error_codes err_code, cstr format, ...);
 	private:
 		input* m_input;
 		output* m_output;

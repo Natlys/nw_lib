@@ -2,8 +2,8 @@
 #define NW_MEM_SYSTEM_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "std/nw_std_sing.h"
-#include "nw_mem_alloc.h"
+#	include "std/nw_std_sing.h"
+#	include "nw_mem_alloc.h"
 namespace NW
 {
 	/// memory_system singleton class

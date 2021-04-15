@@ -11,64 +11,51 @@ namespace NW
 	/// --base class for complex objects;
 	/// --allows to construct an object of different components;
 	/// --takes responsibility for creation and destruction of all components
-	class NW_API a_ent : public a_type_id_owner
+	class NW_API a_ent : public a_type_idx_owner
 	{
 	protected:
-		a_ent() : a_type_id_owner() { }
+		a_ent() : a_type_idx_owner() { }
 	public:
 		virtual ~a_ent() = default;
 	};
 	/// templated entity class
-	template<class et, class act = a_cmp>
-	class NW_API t_ent: public t_type_id_owner<et, a_ent>
+	template<class tent, class tref = a_cmp>
+	class NW_API t_ent: public t_type_idx_owner<tent, a_ent>
 	{
 	public:
-		using cmp_type = act;
-		using ref = mem_ref<act>;	// component reference
-		using tab = darray<ref>;	// component table
-		template<class ct>
-		using cmp = mem_ref<ct>;	// particular component
+		using cmp_ref_t = mem_ref<tref>;    // component reference
+		using cmp_ref_tc = const cmp_ref_t; // component constant reference
+		using cmp_tab_t = darray<cmp_ref_t>;// component table
+		using cmp_tab_tc = const cmp_tab_t; // component constant table
+		template<class tcmp> using cmp_t = mem_ref<tcmp>; // particular component
+		template<class tcmp> using cmp_tc = cmp_t<tcmp>;  // particular constant component
 	protected:
-		t_ent() : t_type_id_owner(), m_tab(get_tab_static()) { }
+		t_ent() : t_type_idx_owner(), m_cmp_tab(get_cmp_tab_static()) { }
 	public:
 		virtual ~t_ent() = default;
 		// --getters
-		inline tab& get_tab()                       { return m_tab; }
-		inline ref& get_ref(v1u idx)                { return m_tab[idx % m_tab.size()]; }
-		template<class ct> cmp<ct> get_cmp(v1u idx) {
-			ref& cmp_ref = m_tab[idx % m_tab.size()];
-			cmp<ct> cmp_res;
-			if (cmp_ref->check_type(ct::get_type_static())) { cmp_res.set_ref(cmp_ref); }
-			return cmp_res;
-		}
-		// --getters_static
-		static inline tab& get_tab_static()        { static tab s_tab; return s_tab; }
-		static inline ref& get_ref_static(v1u idx) { return get_tab_static()[idx % m_tab.size()]; }
-		template<class ct>
-		static cmp<ct> get_cmp_static(v1u idx)     {
-			ref& cmp_ref = get_tab_static()[idx % m_tab.size()];
-			cmp<ct> cmp_res;
-			if (cmp_ref->check_type(ct::get_type_static())) { cmp_res.set_ref(cmp_ref); }
-			return cmp_res;
-		}
+		inline cmp_tab_t& get_cmp_tab()        { return m_cmp_tab; }
+		inline cmp_tab_tc& get_cmp_tab() const { return m_cmp_tab; }
+		static inline cmp_tab_t& get_cmp_tab_static()  { static cmp_tab_t s_cmp_tab; return s_cmp_tab; }
+		inline size_tc get_cmp_count() const         { return get_cmp_tab().size(); }
+		static inline size_tc get_cmp_count_static() { return get_cmp_tab_static().size(); }
+		inline cmp_ref_t& get_cmp_ref(size_t key)        { NW_CHECK(has_cmp(key), "not found!", return cmp_ref_t()); return get_cmp_tab()[key]; }
+		inline cmp_ref_tc& get_cmp_ref(size_t key) const { get_cmp_ref(key); }
+		static inline cmp_ref_t& get_cmp_ref_static(size_t key)  { NW_CHECK(has_cmp_static(key), "not found!", return cmp_ref_t()); return get_cmp_tab_static()[key]; }
+		template<class tcmp> cmp_t<tcmp> get_cmp(size_t key) const        { cmp_t<tcmp>(get_cmp_ref(key)); }
+		template<class tcmp> cmp_t<tcmp> get_cmp_static(size_t key) const { cmp_t<tcmp>(get_cmp_ref_static(key)); }
 		// --setters
-		inline void add_cmp(ref& ref) { m_tab.push_back(ref); }
-		template<class ct>
-		void add_cmp(cmp<ct>& cmp)    { add_cmp(ref(cmp)); }
-		inline void rmv_cmp(v1u idx)  { m_tab.erase(m_tab.begin() + idx % m_tab.size()); }
-		// --setters_static
-		static inline void add_cmp_static(ref& ref)  { get_tab_static().push_back(ref); }
-		template<class ct>
-		static void add_cmp_static(cmp<ct>& cmp)     { add_cmp_static(ref(cmp)); }
-		static inline void rmv_cmp_static(v1u idx)   { get_tab_static().erase(m_tab.begin() + idx % m_tab.size()); }
+		inline v1nil add_cmp(cmp_ref_t& ref)                 { get_cmp_tab().push_back(ref); }
+		template<class tcmp> v1nil add_cmp(cmp_t<tcmp>& cmp) { add_cmp(cmp_ref_t(cmp)); }
+		static inline v1nil add_cmp_static(cmp_ref_t& ref)                 { get_cmp_tab_static().push_back(ref); }
+		template<class tcmp> static v1nil add_cmp_static(cmp_t<tcmp>& cmp) { add_cmp_static(cmp_ref_t(cmp)); }
+		inline v1nil rmv_cmp(size_t key)               { NW_CHECK(has_cmp(key), "not found!", return); get_cmp_tab().erase(get_cmp_tab().begin() + key); }
+		static inline v1nil rmv_cmp_static(size_t key) { NW_CHECK(has_cmp_static(key), "not found!", return); get_cmp_tab_static().erase(get_cmp_tab_static().begin() + key); }
 		// --predicates
-		inline v1b has_cmp(v1u type_id) const  { for (auto& cmp : m_tab) { if (itr->check_type()) { return true; } return false; } }
-		template<class ct> v1b has_cmp() const { return has_cmp(ct::get_type_static();); }
-		// --predicates_static
-		static inline v1b has_cmp_static(v1u type_id)  { for (auto& cmp : get_tab_static()) { if (itr->check_type()) { return true; } return false; } }
-		template<class ct> static v1b has_cmp_static() { return has_cmp_static(ct::get_type_static();); }
+		inline v1bit has_cmp(size_t key) const         { key < get_cmp_count(); }
+		static inline v1bit has_cmp_static(size_t key) { return key < get_cmp_count_static(); }
 	protected:
-		tab m_tab;
+		cmp_tab_t m_cmp_tab;
 	};
 }
 #endif	// NW_API

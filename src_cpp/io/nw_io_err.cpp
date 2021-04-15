@@ -2,7 +2,7 @@
 #include "nw_io_err.h"
 namespace NW
 {
-	a_error::a_error(cstr comment, v1u err_code, cstr location, v1u line) :
+	a_error::a_error(cstr comment, cv1u err_code, cstr location, cv1u line) :
 		m_comment(comment), m_location(location), m_code(static_cast<error_codes>(err_code)), m_line(line)
 	{
 		NW_ERROR(*this, return);
@@ -32,19 +32,19 @@ namespace NW
 namespace NW
 {
 
-	init_error::init_error(cstr location, v1u line) : a_error("initialization error", ERC_NO_INIT, location, line) {}
+	init_error::init_error(cstr location, cv1u line) : a_error("initialization error", ERC_NO_INIT, location, line) {}
 
-	quit_error::quit_error(cstr location, v1u line) : a_error("initialization error", ERC_NO_QUIT, location, line) {}
+	quit_error::quit_error(cstr location, cv1u line) : a_error("initialization error", ERC_NO_QUIT, location, line) {}
 
-	run_error::run_error(cstr location, v1u line) : a_error("runtime error", ERC_RUNTIME, location, line) {}
+	run_error::run_error(cstr location, cv1u line) : a_error("runtime error", ERC_RUNTIME, location, line) {}
 }
 namespace NW
 {
-	load_error::load_error(cstr location, v1u line) : a_error("loading error", ERC_NO_LOAD, location, line) {}
+	load_error::load_error(cstr location, cv1u line) : a_error("loading error", ERC_NO_LOAD, location, line) {}
 
-	save_error::save_error(cstr location, v1u line) : a_error("saving error", ERC_NO_SAVE, location, line) {}
+	save_error::save_error(cstr location, cv1u line) : a_error("saving error", ERC_NO_SAVE, location, line) {}
 }
 namespace NW
 {
-	mem_error::mem_error(cstr location, v1u line) : a_error("memory error", ERC_NO_MEMORY) {}
+	mem_error::mem_error(cstr location, cv1u line) : a_error("memory error", ERC_NO_MEMORY) {}
 }

@@ -16,11 +16,11 @@ namespace NW
 	public:
 		virtual ~a_mem_cmp() = default;
 		// --operators
-		inline void* operator new(size block_size, ptr block_ptr)     { return ::operator new(block_size, block_ptr); }
-		inline void* operator new(size block_size)                    { return mem_sys::get().alloc(block_size); }
-		inline void* operator new[](size block_size)                  { return mem_sys::get().alloc(block_size); }
-		inline void operator delete(ptr block_ptr, size block_size)   { mem_sys::get().dealloc(block_ptr, block_size); }
-		inline void operator delete[](ptr block_ptr, size block_size) { mem_sys::get().dealloc(block_ptr, block_size); }
+		inline ptr_t operator new(size_t size, ptr_t ptr) { return ::operator new(size, ptr); }
+		inline ptr_t operator new(size_t size)            { return mem_sys::get().alloc(size); }
+		inline ptr_t operator new[](size_t size)          { return mem_sys::get().alloc(size); }
+		inline v1nil operator delete(ptr_t ptr, size_t size)   { mem_sys::get().dealloc(ptr, size); }
+		inline v1nil operator delete[](ptr_t ptr, size_t size) { mem_sys::get().dealloc(ptr, size); }
 	};
 }
 #endif

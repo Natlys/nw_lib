@@ -5,64 +5,64 @@
 namespace NW
 {
 	/// value vector struct template
-	template<typename vtype, csize size_x>
-	struct vec_t
+	template<typename vtype, size_tc size_x>
+	struct t_vec
 	{
 		static_assert(size_x > 1u, "vector must be greater than a single value");
-		using val = vtype;
-		using cval = const val;
-		using vec = vec_t<vtype, size_x>;
-		using cvec = const vec;
+		using val_t = vtype;
+		using val_tc = const val_t;
+		using vec_t = t_vec<vtype, size_x>;
+		using vec_tc = const vec_t;
 	public:
-		constexpr inline vec_t(cval& value = static_cast<val>(0))
+		constexpr inline t_vec(val_tc& value = static_cast<val_t>(0))
 		{
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] = value;
 			}
 		}
-		constexpr inline vec_t(const std::initializer_list<val>& value) : vec_t()
+		constexpr inline t_vec(const std::initializer_list<val_t>& value) : t_vec()
 		{
 			for (v1u ix = 0u; ix < value.size(); ix++) {
 				this->elems[ix] = *(value.begin() + ix);
 			}
 		}
-		constexpr inline vec_t(cvec& cpy) = default;
-		constexpr inline vec_t(vec&& cpy) = default;
-		inline ~vec_t() = default;
+		constexpr inline t_vec(vec_tc& copy) = default;
+		constexpr inline t_vec(vec_t&& copy) = default;
+		inline ~t_vec() = default;
 		// --getters
-#	if (1)
-		static constexpr inline csize get_size() { return size_x; }
-		inline cval get_len() const {
-			val len = static_cast<val>(0);
+#	if (NW_TRUE)
+		static constexpr inline size_tc get_size() { return size_x; }
+		inline val_tc get_len() const {
+			val_t len = static_cast<val_t>(0);
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				len += NW_MATH_POW(this->elems[ix], 2);
 			}
 			return NW_MATH_ROOT(len, 2);
 		}
-		static constexpr inline cv1f get_dot(cvec& vector_0, cvec& vector_1) {
+		static constexpr inline cv1f get_dot(vec_tc& vector_0, vec_tc& vector_1) {
 			v1f dot = static_cast<v1f>(0);
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				dot += vector_0[ix] * vector_1[ix];
 			}
 			return dot;
 		}
-		static constexpr inline cv1f get_cos(cvec& vector_0, cvec& vector_1) {
+		static constexpr inline cv1f get_cos(vec_tc& vector_0, vec_tc& vector_1) {
 			return get_dot(vector_0, vector_1) / (vector_0.get_len() * vector_1.get_len());
 		}
-		inline cv1f get_dot(cvec& vector) const {
+		inline cv1f get_dot(vec_tc& vector) const {
 			v1f dot = static_cast<v1f>(0);
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				dot += this->elems[ix] * vector[ix];
 			}
 			return dot;
 		}
-		static constexpr inline cvec make_norm(cvec& vector) {
-			vec result = vector / vector.get_len();
+		static constexpr inline vec_tc make_norm(vec_tc& vector) {
+			vec_t result = vector / vector.get_len();
 			return result;
 		}
-		static constexpr inline cvec make_cross(cvec& vector_0, cvec& vector_1) {
+		static constexpr inline vec_tc make_cross(vec_tc& vector_0, vec_tc& vector_1) {
 			static_assert(size_x >= 3, "not enough dimensions for cross product");
-			vec result(static_cast<val>(0));
+			vec_t result(static_cast<val_t>(0));
 			result[0] = (vector_0[1] * vector_1[2]) - (vector_0[2] * vector_1[1]);
 			result[1] = (vector_0[2] * vector_1[0]) - (vector_0[0] * vector_1[2]);
 			result[2] = (vector_0[0] * vector_1[1]) - (vector_0[1] * vector_1[0]);
@@ -71,62 +71,62 @@ namespace NW
 #	endif
 		// --operators
 		// math
-#	if (1)
+#	if (NW_TRUE)
 		// // vector - value
-#		if (1)
-		inline cvec operator+(cval& value) const {
-			vec result(static_cast<val>(0));
+#		if (NW_TRUE)
+		inline vec_tc operator+(val_tc& value) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] + value;
 			}
 			return result;
 		}
-		inline cval operator-(cval& value) const {
-			vec result(static_cast<val>(0));
+		inline val_tc operator-(val_tc& value) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] - value;
 			}
 			return result;
 		}
-		inline cvec operator*(cval& value) const {
-			vec result(static_cast<val>(0));
+		inline vec_tc operator*(val_tc& value) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] * value;
 			}
 			return result;
 		}
-		inline cvec operator/(cval& value) const {
-			vec result(static_cast<val>(0));
+		inline vec_tc operator/(val_tc& value) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] / value;
 			}
 			return result;
 		}
-		inline vec& operator+=(cval& value) {
+		inline vec_t& operator+=(val_tc& value) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] += value;
 			}
 			return *this;
 		}
-		inline vec& operator-=(cval& value) {
+		inline vec_t& operator-=(val_tc& value) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] -= value;
 			}
 			return *this;
 		}
-		inline vec& operator*=(cval& value) {
+		inline vec_t& operator*=(val_tc& value) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] *= value;
 			}
 			return *this;
 		}
-		inline vec& operator/=(cval& value) {
+		inline vec_t& operator/=(val_tc& value) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] /= value;
 			}
 			return *this;
 		}
-		inline vec& operator=(cval& value) {
+		inline vec_t& operator=(val_tc& value) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] = value;
 			}
@@ -134,81 +134,81 @@ namespace NW
 		}
 #		endif
 		// // vector - vector
-#		if (1)
-		inline cvec operator+(cvec& vector) const {
-			vec result(static_cast<val>(0));
+#		if (NW_TRUE)
+		inline vec_tc operator+(vec_tc& vector) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] + vector[ix];
 			}
 			return result;
 		}
-		inline cvec operator-(cvec& vector) const {
-			vec result(static_cast<val>(0));
+		inline vec_tc operator-(vec_tc& vector) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] - vector[ix];
 			}
 			return result;
 		}
-		inline cvec operator*(cvec& vector) const {
-			vec result(static_cast<val>(0));
+		inline vec_tc operator*(vec_tc& vector) const {
+			vec_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] * vector[ix];
 			}
 			return result;
 		}
-		inline cvec operator/(cvec& vector) const {
-			val result(static_cast<val>(0));
+		inline vec_tc operator/(vec_tc& vector) const {
+			val_t result(static_cast<val_t>(0));
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				result[ix] = this->elems[ix] / vector[ix];
 			}
 			return result;
 		}
-		inline vec& operator+=(cvec& vector) {
+		inline vec_t& operator+=(vec_tc& vector) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] += vector[ix];
 			}
 			return *this;
 		}
-		inline vec& operator-=(cvec& vector) {
+		inline vec_t& operator-=(vec_tc& vector) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] -= vector[ix];
 			}
 			return *this;
 		}
-		inline vec& operator*=(cvec& vector) {
+		inline vec_t& operator*=(vec_tc& vector) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] *= vector[ix];
 			}
 			return *this;
 		}
-		inline vec& operator/=(cvec& vector) {
+		inline vec_t& operator/=(vec_tc& vector) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] /= vector[ix];
 			}
 			return *this;
 		}
-		inline vec& operator=(cvec& vector) {
+		inline vec_t& operator=(vec_tc& vector) {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				this->elems[ix] = vector[ix];
 			}
 			return *this;
 		}
 #		endif
-#		if (1)
+#		if (NW_TRUE)
 		// // vector only
-		inline cvec operator+() const {
-			vec result(*this); for (v1f ix = 0u; ix < size_x; ix++) { result[ix] = +this->elems[ix]; }
+		inline vec_tc operator+() const {
+			vec_t result(*this); for (v1f ix = 0u; ix < size_x; ix++) { result[ix] = +this->elems[ix]; }
 			return result;
 		}
-		inline cvec operator-() const {
-			vec result(*this);
+		inline vec_tc operator-() const {
+			vec_t result(*this);
 			for (v1u ix = 0u; ix < size_x; ix++) { result[ix] = -this->elems[ix]; }
 			return result;
 		}
 #		endif
 		// logic
-#		if (1)
-		inline v1b operator==(cvec& vector) const {
+#		if (NW_TRUE)
+		inline v1b operator==(vec_tc& vector) const {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				if (this->elems[ix] != vector[ix]) { return false; }
 			}
@@ -216,12 +216,12 @@ namespace NW
 		}
 #		endif
 		// accessors
-#		if (1)
-		inline val& operator[](csize idx) { return this->elems[idx]; }
-		inline cval& operator[](csize idx) const { return this->elems[idx]; }
+#		if (NW_TRUE)
+		inline val_t& operator[](size_tc idx) { return this->elems[idx]; }
+		inline val_tc& operator[](size_tc idx) const { return this->elems[idx]; }
 #		endif
 		// input_output
-#		if (1)
+#		if (NW_TRUE)
 		inline std::ostream& operator<<(std::ostream& stm) const {
 			for (v1u ix = 0u; ix < size_x; ix++) {
 				stm << this->elems[ix] << "\t";
@@ -238,15 +238,15 @@ namespace NW
 #		endif
 #	endif
 		// --core_methods
-#	if (1)
-		inline vec& norm() {
+#	if (NW_TRUE)
+		inline vec_t& norm() {
 			*this /= this->get_len();
 			return *this;
 		}
-		inline vec& cross(cvec& vector) { return *this = make_cross(*this, vector);; }
+		inline vec_t& cross(vec_tc& vector) { return *this = make_cross(*this, vector);; }
 #	endif
 	public:
-		val elems[size_x];
+		val_t elems[size_x];
 	};
 }
 #	if (defined NW_FOREACH || defined NW_INVOKER || defined NW_ITERATOR)
@@ -279,7 +279,7 @@ namespace NW
 namespace NW
 {
 #	define NW_ITERATOR(tname, vname, size_x)   \
-	typedef vec_t<vname, size_x> tname; \
+	typedef t_vec<vname, size_x> tname; \
 	typedef const tname       c##tname; \
 // that's it
 	NW_FOREACH(NW_INVOKER, NW_ITERATOR);

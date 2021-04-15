@@ -7,14 +7,16 @@
 // types
 namespace NW
 {
-	using ptr              = void*;
-	using cptr       = const void*;
-	typedef char             sbyte;
-	typedef unsigned char    ubyte;
-	typedef ubyte             byte; // default byte type
-	typedef const ubyte      cbyte; // default constant byte type
-	typedef size_t            size; // default byte size type
-	typedef const size       csize; // default constant byte size type
+	using ptr_t             = void*;
+	using ptr_tc      = const void*;
+	typedef char            sbyte_t;
+	typedef const sbyte_t  sbyte_tc;
+	typedef unsigned char   ubyte_t;
+	typedef const ubyte_t  ubyte_tc;
+	typedef ubyte_t          byte_t; // default byte type
+	typedef const ubyte_t   byte_tc; // default constant byte type
+	typedef size_t           size_t; // default byte size type
+	typedef const size_t    size_tc; // default constant byte size type
 }
 #else
 #	error "nw_lib_core.hpp must be included before this header!"

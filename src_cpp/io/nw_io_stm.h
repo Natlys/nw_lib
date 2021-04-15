@@ -21,14 +21,14 @@ namespace NW
 }
 namespace NW
 {
-	template<typename vtype, csize size_x>
-	inline stm_out& operator<<(stm_out& stm, const vec_t<vtype, size_x>& vector) { return vector.operator<<(stm); }
-	template<typename vtype, csize size_x>
-	inline stm_in& operator>>(stm_in& stm, vec_t<vtype, size_x>& vector) { return vector.operator>>(stm); }
-	template<typename vtype, csize size_x, csize size_y>
-	inline stm_out& operator<<(stm_out& stm, const mat_t<vtype, size_x, size_y>& matrix) { return matrix.operator<<(stm); }
-	template<typename vtype, csize size_x, csize size_y>
-	inline stm_in& operator>>(stm_in& stm, mat_t<vtype, size_x, size_y>& matrix) { return matrix.operator>>(stm); }
+	template<typename vtype, size_tc size_x>
+	inline stm_out& operator<<(stm_out& stm, const t_vec<vtype, size_x>& vector) { return vector.operator<<(stm); }
+	template<typename vtype, size_tc size_x>
+	inline stm_in& operator>>(stm_in& stm, t_vec<vtype, size_x>& vector)         { return vector.operator>>(stm); }
+	template<typename vtype, size_tc size_x, size_tc size_y>
+	inline stm_out& operator<<(stm_out& stm, const t_mat<vtype, size_x, size_y>& matrix) { return matrix.operator<<(stm); }
+	template<typename vtype, size_tc size_x, size_tc size_y>
+	inline stm_in& operator>>(stm_in& stm, t_mat<vtype, size_x, size_y>& matrix)         { return matrix.operator>>(stm); }
 }
 #endif	// NW_API
 #endif	// NW_IO_STREAM_H

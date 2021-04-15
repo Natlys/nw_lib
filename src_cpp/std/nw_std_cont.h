@@ -4,7 +4,7 @@
 #if (defined NW_API)
 namespace NW
 {
-	template <typename vtype, size slots>
+	template <typename vtype, size_tc slots>
 	using sarray = std::array<vtype, slots>;
 	template <typename vtype>
 	using darray = std::vector<vtype>;

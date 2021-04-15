@@ -5,10 +5,10 @@
 namespace NW
 {
 	io_sys::io_sys() :
-		m_input(nullptr),
+		m_input(NW_NULL),
         m_path_curr(flib::current_path())
 	{
-		if (m_input != nullptr) { return; }
+		if (m_input != NW_NULL) { return; }
 		m_input = new input();
 		m_output = &std::cout;
         
@@ -21,21 +21,21 @@ namespace NW
     }
 	io_sys::~io_sys()
 	{
-		if (m_input == nullptr) { return; }
+		if (m_input == NW_NULL) { return; }
 		delete m_input;
-		m_input = nullptr;
-		m_output = nullptr;
+		m_input = NW_NULL;
+		m_output = NW_NULL;
 	}
 	// --setters
-	void io_sys::set_output(output& stm) {
+	v1nil io_sys::set_output(output& stm) {
 		m_output = &stm;
 	}
-    void io_sys::set_path_curr(cstr cpath) {
+    v1nil io_sys::set_path_curr(cstr cpath) {
         flib::current_path(cpath);
         m_path_curr = flib::current_path();
     }
 	// --==<core_methods>==--
-	void io_sys::update()
+	v1nil io_sys::update()
 	{
 		get_output() << get_input().str();
 		get_input().str("");
@@ -43,13 +43,13 @@ namespace NW
 	// --==</core_methods>==--
 
     // --==<directories>==--
-    void io_sys::new_drct(cstr dpath)
+    v1nil io_sys::new_drct(cstr dpath)
     {
         if (!is_drct_path(dpath)) { return; }
         SECURITY_ATTRIBUTES scr_atbs{ 0 };
         ::CreateDirectory(dpath, &scr_atbs);
     }
-    void io_sys::del_drct(cstr dpath)
+    v1nil io_sys::del_drct(cstr dpath)
     {
         if (!is_drct_path(dpath)) { return; }
         ::RemoveDirectory(dpath);
@@ -59,7 +59,7 @@ namespace NW
 	// --==<file_loading>==--
     cstr io_sys::load_dlg(cstr filter, window_handle wnd)
     {
-        static constexpr size max_chars = 256;
+        static constexpr size_tc max_chars = NW_MAX_PATH;
         static char str_res[max_chars]{ 0 };
         OPENFILENAMEA ofn{ 0 };
         ofn.lStructSize = sizeof(ofn);
@@ -71,19 +71,19 @@ namespace NW
         if (::GetOpenFileNameA(&ofn)) { return ofn.lpstrFile; }
         else { return ""; }
     }
-    bool io_sys::load_file(cstr file_path, ptr destination, size nof_bytes)
+    v1bit io_sys::load_file(cstr file_path, ptr_t destination, size_tc nof_bytes)
     {
         stm_in_file fstm;
         fstm.exceptions(std::ios::badbit | std::ios::failbit);
         try {
             fstm.open(get_fpath(file_path), std::ios::in | std::ios::binary);
-            fstm.read(static_cast<sbyte*>(destination), nof_bytes);
+            fstm.read(static_cast<sbyte_t*>(destination), nof_bytes);
             fstm.close();
         }
         catch (std::ios_base::failure exc) { throw load_error(__FILE__, __LINE__); return false; }
         return true;
     }
-    bool io_sys::load_file(cstr file_path, dstr& destination)
+    v1bit io_sys::load_file(cstr file_path, dstr& destination)
     {
         stm_in_file fstm;
         fstm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
@@ -98,7 +98,7 @@ namespace NW
         catch (std::ios_base::failure exc) { throw load_error(__FILE__, __LINE__); return false; }
         return true;
     }
-    bool io_sys::load_file(cstr file_path, cmp& destination) {
+    v1bit io_sys::load_file(cstr file_path, cmp& destination) {
         stm_in_file fstm;
         fstm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
         try {
@@ -114,7 +114,7 @@ namespace NW
 	// --==<file_saving>==--
     cstr io_sys::save_dlg(cstr filter, window_handle wnd)
     {
-        static constexpr size max_chars = 256;
+        static constexpr size_t max_chars = NW_MAX_PATH;
         static char str_res[max_chars]{ 0 };
         OPENFILENAMEA ofn{ 0 };
         ofn.lStructSize = sizeof(ofn);
@@ -126,19 +126,19 @@ namespace NW
         if (GetSaveFileNameA(&ofn)) { return ofn.lpstrFile; }
         else { return ""; }
     }
-    bool io_sys::save_file(cstr file_path, cptr source, size nof_bytes)
+    v1bit io_sys::save_file(cstr file_path, ptr_tc source, size_t nof_bytes)
     {
         stm_out_file fstm;
         fstm.exceptions(std::ios::badbit | std::ios::failbit);
         try {
             fstm.open(get_fpath(file_path), std::ios::out | std::ios::binary);
-            fstm.write(static_cast<const sbyte*>(source), nof_bytes);
+            fstm.write(static_cast<sbyte_tc*>(source), nof_bytes);
             fstm.close();
         }
         catch (std::ios_base::failure ex) { throw save_error(__FILE__, __LINE__); return false; }
         return true;
     }
-    bool io_sys::save_file(cstr file_path, cdstr& source)
+    v1bit io_sys::save_file(cstr file_path, cdstr& source)
     {
         stm_out_file fstm;
         fstm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
@@ -150,7 +150,7 @@ namespace NW
         catch (std::ios_base::failure exc) { throw save_error(__FILE__, __LINE__); return false; }
         return true;
     }
-    bool io_sys::save_file(cstr file_path, ccmp& source)
+    v1bit io_sys::save_file(cstr file_path, ccmp& source)
     {
         stm_out_file fstm;
         fstm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
@@ -165,7 +165,7 @@ namespace NW
     // --==</file_saving>==--
 
 	// --==<logging>==--
-	void io_sys::write_info(cstr format, ...)
+	v1nil io_sys::write_info(cstr format, ...)
 	{
 		va_list arguments;
 		va_start(arguments, format);
@@ -175,7 +175,7 @@ namespace NW
 			"--==</log_information>==--" << std::endl;
 		va_end(arguments);
 	}
-	void io_sys::write_warn(cstr format, ...)
+	v1nil io_sys::write_warn(cstr format, ...)
 	{
 		va_list arguments;
 		va_start(arguments, format);
@@ -186,7 +186,7 @@ namespace NW
 		va_end(arguments);
         NW_BREAK;
 	}
-	void io_sys::write_error(error_codes err_code, cstr format, ...)
+	v1nil io_sys::write_error(error_codes err_code, cstr format, ...)
 	{
 		va_list arguments;
 		va_start(arguments, format);

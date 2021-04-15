@@ -3,8 +3,6 @@
 #if (defined NW_API)
 namespace NW
 {
-	a_io_cmp::a_io_cmp() { }
-	a_io_cmp::~a_io_cmp() { }
 	// --setters
 	// --operators
 	stm_out& operator<<(stm_out& stm, const a_io_cmp& cmp) { return cmp.operator<<(stm); }

@@ -9,10 +9,11 @@ namespace NW
 	/// input_output_component
 	class NW_API a_io_cmp
 	{
-	protected:
-		a_io_cmp();
 	public:
-		virtual ~a_io_cmp();
+		a_io_cmp() = default;
+		a_io_cmp(const a_io_cmp& copy) = default;
+		a_io_cmp(a_io_cmp&& copy) = default;
+		virtual ~a_io_cmp() = default;
 		// --getters
 		// --setters
 		// --predicates

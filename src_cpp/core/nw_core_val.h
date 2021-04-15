@@ -5,6 +5,7 @@
 #include "nw_core_mem.h"
 namespace NW
 {
+	typedef void              v1nil;
 	typedef void*             v1ptr;
 	typedef bool              v1bit;
 	typedef signed __int8     v1s08;
