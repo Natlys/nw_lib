@@ -2,7 +2,6 @@
 #define NW_CORE_VALUE_H
 #include "nw_lib_pch.hpp"
 #if (defined NW_LIB_CORE_HPP)
-#include "nw_core_mem.h"
 namespace NW
 {
 	typedef void              v1nil;

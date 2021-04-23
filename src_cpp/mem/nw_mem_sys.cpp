@@ -1,26 +1,37 @@
 #include "nw_lib_pch.hpp"
 #include "nw_mem_sys.h"
 #if (defined NW_API)
-#	include "ecs/nw_ecs_ent_sys.h"
-#	include "ecs/nw_ecs_cmp_sys.h"
-#	include "io/nw_io_sys.h"
 namespace NW
 {
 	mem_sys::mem_sys() :
-		mem_arena(new byte_t[NW_MAX_MEMORY], NW_MAX_MEMORY)
+		mem_alloc_arena(NW_NULL, NW_NULL)
 	{
-		if (get_data() != NW_NULL) { return; }
 	}
 	mem_sys::~mem_sys()
 	{
-		ent_sys::get().get_ent_reg().clear();
-		cmp_sys::get().get_cmp_reg().clear();
-		//io_sys::get().get_ent_reg().clear();
-		//io_sys::get().get_cmp_reg().clear();
-		if (m_data != NW_NULL) { delete[] m_data; m_data = NW_NULL; }
+		NW_CHECK(!has_data() && !has_size(), "no quit!", return)
 	}
 	// --==<core_methods>==--
-	void mem_sys::update()
+	v1bit mem_sys::init()
+	{
+		NW_CHECK(!has_data(), "init is already done!!", return NW_FALSE);
+		NW_CHECK(has_size(), "no size!", return NW_FALSE);
+		set_data(new byte_t[get_size()]);
+		NW_CHECK(mem_alloc_arena::remake(), "failed remake!", return NW_FALSE);
+
+		return NW_TRUE;
+	}
+	v1bit mem_sys::quit()
+	{
+		NW_CHECK(has_data(), "quit is already done!", return NW_FALSE);
+		NW_CHECK(has_size(), "no size!", return NW_FALSE);
+		
+		if (has_data()) { delete[] get_data(); set_data(NW_NULL); }
+		if (has_size()) { set_size(NW_NULL); }
+
+		return NW_TRUE;
+	}
+	v1nil mem_sys::update()
 	{
 	}
 	// --==</core_methods>==--

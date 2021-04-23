@@ -1,5 +1,5 @@
-#ifndef NW_IO_FILE_LIB_H
-#define NW_IO_FILE_LIB_H
+#ifndef NW_IOP_FILE_LIB_H
+#define NW_IOP_FILE_LIB_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
 namespace NW
@@ -11,4 +11,4 @@ namespace NW
 	using fspace = flib::space_info;
 }
 #endif	// NW_API
-#endif	// NW_IO_FILE_LIB_H
+#endif	// NW_IOP_FILE_LIB_H

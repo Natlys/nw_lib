@@ -2,9 +2,9 @@
 #define NW_MEM_REFERENCE_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "nw_mem_alloc.h"
-#include "nw_mem_sys.h"
-#include "nw_mem_cmp.h"
+#	include "nw_mem_alloc.h"
+#	include "nw_mem_sys.h"
+#	include "nw_mem_cmp.h"
 namespace NW
 {
 	/// mem_ref class
@@ -24,15 +24,13 @@ namespace NW
 		inline mem_ref(val_t& value) : mem_ref() { set_ref(value); }
 		inline mem_ref(const mem_ref<val_t>& copy) : mem_ref() { set_ref(copy); }
 		template<typename tname>
-		inline mem_ref(const mem_ref<tname>& copy) : mem_ref() { set_ref<tname>(copy); }
+		mem_ref(const mem_ref<tname>& copy) : mem_ref() { set_ref<tname>(copy); }
 		inline ~mem_ref() { reset(); }
 		// --getters
-		inline val_t* get_ref()        { return static_cast<val_t*>(m_ref); }
-		inline val_tc* get_ref() const { return static_cast<val_tc*>(m_ref); }
-		template<typename tname> tname* get_ref()             { return static_cast<tname*>(m_ref); }
-		template<typename tname> const tname* get_ref() const { return static_cast<const tname*>(m_ref); }
-		template<typename tname> tname& get_val()             { return *static_cast<tname*>(m_ref); }
-		template<typename tname> const tname& get_val() const { return *static_cast<const tname*>(m_ref); }
+		template<typename tname = val_t> tname* get_ref()             { return static_cast<tname*>(m_ref); }
+		template<typename tname = val_t> const tname* get_ref() const { return static_cast<const tname*>(m_ref); }
+		template<typename tname = val_t> tname& get_val()             { return *static_cast<tname*>(m_ref); }
+		template<typename tname = val_t> const tname& get_val() const { return *static_cast<const tname*>(m_ref); }
 		inline size_tc get_count() const    { return *m_counter; }
 		inline size_t* get_counter()        { return m_counter; }
 		inline size_tc* get_counter() const { return m_counter; }

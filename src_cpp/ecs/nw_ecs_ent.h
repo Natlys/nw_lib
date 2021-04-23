@@ -2,9 +2,9 @@
 #define NW_ECS_ENTITY_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "std/nw_std_cont.h"
-#include "nw_ecs_cmp.h"
-#include "nw_ecs_cmp_sys.h"
+#	include "../std/nw_std_array.h"
+#	include "nw_ecs_cmp.h"
+#	include "nw_ecs_cmp_sys.h"
 namespace NW
 {
 	/// abstract entity class
@@ -25,7 +25,7 @@ namespace NW
 	public:
 		using cmp_ref_t = mem_ref<tref>;    // component reference
 		using cmp_ref_tc = const cmp_ref_t; // component constant reference
-		using cmp_tab_t = darray<cmp_ref_t>;// component table
+		using cmp_tab_t = t_darray<cmp_ref_t>;// component table
 		using cmp_tab_tc = const cmp_tab_t; // component constant table
 		template<class tcmp> using cmp_t = mem_ref<tcmp>; // particular component
 		template<class tcmp> using cmp_tc = cmp_t<tcmp>;  // particular constant component

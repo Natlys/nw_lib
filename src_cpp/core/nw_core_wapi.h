@@ -22,7 +22,7 @@
 #		define wapi_device_handle  HDC
 #		define wapi_context_handle HGLRC
 // // constants
-#			define NW_NULL          NULL
+#			define NW_NULL       NULL
 // // strings
 #		define NW_CHAR_EOL	    '\r\n'
 #		define NW_CHAR_DIR	    '\\'

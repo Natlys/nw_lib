@@ -48,9 +48,9 @@ namespace NW
 		constexpr inline t_mem_link() : m_link(NW_NULL) {}
 		// --getters
 		// --operators
-		template <typename tname> operator tname* () { return static_cast<tname*>(m_data); }
+		template <typename tname> operator tname* ()             { return static_cast<tname*>(m_data); }
 		template <typename tname> operator const tname* () const { return static_cast<const tname*>(m_data); }
-		template <typename tname> operator tname& () { return *static_cast<tname*>(m_data); }
+		template <typename tname> operator tname& ()             { return *static_cast<tname*>(m_data); }
 		template <typename tname> operator const tname& () const { return *static_cast<const tname*>(m_data); }
 	public:
 		link_t* m_link;
@@ -63,7 +63,7 @@ namespace NW
 	class NW_API a_mem_alloc
 	{
 	public:
-		a_mem_alloc(ptr_t buffer = NW_NULL, size_tc space = NW_NULL);
+		a_mem_alloc(ptr_t data = NW_NULL, size_t size = NW_NULL);
 		virtual ~a_mem_alloc();
 		// --getters
 		inline ptr_t get_data()        { return m_data; }
@@ -74,12 +74,19 @@ namespace NW
 		inline size_tc get_back() const { return m_back; }
 		inline size_tc get_used() const { return m_used; }
 		inline size_tc get_free() const { return m_size - m_used; }
+		// --setters
+		v1nil set_data(ptr_t data);
+		v1nil set_size(size_tc size);
 		// --predicates
-		inline v1bit has_data(ptr_t data) const   { return (data >= &m_data[0]) && (data <= &m_data[m_size]); }
-		inline v1bit has_back(size_tc size) const { return (m_size - get_back()) >= size; }
-		inline v1bit has_used(size_tc size) const { return get_used() >= size; }
-		inline v1bit has_free(size_tc size) const { return get_free() >= size; }
+		inline v1bit has_data() const { return m_data != NW_NULL; }
+		inline v1bit has_data(ptr_tc data) const { return (data >= &m_data[0]) && (data <= &m_data[m_size]); }
+		inline v1bit has_size(size_tc size = 1u) const { return m_size >= size; }
+		inline v1bit has_back(size_tc size = 1u) const { return (m_size - get_back()) >= size; }
+		inline v1bit has_used(size_tc size = 1u) const { return get_used() >= size; }
+		inline v1bit has_free(size_tc size = 1u) const { return get_free() >= size; }
 		// --core_methods
+		virtual v1bit remake();
+		v1bit remake(ptr_t data, size_tc size) { set_data(data); set_size(size); return remake(); }
 		virtual ptr_t alloc(size_t size, size_t align) = 0;
 		template<typename tname> tname* alloc(size_t count) { return reinterpret_cast<tname*>(alloc(count * sizeof(tname), alignof(tname))); }
 		virtual v1nil dealloc(ptr_t data, size_t size, size_t align) = 0;
@@ -102,15 +109,16 @@ namespace NW
 }
 namespace NW
 {
-	/// memory_arena class
+	/// memory_allocator_arena class
 	/// Description:
 	/// --just a chunk of bytes works with ptr and char* pointers
-	class NW_API mem_arena : public a_mem_alloc
+	class NW_API mem_alloc_arena : public a_mem_alloc
 	{
 	public:
-		mem_arena(ptr_t data = NW_NULL, size_tc space = NW_NULL);
-		virtual ~mem_arena();
+		mem_alloc_arena(ptr_t data = NW_NULL, size_t size = NW_NULL);
+		virtual ~mem_alloc_arena();
 		// --core_methods
+		virtual v1bit remake() override;
 		virtual ptr_t alloc(size_t size, size_t align = NW_DEFAULT_SIZE) override;
 		virtual v1nil dealloc(ptr_t data, size_t size, size_t align = NW_DEFAULT_SIZE) override;
 	private:
@@ -119,13 +127,14 @@ namespace NW
 }
 namespace NW
 {
-	/// linear_memory_allocator class
+	/// memory_allocator_line class
 	class NW_API mem_alloc_line: public a_mem_alloc
 	{
 	public:
 		mem_alloc_line(ptr_t data = NW_NULL, size_t size = NW_NULL);
 		virtual ~mem_alloc_line();
 		// --core_methods
+		virtual v1bit remake() override;
 		virtual ptr_t alloc(size_t size, size_t align = NW_DEFAULT_SIZE) override;
 		virtual v1nil dealloc(ptr_t data, size_t size, size_t align = NW_DEFAULT_SIZE) override;
 		v1nil clear();

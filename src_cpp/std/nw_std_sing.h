@@ -5,18 +5,27 @@
 namespace NW
 {
 	/// singleton template class
-	template<class type>
-	class singleton_t
+	template<class tname>
+	class t_singleton
 	{
-	protected:
-		singleton_t() = default;
-		singleton_t(const singleton_t& cpy) = delete;
 	public:
-		virtual ~singleton_t() = default;
+		using sing_t = t_singleton<tname>;
+		using sing_tc = const sing_t;
+	protected:
+		t_singleton() = default;
+		t_singleton(const tname& copy) = delete;
+		t_singleton(tname&& copy) = delete;
+		t_singleton(const t_singleton& copy) = delete;
+		t_singleton(t_singleton&& copy) = delete;
+	public:
+		virtual ~t_singleton() = default;
 		// --getters
-		static inline type& get()	{ static type s_single; return s_single; }
+		static inline tname& get() { static tname s_single; return s_single; }
 		// --operators
-		void operator=(const singleton_t& cpy) = delete;
+		void operator=(const tname& copy) = delete;
+		void operator=(tname&& copy) = delete;
+		void operator=(const t_singleton& copy) = delete;
+		void operator=(t_singleton&& copy) = delete;
 	};
 }
 #endif	// NW_API

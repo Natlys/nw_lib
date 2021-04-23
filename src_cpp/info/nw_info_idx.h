@@ -1,8 +1,9 @@
-#ifndef NW_INFO_ID_H
-#define NW_INFO_ID_H
+#ifndef NW_INFO_IDX_H
+#define NW_INFO_IDX_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "std/nw_std_cont.h"
+#	include "../std/nw_std_stack.h"
+#	include "../std/nw_std_array.h"
 namespace NW
 {
 	/// id_stack class
@@ -11,13 +12,13 @@ namespace NW
 	/// --contains one single id for any class;
 	/// --you can get new id during construction of and object and put it back into the stack;
 	/// --if any destroyed instance gives back own id to the stack - there is no loss;
-	class NW_API idx_stack : protected dstack<v1u>
+	class NW_API idx_stack : protected t_stack<v1u>
 	{
 	public:
 		using idx_t = v1u;
 		using idx_tc = const idx_t;
 	public:
-		idx_stack(idx_t first = 1u) : dstack<idx_t>() { push(first); }
+		idx_stack(idx_t first = 1u) : t_stack<idx_t>() { push(first); }
 		// -- getters
 		inline idx_t get_idx() { idx_t idx = top(); if (size() == 1) { top()++; } else { pop(); } return idx; }
 		// -- setters
@@ -72,4 +73,4 @@ namespace NW
 	};
 }
 #endif	// NW_API
-#endif	// NW_INFO_ID_H
+#endif	// NW_INFO_IDX_H

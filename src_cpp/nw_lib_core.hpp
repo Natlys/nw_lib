@@ -32,6 +32,7 @@
 #define NW_TRUE   1
 #define NW_DEFAULT       // just empty macro
 #define NW_DEFAULT_VAL   0
+#define NW_DEFAULT_PTR   nullptr
 #define NW_DEFAULT_STR   "default"
 #define NW_CAST_SINT(num)     ( static_cast<v1s>(num) )
 #define NW_CAST_UINT(num)     ( static_cast<v1u>(num) )

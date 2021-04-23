@@ -4,7 +4,7 @@
 	#if (defined NW_API)
 #	include "../std/nw_std_tree.h"
 #	include "../info/nw_info_type.h"
-#	include "../io/nw_io_cmp.h"
+#	include "../iop/nw_iop_cmp.h"
 #	include "nw_mem_cmp.h"
 #	include "nw_mem_ref.h"
 namespace NW
@@ -15,53 +15,48 @@ namespace NW
 	/// construct tables out of elements;
 	/// describe any format i like;
 	/// set bytes of a given buffer;
-	class NW_API mem_layt : public t_tree_cmp<mem_layt>, public a_io_cmp, public a_mem_cmp
+	class NW_API mem_layt : public t_tree_cmp<mem_layt>, public a_mem_cmp, public a_iop_cmp
 	{
 	public:
+		using tree_t = t_tree_cmp<mem_layt>;
+		using tree_tc = const tree_t;
 		using elem_t = mem_layt;
 		using elem_tc = const elem_t;
-		using elems_t = darray<mem_layt>;
-		using elems_tc = const elems_t;
+		using elems_t = tree_t::nodes_t;
+		using elems_tc = tree_t::nodes_tc;
 	public:
-		mem_layt(cstr key = "root");
-		mem_layt(cstr key, elems_tc& elements);
-		mem_layt(cstr key, vtype_tc type, ptr_t buffer = NW_NULL, size_t offset = NW_NULL);
+		mem_layt(cstr_t key = "root");
+		mem_layt(cstr_t key, elems_tc& elements);
+		mem_layt(elems_tc& elements);
+		mem_layt(cstr_t key, vtype_tc type, size_tc offset = NW_NULL);
+		mem_layt(vtype_tc type, size_tc offset = NW_NULL);
 		mem_layt(elem_tc& copy);
 		mem_layt(elem_t&& copy);
 		~mem_layt();
 		// --getters
-		inline byte_t* get_data()        { return m_data + m_offset; }
-		inline byte_tc* get_data() const { return m_data + m_offset; }
-		inline byte_t* get_data(vtype_tc type)        { NW_CHECK(has_vtype(type), "type error!", return NW_NULL); return get_data(); }
-		inline byte_tc* get_data(vtype_tc type) const { NW_CHECK(has_vtype(type), "type error!", return NW_NULL); return get_data(); }
-		template<typename tname> tname& get()             { return *get_data<tname>(); }
-		template<typename tname> const tname& get() const { return *get_data<tname>(); }
-		template<typename tname> tname* get_data()             { return reinterpret_cast<tname*>(get_data(type_info::get_type<tname>())); }
-		template<typename tname> const tname* get_data() const { return reinterpret_cast<const tname*>(get_data(type_info::get_type<tname>())); }
+		inline size_tc get_space() const  { return m_space; }
 		inline size_tc get_offset() const { return m_offset; }
-		inline size_tc get_size() const   { return m_size; }
 		// --setters
-		v1nil set_data(ptr_tc buffer, vtype_tc type);
-		template<typename tname> v1nil set_data(const tname* buffer) { set_data(buffer, type_info::get_type<tname>()); }
-		template<typename tname> v1nil set(const tname& buffer) { set_data<tname>(&buffer); }
+		v1nil set_offset(size_tc offset);
+		// --predicates
 		// --operators
-		template<typename tname> operator tname*()              { return get_data<tname>(); }
-		template<typename tname> operator const tname*() const  { return get_data<tname>(); }
-		template<typename tname> operator tname&()              { return get<tname>(); }
-		template<typename tname> operator const tname& () const { return get<tname>(); }
-		inline v1nil operator=(elem_tc& copy) { t_tree_cmp::operator=(copy); m_data = copy.m_data; m_size = copy.m_size; m_offset = copy.m_offset; }
-		inline v1nil operator=(elem_t&& copy) { t_tree_cmp::operator=(copy); m_data = copy.m_data; m_size = copy.m_size; m_offset = copy.m_offset; }
-		template<typename tname> v1nil operator=(const tname* buffer) { set_data<tname>(buffer); }
-		template<typename tname> v1nil operator=(const tname& buffer) { set<tname>(buffer); }
-		virtual stm_out& operator<<(stm_out& stm) const override;
-		virtual stm_in& operator>>(stm_in& stm) override;
+		inline v1nil operator=(elem_tc& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "failed remake!", return); }
+		inline v1nil operator=(elem_t&& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "failed remake!", return); }
+		virtual op_stream_t& operator<<(op_stream_t& stm) const override;
+		virtual ip_stream_t& operator>>(ip_stream_t& stm) override;
 		// --core_methods
-		v1bit remake(ptr_t buffer = NW_NULL, size_t offset = NW_NULL);
-		v1bit moveto(cv1s steps);
+		virtual v1bit remake();
+		inline v1bit remake(size_tc offset) { set_offset(offset); return remake(); }
 	protected:
-		byte_t* m_data;
+		size_t m_space;
 		size_t m_offset;
-		size_t m_size;
+	};
+	template<typename tname>
+	class NW_API t_mem_layt : public mem_layt
+	{
+	public:
+		t_mem_layt(cstr_t key = NW_DEFAULT_STR, size_tc offset = NW_NULL) :
+			mem_layt(key, type_info::get_type<tname>(), offset) { }
 	};
 }
 #	endif	// NW_API

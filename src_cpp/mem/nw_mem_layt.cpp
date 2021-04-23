@@ -1,82 +1,81 @@
 #include "nw_lib_pch.hpp"
 #include "nw_mem_layt.h"
 #if (defined NW_API)
-#	include "../io/nw_io_stm.h"
+#	include "../iop/nw_iop_stm.h"
 #	include "nw_mem_sys.h"
 namespace NW
 {
-	mem_layt::mem_layt(cstr key) :
-		t_tree_cmp(key), a_io_cmp(), a_mem_cmp(),
-		m_size(type_info::get<tree_t>().size),
-		m_data(NW_NULL),
+	mem_layt::mem_layt(cstr_t key) :
+		t_tree_cmp(key), a_mem_cmp(), a_iop_cmp(),
+		m_space(type_info::get<tree_t>().size),
 		m_offset(NW_NULL)
 	{
 	}
-	mem_layt::mem_layt(cstr key, elems_tc& elements) :
-		t_tree_cmp(key, elements), a_io_cmp(), a_mem_cmp(),
-		m_size(type_info::get<tree_t>().size),
-		m_data(NW_NULL),
+	mem_layt::mem_layt(cstr_t key, elems_tc& elements) :
+		t_tree_cmp(key, elements), a_mem_cmp(), a_iop_cmp(),
+		m_space(type_info::get<tree_t>().size),
 		m_offset(NW_NULL)
 	{
 	}
-	mem_layt::mem_layt(cstr key, vtype_tc type, ptr_t buffer, size_t offset) :
-		t_tree_cmp(key, type), a_io_cmp(), a_mem_cmp(),
-		m_size(type_info::get(type).size),
-		m_data(static_cast<byte_t*>(buffer)),
+	mem_layt::mem_layt(elems_tc& elements) :
+		mem_layt(NW_DEFAULT_STR, elements)
+	{
+	}
+	mem_layt::mem_layt(cstr_t key, vtype_tc type, size_tc offset) :
+		t_tree_cmp(key, type), a_mem_cmp(), a_iop_cmp(),
+		m_space(type_info::get(type).size),
 		m_offset(offset)
 	{
 	}
+	mem_layt::mem_layt(vtype_tc type, size_tc offset) :
+	mem_layt(NW_DEFAULT_STR, type, offset)
+	{
+	}
 	mem_layt::mem_layt(elem_tc& copy) :
-		t_tree_cmp(copy), a_io_cmp(copy), a_mem_cmp(copy),
-		m_data(copy.m_data),
-		m_offset(copy.m_offset),
-		m_size(copy.m_size)
+		t_tree_cmp(copy), a_mem_cmp(copy), a_iop_cmp(copy),
+		m_space(copy.m_space),
+		m_offset(copy.m_offset)
 	{
 	}
 	mem_layt::mem_layt(elem_t&& copy) :
-		t_tree_cmp(copy), a_io_cmp(copy), a_mem_cmp(copy),
-		m_data(copy.m_data),
-		m_offset(copy.m_offset),
-		m_size(copy.m_size)
+		t_tree_cmp(copy), a_mem_cmp(copy), a_iop_cmp(copy),
+		m_space(copy.m_space),
+		m_offset(copy.m_offset)
 	{
 	}
 	mem_layt::~mem_layt()
 	{
 	}
 	// --setters
-	v1nil mem_layt::set_data(ptr_tc buffer, vtype_tc type) {
-		NW_CHECK(has_vtype(type), "type error!", return);
-		NW_CHECK(m_data != NW_NULL, "data error!", return);
-		NW_CHECK(m_size >= 1u, "size error!", return);
-
-		memcpy(get_data(), buffer, m_size);
+	v1nil mem_layt::set_offset(size_tc offset) {
+		m_offset = offset;
 	}
 	// --operators
-	stm_out& mem_layt::operator<<(stm_out& stm) const {
+	op_stream_t& mem_layt::operator<<(op_stream_t& stm) const {
 		stm << "{";
-		stm << "name:" << get_key() << ";";
+		stm << "name:" << get_name() << ";";
 		stm << "vtype:" << get_vtype_info() << ";" << NW_STR_EOL;
-		stm << "size:" << get_size() << ";" << NW_STR_EOL;
+		stm << "space:" << get_space() << ";" << NW_STR_EOL;
 		stm << "offset:" << get_offset() << ";" << NW_STR_EOL;
 		stm << "elements:" << "{";
 		stm << "count:" << get_count() << ";";
 		for (auto& inode : get_nodes()) { stm << inode; }
 		stm << "\t" << "}" << ":elements" << NW_STR_EOL;
-		stm << "}" << ":[" << get_key() << "]" << ";" << NW_STR_EOL;
+		stm << "}" << ":[" << get_name() << "]" << ";" << NW_STR_EOL;
 
 		return stm;
 	}
-	stm_in& mem_layt::operator>>(stm_in& stm) {
-		sbyte_t buf[256]{ NW_NULL };
+	ip_stream_t& mem_layt::operator>>(ip_stream_t& stm) {
+		byte_t buf[256]{ NW_NULL };
 		m_nodes.clear();
 		stm.getline(buf, sizeof(buf), ':'); // name:
-		stm >> m_key;
+		stm >> m_name;
 		stm.getline(buf, sizeof(buf), ':'); // type:
 		stm.getline(buf, sizeof(buf), ':'); // {id:...
 		stm >> m_vtype;
 		stm.getline(buf, sizeof(buf), '}'); // ...}
-		stm.getline(buf, sizeof(buf), ':'); // size:
-		stm >> m_size;
+		stm.getline(buf, sizeof(buf), ':'); // space:
+		stm >> m_space;
 		stm.getline(buf, sizeof(buf), ':'); // offset:
 		stm >> m_offset;
 		stm.getline(buf, sizeof(buf), ':'); // elements:
@@ -92,30 +91,21 @@ namespace NW
 		return stm;
 	}
 	// --==<core_methods>==--
-	v1bit mem_layt::remake(ptr_t buffer, size_t offset)
+	v1bit mem_layt::remake()
 	{
-		m_data = static_cast<byte_t*>(buffer);
-		m_offset = offset;
-		// NW_CHECK(m_data != NW_NULL, "no data!", return NW_FALSE);
-
-		if (is_leaf()) { NW_CHECK(m_size != NW_NULL, "no size!", return NW_FALSE); }
+		if (is_leaf()) { m_space = get_vtype_size(); }
 		else if (is_tree()) {
-			NW_CHECK(get_count() >= 1u, "no leafs", return NW_FALSE);
-			m_size = 0u;
+			NW_CHECK(has_node(), "no leafs", return NW_FALSE);
+			m_space = NW_NULL;
 			for (v1u ie = 0u; ie < get_count(); ie++) {
 				auto& ielem = get_node(ie);
-				NW_CHECK(ielem.remake(m_data, m_offset + m_size), "failed to remake", return NW_FALSE);
-				m_size += ielem.get_size();
+				NW_CHECK(ielem.remake(m_space + m_offset), "failed to remake", return NW_FALSE);
+				m_space += ielem.get_space();
 			}
 		}
 		else { NW_ERROR("type error!", return NW_FALSE); }
 
 		return NW_TRUE;
-	}
-	v1bit mem_layt::moveto(cv1s steps) {
-		NW_CHECK(steps != NW_NULL, "no difference!", return NW_FALSE);
-		NW_CHECK(m_data != NW_NULL, "no data!", return NW_FALSE);
-		return remake(m_data, m_offset + steps * get_size());
 	}
 	// --==</core_methods>==--
 }

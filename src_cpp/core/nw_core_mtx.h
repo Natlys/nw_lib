@@ -5,7 +5,7 @@
 namespace NW
 {
 	/// value matrix struct template
-	template<typename vtype, size_tc size_x, size_tc size_y = size_x>
+	template<typename vtype, cv1u size_x, cv1u size_y = size_x>
 	struct t_mat
 	{
 		static_assert(size_x > 1u && size_y > 1u, "matrix must be greater than one value or a vector");
@@ -15,32 +15,32 @@ namespace NW
 		// vector type
 		using vec_t = t_vec<vtype, size_y>;
 		using vec_tc = const vec_t;
-		template<size_tc vec_size>
+		template<cv1u vec_size>
 		using vec_t_s = t_vec<vtype, vec_size>;
-		template<size_tc vec_size>
+		template<cv1u vec_size>
 		using vec_tc_s = const vec_t_s<vec_size>;
 		// matrix type
 		using mat_t = t_mat<vtype, size_x, size_y>;
 		using mat_tc = const mat_t;
 		// // same vtype, same size_y
-		template<size_tc mat_size_x>
+		template<cv1u mat_size_x>
 		using mat_t_x = t_mat<vtype, mat_size_x, size_y>;
-		template<size_tc mat_size_x>
+		template<cv1u mat_size_x>
 		// // same vtype, same size_x
 		using mat_tc_x = const mat_t_x<mat_size_x>;
-		template<size_tc mat_size_y>
+		template<cv1u mat_size_y>
 		using mat_t_y = t_mat<vtype, size_x, mat_size_y>;
-		template<size_tc mat_size_y>
+		template<cv1u mat_size_y>
 		using mat_tc_y = const mat_t_y<mat_size_y>;
 		// // same vtype
-		template<size_tc mat_size_x, size_tc mat_size_y>
+		template<cv1u mat_size_x, cv1u mat_size_y>
 		using mat_t_xy = NW::t_mat<vtype, mat_size_x, mat_size_y>;
-		template<size_tc mat_size_x, size_tc mat_size_y>
+		template<cv1u mat_size_x, cv1u mat_size_y>
 		using mat_tc_xy = const mat_t_xy<mat_size_x, mat_size_y>;
 		// // same vtype, square size
-		template<size_tc mat_size_xy>
+		template<cv1u mat_size_xy>
 		using mat_t_s = t_mat<vtype, mat_size_xy, mat_size_xy>;
-		template<size_tc mat_size_xy>
+		template<cv1u mat_size_xy>
 		using mat_tc_s = const mat_t_s<mat_size_xy>;
 	public:
 		constexpr inline t_mat(val_tc& value = static_cast<val_t>(0)) : elems{ value }
@@ -53,8 +53,8 @@ namespace NW
 		}
 		constexpr inline t_mat(const std::initializer_list<val_t>& value) : t_mat()
 		{
-			for (v1u iy = 0u; iy < value.size_t() / size_y; iy++) {
-				for (v1u ix = 0u; ix < value.size_t() % size_x; ix++) {
+			for (v1u iy = 0u; iy < value.size() / size_y; iy++) {
+				for (v1u ix = 0u; ix < value.size() % size_x; ix++) {
 					this->elems[iy][ix] = *(value.begin() + NW_XY_TO_X(ix, iy, size_x));
 				}
 			}
@@ -64,13 +64,13 @@ namespace NW
 		inline ~t_mat() = default;
 		// --getters
 #	if (NW_TRUE)
-		static constexpr inline size_tc get_size() { return size_x * size_y; }
-		static constexpr inline size_tc get_size_x() { return size_x; }
-		static constexpr inline size_tc get_size_y() { return size_y; }
-		static constexpr inline size_tc get_size_min() { return size_x < size_y ? size_x : size_y; }
-		static constexpr inline size_tc get_size_max() { return size_x > size_y ? size_x : size_y; }
-		static constexpr inline size_tc get_rows() { return size_y; }
-		static constexpr inline size_tc get_cols() { return size_x; }
+		static constexpr inline cv1u get_size() { return size_x * size_y; }
+		static constexpr inline cv1u get_size_x() { return size_x; }
+		static constexpr inline cv1u get_size_y() { return size_y; }
+		static constexpr inline cv1u get_size_min() { return size_x < size_y ? size_x : size_y; }
+		static constexpr inline cv1u get_size_max() { return size_x > size_y ? size_x : size_y; }
+		static constexpr inline cv1u get_rows() { return size_y; }
+		static constexpr inline cv1u get_cols() { return size_x; }
 #	endif
 		// --operators
 		// math
@@ -234,8 +234,8 @@ namespace NW
 		// logic
 		// accessors
 #		if (NW_TRUE)
-		inline vec_t& operator[](size_tc idx)        { return this->elems[idx]; }
-		inline vec_tc& operator[](size_tc idx) const { return this->elems[idx]; }
+		inline vec_t& operator[](cv1u idx)        { return this->elems[idx]; }
+		inline vec_tc& operator[](cv1u idx) const { return this->elems[idx]; }
 #		endif
 		// input_output
 #		if (NW_TRUE)
@@ -318,7 +318,7 @@ namespace NW
 			return inversed;
 #			endif
 		}
-		template<size_tc diag_size>
+		template<cv1u diag_size>
 		static constexpr inline mat_tc make_scale(vec_tc_s<diag_size>& diagonal) {
 			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix");
 			static_assert(diag_size <= get_size_min(), "diagonal is too big for this matrix");
@@ -330,7 +330,7 @@ namespace NW
 
 			return result;
 		}
-		template<size_tc vec_size>
+		template<cv1u vec_size>
 		static constexpr inline mat_tc make_coord(vec_tc_s<vec_size>& vector) {
 			static_assert(size_x > 1u, "matrix is too small for this operation");
 			static_assert(vec_size <= size_y, "vector is too big for this matrix");
@@ -343,7 +343,7 @@ namespace NW
 			return result;
 		}
 		static constexpr inline mat_tc make_rotat_x(cv1f& value) { // rotate around axis "x"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size_t is too small for this operation");
+			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
 
 			mat_t result = make_ident();
 			cv1f cos_x = NW_MATH_COS(value);
@@ -354,7 +354,7 @@ namespace NW
 			return result;
 		}
 		static constexpr inline mat_tc make_rotat_y(cv1f& value) { // rotate around axis "y"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size_t is too small for this operation");
+			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
 
 			mat_t result = make_ident();
 			cv1f cos_x = NW_MATH_COS(value);
@@ -365,7 +365,7 @@ namespace NW
 			return result;
 		}
 		static constexpr inline mat_tc make_rotat_z(cv1f& value) { // rotate around axis "z"
-			static_assert(size_x >= 2u && size_y >= 2u, "matrix size_t is too small for this operation");
+			static_assert(size_x >= 2u && size_y >= 2u, "matrix size is too small for this operation");
 
 			mat_t result = make_ident();
 			cv1f cos_x = NW_MATH_COS(value);
@@ -376,7 +376,7 @@ namespace NW
 			return result;
 		}
 		static constexpr inline mat_tc make_rotat_xyz(vec_tc_s<3u>& vector) { // rotate around "x" "y" "z"
-			static_assert(size_x >= 3u && size_y >= 3u, "matrix size_t is too small for this operation");
+			static_assert(size_x >= 3u && size_y >= 3u, "matrix size is too small for this operation");
 			/// i advice you not to change this order;
 			/// we were suffering two weeks with "drunk" gfx_cam because of this;
 			return make_rotat_y(vector[1]) * make_rotat_x(vector[0]) * make_rotat_z(vector[2]);
@@ -427,19 +427,19 @@ namespace NW
 			}
 			return *this;
 		}
-		template<size_tc vec_size>
+		template<cv1u vec_size>
 		inline t_mat& scale(vec_tc_s<vec_size>& vector) {
 			static_assert(size_x == size_y, "this operation cannot be used for a not square matrix!");
-			static_assert(vec_size <= size_y, "vector size_t is too big for this operation!");
+			static_assert(vec_size <= size_y, "vector size is too big for this operation!");
 			for (v1u idiag = 0u; idiag < vec_size; idiag++) {
 				this->elems[idiag][idiag] *= value;
 			}
 			return *this;
 		}
-		template<size_tc vec_size>
+		template<cv1u vec_size>
 		inline t_mat& coord(vec_tc_s<vec_size>& vector) {
-			static_assert(size_x > 1u, "matrix size_t is too small for this operation!");
-			static_assert(vec_size <= size_y, "vector size_t is too big for this operation!");
+			static_assert(size_x > 1u, "matrix size is too small for this operation!");
+			static_assert(vec_size <= size_y, "vector size is too big for this operation!");
 			for (v1u itr = 0u; itr < vec_size; itr++) {
 				this->elems[size_x - 1u][itr] += vector[itr];
 			}
