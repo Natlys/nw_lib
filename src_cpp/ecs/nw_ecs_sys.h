@@ -2,7 +2,7 @@
 #define NW_ECS_SYSTEM_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#	include "info/nw_info_type.h"
+#	include "std/nw_std_type.h"
 #	include "std/nw_std_sing.h"
 #	include "std/nw_std_table.h"
 #	include "mem/nw_mem_ref.h"

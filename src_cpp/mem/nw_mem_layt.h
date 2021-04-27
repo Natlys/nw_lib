@@ -3,7 +3,6 @@
 #include "nw_lib_core.hpp"
 	#if (defined NW_API)
 #	include "../std/nw_std_tree.h"
-#	include "../info/nw_info_type.h"
 #	include "../iop/nw_iop_cmp.h"
 #	include "nw_mem_cmp.h"
 #	include "nw_mem_ref.h"
@@ -15,7 +14,7 @@ namespace NW
 	/// construct tables out of elements;
 	/// describe any format i like;
 	/// set bytes of a given buffer;
-	class NW_API mem_layt : public t_tree_cmp<mem_layt>, public a_mem_cmp, public a_iop_cmp
+	class NW_API mem_layt : public t_tree_cmp<mem_layt>, public a_mem_user, public a_iop_cmp
 	{
 	public:
 		using tree_t = t_tree_cmp<mem_layt>;
@@ -25,11 +24,14 @@ namespace NW
 		using elems_t = tree_t::nodes_t;
 		using elems_tc = tree_t::nodes_tc;
 	public:
-		mem_layt(cstr_t key = "root");
-		mem_layt(cstr_t key, elems_tc& elements);
-		mem_layt(elems_tc& elements);
-		mem_layt(cstr_t key, vtype_tc type, size_tc offset = NW_NULL);
-		mem_layt(vtype_tc type, size_tc offset = NW_NULL);
+		mem_layt();
+		mem_layt(cstr_t key);
+		mem_layt(cstr_t key, elems_tc& elems);
+		mem_layt(elems_tc& elems);
+		mem_layt(cstr_t key, init_list_tc<elem_t>& elems);
+		mem_layt(init_list_tc<elem_t>& elems);
+		mem_layt(cstr_t key, type_tc type, size_tc offset = NW_NULL);
+		mem_layt(type_tc type, size_tc offset = NW_NULL);
 		mem_layt(elem_tc& copy);
 		mem_layt(elem_t&& copy);
 		~mem_layt();
@@ -40,8 +42,8 @@ namespace NW
 		v1nil set_offset(size_tc offset);
 		// --predicates
 		// --operators
-		inline v1nil operator=(elem_tc& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "failed remake!", return); }
-		inline v1nil operator=(elem_t&& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "failed remake!", return); }
+		inline v1nil operator=(elem_tc& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "remake error!", return); }
+		inline v1nil operator=(elem_t&& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "remake error!", return); }
 		virtual op_stream_t& operator<<(op_stream_t& stm) const override;
 		virtual ip_stream_t& operator>>(ip_stream_t& stm) override;
 		// --core_methods

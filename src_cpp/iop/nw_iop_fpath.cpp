@@ -1,7 +1,7 @@
 #include "nw_lib_pch.hpp"
 #include "nw_iop_fpath.h"
 #if (defined NW_API)
-#include "nw_iop_sys.h"
+#	include "nw_iop_sys.h"
 namespace NW
 {
 	iop_fpath_t::iop_fpath_t() :
@@ -28,7 +28,9 @@ namespace NW
 		path(copy)
 	{
 	}
-	iop_fpath_t::~iop_fpath_t() { }
+	iop_fpath_t::~iop_fpath_t()
+	{
+	}
 	// --setters
 	v1nil iop_fpath_t::set_full(cstr_t str) {
 		m_str.resize(strlen(str) + 1);

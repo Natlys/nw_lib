@@ -1,11 +1,11 @@
-#ifndef NW_INFO_ERROR_H
-#define NW_INFO_ERROR_H
+#ifndef NW_STD_ERROR_H
+#define NW_STD_ERROR_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
 #	include "../iop/nw_iop_cmp.h"
 namespace NW
 {
-	/// abstract error class
+	/// abstract_error class
 	class NW_API a_error : public a_op_cmp
 	{
 	public:
@@ -106,4 +106,4 @@ namespace NW
 	};
 }
 #endif	// NW_API
-#endif	// NW_INFO_ERROR_H
+#endif	// NW_STD_ERROR_H

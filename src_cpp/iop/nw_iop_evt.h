@@ -76,6 +76,7 @@ namespace NW
 	};
 	using event_callback = std::function<void(iop_event_t&)>;
 }
+#	include "mat/nw_mat_vec.h"
 namespace NW
 {
 	/// iop_event_cursor_t struct
@@ -93,9 +94,9 @@ namespace NW
 		iop_event_cursor_t(type_tc type, code_tc code, cv1s coord_or_scroll_x = NW_NULL, cv1s coord_or_scroll_y = NW_NULL);
 		// --getters
 		inline code_tc get_code() const { return m_code; }
-		inline cv1s get_val_x() const  { return m_val_x; }
-		inline cv1s get_val_y() const  { return m_val_y; }
-		inline cv2s get_val_xy() const { return cv2s{ m_val_x, m_val_y }; }
+		inline cv1s get_val_x(cv1s scale = 1) const  { return v1s{ m_val_x } * scale; }
+		inline cv1s get_val_y(cv1s scale = 1) const  { return v1s{ m_val_y } * scale; }
+		inline cv2s get_val_xy(cv1s scale = 1) const { return v2s{ m_val_x, m_val_y } * scale; }
 		// --predicates
 		inline v1bit has_code(code_tc code) const { return m_code == code; }
 		inline v1bit has_val_x(cv1u val_x) const { return m_val_x == val_x; }
@@ -142,9 +143,9 @@ namespace NW
 		// resize event
 		iop_event_wnd_t(type_tc type, cv1s width_or_x, cv1s height_or_y);
 		// --getters
-		inline cv1u get_val_x() const { return m_val_x; }
-		inline cv1u get_val_y() const { return m_val_y; }
-		inline cv2u get_val_xy() const { return cv2u{ m_val_x, m_val_y }; }
+		inline cv1u get_val_x(cv1u scale = 1) const { return v1u{ m_val_x } * scale; }
+		inline cv1u get_val_y(cv1u scale = 1) const { return v1u{ m_val_y } * scale; }
+		inline cv2u get_val_xy(cv1u scale = 1) const { return cv2u{ m_val_x, m_val_y } * scale; }
 		// --predicates
 		inline v1bit is_activ() const { return has_type(NW_EVTYPE_WINDOW_ACTIV) && m_flag; }
 		inline v1bit is_focus() const { return has_type(NW_EVTYPE_WINDOW_FOCUS) && m_flag; }

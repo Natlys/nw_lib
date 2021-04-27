@@ -8,10 +8,11 @@ namespace NW
 		m_buttons()
 	{
 	}
+	iop_keybod_t::~iop_keybod_t() { }
 	// --setters
-	v1nil iop_keybod_t::set_enabled(v1bit enable)
+	iop_keybod_t::kbd_t& iop_keybod_t::set_enabled(v1bit enable)
 	{
-		if (is_enabled() == enable) { return; }
+		if (is_enabled() == enable) { return *this; }
 		m_is_enabled = enable;
 		if (enable) {
 			//
@@ -19,6 +20,7 @@ namespace NW
 		else {
 			//
 		}
+		return *this;
 	}
 	// --==<core_methods>==--
 	v1nil iop_keybod_t::update()
@@ -61,6 +63,7 @@ namespace NW
 namespace NW
 {
 	iop_cursor_t::iop_cursor_t() :
+		m_bounds{ 0, 0, 0, 0 },
 		m_buttons(),
 		m_is_enabled(NW_FALSE),
 		m_move_coord_x(NW_NULL), m_move_coord_y(NW_NULL),
@@ -68,28 +71,36 @@ namespace NW
 		m_scroll_delta_x(NW_NULL), m_scroll_delta_y(NW_NULL)
 	{
 	}
+	iop_cursor_t::~iop_cursor_t() { }
 	// --setters
-	v1nil iop_cursor_t::set_enabled(v1bit enable) {
-		if (is_enabled() == enable) { return; }
+	iop_cursor_t::crs_t& iop_cursor_t::set_enabled(v1bit enable) {
+		if (is_enabled() == enable) { return *this; }
 		m_is_enabled = enable;
 		if (enable) {
 			while (::ShowCursor(NW_TRUE) < 0) { }
 			::ReleaseCapture();
-			::ClipCursor(NW_NULL);
+			//::ClipCursor(NW_NULL);
 		}
 		else {
 			while (::ShowCursor(NW_FALSE) >= 0) { }
-			HWND wnd_handle = ::GetFocus();
-			RECT wnd_rect = { 0, 0, 0, 0 };
-			::GetWindowRect(wnd_handle, &wnd_rect);
-			//::MapWindowPoints(wnd_handle, NULL, reinterpret_cast<POINT*>(&wnd_rect), 2);
+			::HWND wnd_handle = ::GetFocus();
+			//::RECT clip_rect = { 0, 0, 0, 0 };
+			//::GetWindowRect(wnd_handle, &clip_rect);
+			//::MapWindowPoints(wnd_handle, NULL, reinterpret_cast<POINT*>(&clip_rect), 2);
 			::SetCapture(wnd_handle);
-			wnd_rect.left += 10;
-			wnd_rect.right -= 10;
-			wnd_rect.top += 50;
-			wnd_rect.bottom -= 10;
-			::ClipCursor(&wnd_rect);
+			//clip_rect.left += 10;
+			//clip_rect.right -= 10;
+			//clip_rect.top += 50;
+			//clip_rect.bottom -= 10;
+			//::ClipCursor(&clip_rect);
 		}
+		return *this;
+	}
+	iop_cursor_t::crs_t& iop_cursor_t::set_bounds(cv4s& bounds) {
+		m_bounds = bounds;
+		if (bounds == 0) { ::ClipCursor(NW_NULL); }
+		else { RECT clip_rect = { m_bounds[0], m_bounds[1], m_bounds[2], m_bounds[3] }; ::ClipCursor(&clip_rect); }
+		return *this;
 	}
 	// --==<core_methods>==--
 	v1nil iop_cursor_t::update()

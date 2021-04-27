@@ -19,16 +19,5 @@ namespace NW
 	typedef std::basic_fstream<byte_t>  iop_fstream_t;
 	typedef const iop_fstream_t         iop_fstream_tc;
 }
-namespace NW
-{
-	template<typename vtype, size_tc size_x>
-	inline op_stream_t& operator<<(op_stream_t& stm, const t_vec<vtype, size_x>& vector) { return vector.operator<<(stm); }
-	template<typename vtype, size_tc size_x>
-	inline ip_stream_t& operator>>(ip_stream_t& stm, t_vec<vtype, size_x>& vector) { return vector.operator>>(stm); }
-	template<typename vtype, size_tc size_x, size_tc size_y>
-	inline op_stream_t& operator<<(op_stream_t& stm, const t_mat<vtype, size_x, size_y>& matrix) { return matrix.operator<<(stm); }
-	template<typename vtype, size_tc size_x, size_tc size_y>
-	inline ip_stream_t& operator>>(ip_stream_t& stm, t_mat<vtype, size_x, size_y>& matrix) { return matrix.operator>>(stm); }
-}
 #endif	// NW_API
 #endif	// NW_IOP_STREAM_H

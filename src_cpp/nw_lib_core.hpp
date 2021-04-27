@@ -40,7 +40,7 @@
 #define NW_CAST_SIZE(num)     ( static_cast<size_t>(num) )
 #define NW_XY_TO_X(x, y, w)   ( (NW_CAST_SIZE(y) * NW_CAST_SIZE(w)) + NW_CAST_SIZE(x) )
 #define NW_XY_SIZE(x, y)      ( NW_CAST_SIZE(x) * NW_CAST_SIZE(y) )
-#define NW_ALIGN(data, align) ( (NW_CAST_SIZE(data) + (NW_CAST_SIZE(align) - 1)) & ~(NW_CAST_SIZE(align) - 1) )
+#define NW_ALIGN(data, alig)  ( (NW_CAST_SIZE(data) + (NW_CAST_SIZE(alig) - 1)) & ~(NW_CAST_SIZE(alig) - 1) )
 
 #if (defined NW_DEBUG)
 #	define NW_BREAK __debugbreak();
@@ -67,11 +67,9 @@
 // operations
 #include "core/nw_core_math.h"
 // types
-#include "core/nw_core_val.h"
-#include "core/nw_core_vec.h"
-#include "core/nw_core_mtx.h"
-#include "core/nw_core_str.h"
 #include "core/nw_core_mem.h"
+#include "core/nw_core_val.h"
+#include "core/nw_core_str.h"
 // --==</core_files>==--
 
 // --==<linkage>==--

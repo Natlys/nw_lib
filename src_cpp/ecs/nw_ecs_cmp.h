@@ -2,8 +2,8 @@
 #define NW_ECS_COMPONENT_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "../mem/nw_mem_sys.h"
-#include "../info/nw_info_type_idx.h"
+#	include "../std/nw_std_type_idx.h"
+#	include "../mem/nw_mem_sys.h"
 namespace NW
 {
 	/// abstract component class
@@ -18,8 +18,8 @@ namespace NW
 namespace NW
 {
 	/// templated component class
-	template<class ct>
-	class NW_API t_cmp : public t_type_idx_owner<ct, a_cmp>
+	template<class tcmp>
+	class NW_API t_cmp : public t_type_idx_owner<tcmp, a_cmp>
 	{
 	protected:
 		t_cmp() : t_type_idx_owner() { }

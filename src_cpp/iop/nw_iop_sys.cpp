@@ -1,6 +1,7 @@
 #include "nw_lib_pch.hpp"
 #include "nw_iop_sys.h"
 #if (defined NW_WAPI)
+#   include "../std/nw_std_err.h"
     #if (NW_WAPI & NW_WAPI_WIN)
 namespace NW
 {
@@ -164,7 +165,7 @@ namespace NW
     v1bit iop_sys::save_file(cstr_t fpath, ptr_tc data, size_t size)
     {
         dstr_t full = (m_path.get_full() + "\\" + fpath);
-        NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
+        //NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
         op_fstream_t stm;
         stm.exceptions(std::ios::badbit | std::ios::failbit);
         try {
@@ -178,7 +179,7 @@ namespace NW
     v1bit iop_sys::save_file(cstr_t fpath, dstr_tc& data)
     {
         dstr_t full = (m_path.get_full() + "\\" + fpath);
-        NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
+        //NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
         op_fstream_t stm;
         stm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
         try {
@@ -192,7 +193,7 @@ namespace NW
     v1bit iop_sys::save_file(cstr_t fpath, a_op_cmp& data)
     {
         dstr_t full = (m_path.get_full() + "\\" + fpath);
-        NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
+        //NW_CHECK(is_file(&full[0]), "fpath must be a relaitve name of a file!", return NW_FALSE);
         op_fstream_t stm;
         stm.exceptions(std::ios_base::badbit | std::ios_base::failbit);
         try {

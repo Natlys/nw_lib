@@ -25,7 +25,7 @@ namespace NW
 	public:
 		using cmp_ref_t = mem_ref<tref>;    // component reference
 		using cmp_ref_tc = const cmp_ref_t; // component constant reference
-		using cmp_tab_t = t_darray<cmp_ref_t>;// component table
+		using cmp_tab_t = darray_t<cmp_ref_t>;// component table
 		using cmp_tab_tc = const cmp_tab_t; // component constant table
 		template<class tcmp> using cmp_t = mem_ref<tcmp>; // particular component
 		template<class tcmp> using cmp_tc = cmp_t<tcmp>;  // particular constant component

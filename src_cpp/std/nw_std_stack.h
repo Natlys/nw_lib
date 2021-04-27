@@ -4,8 +4,8 @@
 #if (defined NW_API)
 namespace NW
 {
-	template <typename vtype>
-	using t_stack = std::stack<vtype>;
+	template <typename tval>
+	using t_stack = std::stack<tval>;
 }
 #endif	// NW_API
 #endif // NW_STD_STACK_H

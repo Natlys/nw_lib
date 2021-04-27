@@ -1,5 +1,5 @@
-#ifndef NW_MEM_ALLOCATOR_H
-#define NW_MEM_ALLOCATOR_H
+#ifndef NW_MEM_ALLOCATION_H
+#define NW_MEM_ALLOCATION_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
 #	define NW_DEFAULT_SIZE NW_CAST_SIZE(16ul)
@@ -40,31 +40,39 @@ namespace NW
 		template <typename tname> operator const tname& () const { return *reinterpret_cast<const tname*>(this); }
 	};
 	/// memory_link typed struct
-	template<typename link_type>
+	template<typename tdata>
 	struct t_mem_link
 	{
-		using link_t = t_mem_link<link_type>;
+		using link_t = t_mem_link<tdata>;
+		using link_tc = const link_t;
+		using data_t = tdata;
+		using data_tc = const data_t;
 	public:
-		constexpr inline t_mem_link() : m_link(NW_NULL) {}
+		constexpr inline t_mem_link() : m_link(NW_NULL), m_data(NW_NULL) {}
 		// --getters
 		// --operators
+		inline link_t* operator++(void)        { return m_link; }
+		inline link_tc* operator++(void) const { return m_link; }
+		inline link_t* operator++(int)        { return m_link; }
+		inline link_tc* operator++(int) const { return m_link; }
 		template <typename tname> operator tname* ()             { return static_cast<tname*>(m_data); }
 		template <typename tname> operator const tname* () const { return static_cast<const tname*>(m_data); }
 		template <typename tname> operator tname& ()             { return *static_cast<tname*>(m_data); }
 		template <typename tname> operator const tname& () const { return *static_cast<const tname*>(m_data); }
 	public:
 		link_t* m_link;
-		link_type* m_data;
+		data_t* m_data;
 	};
 }
 namespace NW
 {
-	/// abstract memory_allocator class
-	class NW_API a_mem_alloc
+	/// abstract memory_giver class
+	class NW_API mem_giver
 	{
 	public:
-		a_mem_alloc(ptr_t data = NW_NULL, size_t size = NW_NULL);
-		virtual ~a_mem_alloc();
+		mem_giver();
+		mem_giver(ptr_t data, size_t size);
+		virtual ~mem_giver();
 		// --getters
 		inline ptr_t get_data()        { return m_data; }
 		inline ptr_tc get_data() const { return m_data; }
@@ -87,19 +95,19 @@ namespace NW
 		// --core_methods
 		virtual v1bit remake();
 		v1bit remake(ptr_t data, size_tc size) { set_data(data); set_size(size); return remake(); }
-		virtual ptr_t alloc(size_t size, size_t align) = 0;
-		template<typename tname> tname* alloc(size_t count) { return reinterpret_cast<tname*>(alloc(count * sizeof(tname), alignof(tname))); }
-		virtual v1nil dealloc(ptr_t data, size_t size, size_t align) = 0;
-		template<typename tname> v1nil dealloc(tname* data, size_t count) { dealloc(data, count * sizeof(tname), alignof(tname)); }
-		ptr_t realloc(ptr_t data, size_t size_old, size_t size_new);
+		// // --instance
+		virtual ptr_t take(size_t size, size_t align) = 0;
+		template<typename tname> tname* take(size_t count) { return reinterpret_cast<tname*>(take(count * sizeof(tname), alignof(tname))); }
+		virtual v1nil free(ptr_t data, size_t size, size_t align) = 0;
+		template<typename tname> v1nil free(tname* data, size_t count) { free(data, count * sizeof(tname), alignof(tname)); }
 		template<typename tname, typename ... args>
-		tname* new_one(args&& ... arguments)     { return new(alloc<tname>(1u))tname(std::forward<args>(arguments)...); }
+		tname* new_one(args&& ... arguments)     { return new(take<tname>(1u))tname(std::forward<args>(arguments)...); }
 		template<typename tname>
-		tname* new_arr(size_t count)             { return alloc<tname>(count); }
+		tname* new_arr(size_t count)             { return take<tname>(count); }
 		template<typename tname>
-		v1nil del_one(tname* data)               { data->~tname(); dealloc<tname>(data, 1u); }
+		v1nil del_one(tname* data)               { data->~tname(); free<tname>(data, 1u); }
 		template <typename tname>
-		v1nil del_arr(tname* data, size_t count) { for (v1u itr = 0u; itr < count; itr++) { data[itr].~tname(); } dealloc<tname>(data, count); }
+		v1nil del_arr(tname* data, size_t count) { for (v1u itr = 0u; itr < count; itr++) { data[itr].~tname(); } free<tname>(data, count); }
 	protected:
 		byte_t* m_data; // chunck of bytes;
 		size_t m_size;  // current block space;
@@ -109,36 +117,38 @@ namespace NW
 }
 namespace NW
 {
-	/// memory_allocator_arena class
-	/// Description:
+	/// memory_giver_arena class
+	/// description:
 	/// --just a chunk of bytes works with ptr and char* pointers
-	class NW_API mem_alloc_arena : public a_mem_alloc
+	class NW_API mem_giver_arena : public mem_giver
 	{
 	public:
-		mem_alloc_arena(ptr_t data = NW_NULL, size_t size = NW_NULL);
-		virtual ~mem_alloc_arena();
+		mem_giver_arena();
+		mem_giver_arena(ptr_t data, size_t size);
+		virtual ~mem_giver_arena();
 		// --core_methods
 		virtual v1bit remake() override;
-		virtual ptr_t alloc(size_t size, size_t align = NW_DEFAULT_SIZE) override;
-		virtual v1nil dealloc(ptr_t data, size_t size, size_t align = NW_DEFAULT_SIZE) override;
+		virtual ptr_t take(size_t size, size_t alig) override;
+		virtual v1nil free(ptr_t data, size_t size, size_t alig) override;
 	private:
 		mem_link* m_free_list;
 	};
 }
 namespace NW
 {
-	/// memory_allocator_line class
-	class NW_API mem_alloc_line: public a_mem_alloc
+	class NW_API mem_giver_heap : public mem_giver
 	{
 	public:
-		mem_alloc_line(ptr_t data = NW_NULL, size_t size = NW_NULL);
-		virtual ~mem_alloc_line();
+		mem_giver_heap();
+		virtual ~mem_giver_heap();
 		// --core_methods
 		virtual v1bit remake() override;
-		virtual ptr_t alloc(size_t size, size_t align = NW_DEFAULT_SIZE) override;
-		virtual v1nil dealloc(ptr_t data, size_t size, size_t align = NW_DEFAULT_SIZE) override;
-		v1nil clear();
+		virtual ptr_t take(size_t size, size_t alig) override;
+		virtual v1nil free(ptr_t data, size_t size, size_t alig) override;
+		static inline ptr_t static_take(size_t size, size_t alig)             { return ::malloc(NW_ALIGN(size, alig)); }
+		static inline v1nil static_free(ptr_t data, size_t size, size_t alig) { ::free(data); }
+	private:
 	};
 }
 #endif	// NW_API
-#endif	// NW_MEM_ALLOCATOR_H
+#endif	// NW_MEM_ALLOCATION_H

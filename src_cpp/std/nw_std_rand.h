@@ -2,6 +2,8 @@
 #define NW_STD_RANDOM_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
+#	include "mat/nw_mat_vec.h"
+#	include "mat/nw_mat_mtx.h"
 namespace NW
 {
 	// --getters

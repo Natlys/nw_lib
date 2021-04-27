@@ -4,7 +4,7 @@
 #if (defined NW_API)
 namespace NW
 {
-	/// singleton template class
+	/// typed_singleton class
 	template<class tname>
 	class t_singleton
 	{

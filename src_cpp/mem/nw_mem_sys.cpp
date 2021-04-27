@@ -4,7 +4,7 @@
 namespace NW
 {
 	mem_sys::mem_sys() :
-		mem_alloc_arena(NW_NULL, NW_NULL)
+		mem_giver_arena()
 	{
 	}
 	mem_sys::~mem_sys()
@@ -17,7 +17,7 @@ namespace NW
 		NW_CHECK(!has_data(), "init is already done!!", return NW_FALSE);
 		NW_CHECK(has_size(), "no size!", return NW_FALSE);
 		set_data(new byte_t[get_size()]);
-		NW_CHECK(mem_alloc_arena::remake(), "failed remake!", return NW_FALSE);
+		NW_CHECK(mem_giver_arena::remake(), "remake error!", return NW_FALSE);
 
 		return NW_TRUE;
 	}

@@ -1,5 +1,5 @@
-#ifndef NW_INFO_IDX_H
-#define NW_INFO_IDX_H
+#ifndef NW_STD_INDEX_H
+#define NW_STD_INDEX_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
 #	include "../std/nw_std_stack.h"
@@ -73,4 +73,4 @@ namespace NW
 	};
 }
 #endif	// NW_API
-#endif	// NW_INFO_IDX_H
+#endif	// NW_STD_INDEX_H

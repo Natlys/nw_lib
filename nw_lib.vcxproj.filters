@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{4E40957C-3A77-960D-E363-7C10CF79120F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ecs">
       <UniqueIdentifier>{C06D880B-2C77-887C-B5F2-9E7C21FB937C}</UniqueIdentifier>
     </Filter>
     <Filter Include="info">
       <UniqueIdentifier>{D184987C-BDBB-990D-66A8-7F1052BE150F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="io">
-      <UniqueIdentifier>{3D785900-2904-880B-92B2-880B7E5D880B}</UniqueIdentifier>
+    <Filter Include="iop">
+      <UniqueIdentifier>{4D80880B-B989-887C-4205-9F7CAE0D947C}</UniqueIdentifier>
     </Filter>
     <Filter Include="mem">
       <UniqueIdentifier>{0490880B-7099-887C-F914-9F7C651D947C}</UniqueIdentifier>
@@ -18,6 +21,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src_cpp\core\nw_core_capi.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_gapi.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_math.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_mem.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_str.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_val.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\core\nw_core_wapi.h">
+      <Filter>core</Filter>
+    </ClInclude>
     <ClInclude Include="src_cpp\ecs\nw_ecs_cmp.h">
       <Filter>ecs</Filter>
     </ClInclude>
@@ -30,13 +54,46 @@
     <ClInclude Include="src_cpp\ecs\nw_ecs_ent_sys.h">
       <Filter>ecs</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\info\nw_info_img.h">
-      <Filter>info</Filter>
+    <ClInclude Include="src_cpp\ecs\nw_ecs_sys.h">
+      <Filter>ecs</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\info\nw_info_type.h">
-      <Filter>info</Filter>
+    <ClInclude Include="src_cpp\iop\nw_iop_cmp.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_code.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_dvc.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_evt.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_flib.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_fpath.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_stm.h">
+      <Filter>iop</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\iop\nw_iop_sys.h">
+      <Filter>iop</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\mem\nw_mem_alloc.h">
+      <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\mem\nw_mem_buf.h">
+      <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\mem\nw_mem_cmp.h">
+      <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\mem\nw_mem_elem.h">
+      <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\mem\nw_mem_layt.h">
       <Filter>mem</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\mem\nw_mem_ref.h">
@@ -46,74 +103,77 @@
       <Filter>mem</Filter>
     </ClInclude>
     <ClInclude Include="src_cpp\nw_ecs.hpp" />
-    <ClInclude Include="src_cpp\nw_info.hpp" />
+    <ClInclude Include="src_cpp\nw_iop.hpp" />
     <ClInclude Include="src_cpp\nw_lib.hpp" />
     <ClInclude Include="src_cpp\nw_lib_core.hpp" />
     <ClInclude Include="src_cpp\nw_lib_pch.hpp" />
     <ClInclude Include="src_cpp\nw_mem.hpp" />
-    <ClInclude Include="src_cpp\core\nw_core_val.h" />
-    <ClInclude Include="src_cpp\core\nw_core_str.h" />
-    <ClInclude Include="src_cpp\core\nw_core_mem.h" />
     <ClInclude Include="src_cpp\nw_std.hpp" />
-    <ClInclude Include="src_cpp\std\nw_std_func.h" />
-    <ClInclude Include="src_cpp\std\nw_std_sing.h" />
-    <ClInclude Include="src_cpp\std\nw_std_rand.h" />
-    <ClInclude Include="src_cpp\std\nw_std_time.h" />
-    <ClInclude Include="src_cpp\std\nw_std_paral.h" />
-    <ClInclude Include="src_cpp\core\nw_core_gapi.h" />
-    <ClInclude Include="src_cpp\core\nw_core_wapi.h" />
-    <ClInclude Include="src_cpp\core\nw_core_capi.h" />
-    <ClInclude Include="src_cpp\core\nw_core_vec.h" />
-    <ClInclude Include="src_cpp\core\nw_core_mtx.h" />
-    <ClInclude Include="src_cpp\core\nw_core_math.h" />
+    <ClInclude Include="src_cpp\std\nw_std_array.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_func.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_graph.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_lib.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_list.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_paral.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_rand.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_sing.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_stack.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_table.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_time.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_tree.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_util.h">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_idx.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_name.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_type_idx.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_type.h">
+      <Filter>info</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\std\nw_std_err.h">
+      <Filter>info</Filter>
+    </ClInclude>
     <ClInclude Include="ext\stb\nw_stb_img.h" />
-    <ClInclude Include="src_cpp\mem\nw_mem_cmp.h" />
-    <ClInclude Include="src_cpp\std\nw_std_tree.h" />
-    <ClInclude Include="src_cpp\info\nw_info_idx.h">
-      <Filter>info</Filter>
+    <ClInclude Include="src_cpp\mat\nw_mat_rect.h" />
+    <ClInclude Include="src_cpp\nw_mat.hpp" />
+    <ClInclude Include="src_cpp\mat\nw_mat_mtx.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\info\nw_info_type_idx.h">
-      <Filter>info</Filter>
+    <ClInclude Include="src_cpp\mat\nw_mat_circ.h" />
+    <ClInclude Include="src_cpp\mat\nw_mat_box.h" />
+    <ClInclude Include="src_cpp\mat\nw_mat_vec.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\std\nw_std_graph.h" />
-    <ClInclude Include="src_cpp\mem\nw_mem_buf.h" />
-    <ClInclude Include="src_cpp\mem\nw_mem_layt.h">
-      <Filter>info</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\mem\nw_mem_elem.h" />
-    <ClInclude Include="src_cpp\info\nw_info_err.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\std\nw_std_list.h" />
-    <ClInclude Include="src_cpp\std\nw_std_array.h" />
-    <ClInclude Include="src_cpp\std\nw_std_stack.h" />
-    <ClInclude Include="src_cpp\std\nw_std_util.h" />
-    <ClInclude Include="src_cpp\std\nw_std_table.h" />
-    <ClInclude Include="src_cpp\info\nw_info_mesh.h" />
-    <ClInclude Include="src_cpp\info\nw_info_name.h" />
-    <ClInclude Include="src_cpp\ecs\nw_ecs_sys.h" />
-    <ClInclude Include="src_cpp\nw_iop.hpp" />
-    <ClInclude Include="src_cpp\iop\nw_iop_cmp.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\iop\nw_iop_code.h" />
-    <ClInclude Include="src_cpp\iop\nw_iop_dvc.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\iop\nw_iop_sys.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\iop\nw_iop_stm.h" />
-    <ClInclude Include="src_cpp\iop\nw_iop_fpath.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\iop\nw_iop_flib.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\iop\nw_iop_evt.h">
-      <Filter>io</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\std\nw_std_lib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src_cpp\ecs\nw_ecs_cmp_sys.cpp">
@@ -122,38 +182,34 @@
     <ClCompile Include="src_cpp\ecs\nw_ecs_ent_sys.cpp">
       <Filter>ecs</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\info\nw_info_img.cpp">
-      <Filter>info</Filter>
+    <ClCompile Include="src_cpp\iop\nw_iop_dvc.cpp">
+      <Filter>iop</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\iop\nw_iop_evt.cpp">
+      <Filter>iop</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\iop\nw_iop_fpath.cpp">
+      <Filter>iop</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\iop\nw_iop_sys.cpp">
+      <Filter>iop</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\mem\nw_mem_alloc.cpp">
+      <Filter>mem</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\mem\nw_mem_buf.cpp">
+      <Filter>mem</Filter>
+    </ClCompile>
+    <ClCompile Include="src_cpp\mem\nw_mem_layt.cpp">
       <Filter>mem</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\mem\nw_mem_sys.cpp">
       <Filter>mem</Filter>
     </ClCompile>
     <ClCompile Include="src_cpp\nw_lib_pch.cpp" />
-    <ClCompile Include="ext\stb\nw_stb_img.cpp" />
-    <ClCompile Include="src_cpp\info\nw_info_type.cpp" />
-    <ClCompile Include="src_cpp\mem\nw_mem_buf.cpp" />
-    <ClCompile Include="src_cpp\mem\nw_mem_layt.cpp">
+    <ClCompile Include="src_cpp\std\nw_std_err.cpp">
       <Filter>info</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\info\nw_info_err.cpp">
-      <Filter>io</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\info\nw_info_mesh.cpp" />
-    <ClCompile Include="src_cpp\info\nw_info_name.cpp" />
-    <ClCompile Include="src_cpp\iop\nw_iop_dvc.cpp">
-      <Filter>io</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\iop\nw_iop_evt.cpp">
-      <Filter>io</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\iop\nw_iop_sys.cpp">
-      <Filter>io</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\iop\nw_iop_fpath.cpp">
-      <Filter>io</Filter>
-    </ClCompile>
+    <ClCompile Include="ext\stb\nw_stb_img.cpp" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,10 @@
 #ifndef NW_STD_HPP
 #define NW_STD_HPP
 
-//#include "std/nw_std_util.h"
+#include "std/nw_std_err.h"
+#include "std/nw_std_name.h"
+#include "std/nw_std_type.h"
+#include "std/nw_std_util.h"
 //#include "std/nw_std_array.h"
 //#include "std/nw_std_list.h"
 //#include "std/nw_std_stack.h"

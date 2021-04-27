@@ -2,8 +2,8 @@
 #define NW_CORE_TYPE_IDX_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#include "nw_info_type.h"
-#include "nw_info_idx.h"
+#	include "nw_std_type.h"
+#	include "nw_std_idx.h"
 namespace NW
 {
 	/// abstract type_id class
@@ -14,7 +14,6 @@ namespace NW
 	public:
 		virtual ~a_type_idx_owner() = default;
 		// --getters
-		virtual inline cv1u get_type() const override = 0;
 		virtual inline cv1u get_idx() const = 0;
 	};
 	/// templated type_id class
@@ -26,8 +25,7 @@ namespace NW
 	public:
 		virtual ~t_type_idx_owner() = default;
 		// --getters
-		virtual inline cv1u get_type() const override { return type_info::get_type<type>(); }
-		virtual inline cv1u get_idx() const override   { return m_idx; }
+		virtual inline cv1u get_idx() const override { return m_idx; }
 	};
 }
 #endif	// NW_API

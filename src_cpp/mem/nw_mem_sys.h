@@ -8,7 +8,7 @@
 namespace NW
 {
 	/// memory_system singleton class
-	class NW_API mem_sys : public t_singleton<mem_sys>, public mem_alloc_arena
+	class NW_API mem_sys : public t_singleton<mem_sys>, public mem_giver_arena
 	{
 	public:
 		friend class t_singleton<mem_sys>;
@@ -20,6 +20,8 @@ namespace NW
 		inline v1bit init(size_tc size) { set_size(size); return init(); }
 		v1bit quit();
 		v1nil update();
+		static inline ptr_t static_take(size_t size, size_t alig)             { return mem_sys::get().take(size, alig); }
+		static inline v1nil static_free(ptr_t data, size_t size, size_t alig) { mem_sys::get().free(data, size, alig); }
 	};
 }
 #endif	// NW_API

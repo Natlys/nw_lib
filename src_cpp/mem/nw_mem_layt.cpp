@@ -5,47 +5,17 @@
 #	include "nw_mem_sys.h"
 namespace NW
 {
-	mem_layt::mem_layt(cstr_t key) :
-		t_tree_cmp(key), a_mem_cmp(), a_iop_cmp(),
-		m_space(type_info::get<tree_t>().size),
-		m_offset(NW_NULL)
-	{
-	}
-	mem_layt::mem_layt(cstr_t key, elems_tc& elements) :
-		t_tree_cmp(key, elements), a_mem_cmp(), a_iop_cmp(),
-		m_space(type_info::get<tree_t>().size),
-		m_offset(NW_NULL)
-	{
-	}
-	mem_layt::mem_layt(elems_tc& elements) :
-		mem_layt(NW_DEFAULT_STR, elements)
-	{
-	}
-	mem_layt::mem_layt(cstr_t key, vtype_tc type, size_tc offset) :
-		t_tree_cmp(key, type), a_mem_cmp(), a_iop_cmp(),
-		m_space(type_info::get(type).size),
-		m_offset(offset)
-	{
-	}
-	mem_layt::mem_layt(vtype_tc type, size_tc offset) :
-	mem_layt(NW_DEFAULT_STR, type, offset)
-	{
-	}
-	mem_layt::mem_layt(elem_tc& copy) :
-		t_tree_cmp(copy), a_mem_cmp(copy), a_iop_cmp(copy),
-		m_space(copy.m_space),
-		m_offset(copy.m_offset)
-	{
-	}
-	mem_layt::mem_layt(elem_t&& copy) :
-		t_tree_cmp(copy), a_mem_cmp(copy), a_iop_cmp(copy),
-		m_space(copy.m_space),
-		m_offset(copy.m_offset)
-	{
-	}
-	mem_layt::~mem_layt()
-	{
-	}
+	mem_layt::mem_layt() : t_tree_cmp(), a_mem_user(), a_iop_cmp(), m_space(type_info::get<tree_t>().size), m_offset(NW_NULL) { }
+	mem_layt::mem_layt(cstr_t key) : mem_layt() { set_name(key); }
+	mem_layt::mem_layt(cstr_t key, elems_tc& elems) : mem_layt() { set_name(key); set_nodes(elems); }
+	mem_layt::mem_layt(elems_tc& elems) : mem_layt() { set_nodes(elems); }
+	mem_layt::mem_layt(cstr_t key, init_list_tc<elem_t>& elems) : mem_layt() { set_name(key); set_nodes(elems); }
+	mem_layt::mem_layt(init_list_tc<elem_t>& elems) : mem_layt() { set_nodes(elems); }
+	mem_layt::mem_layt(cstr_t key, type_tc type, size_tc offset) : mem_layt() { set_name(key); set_type(type); set_offset(offset); }
+	mem_layt::mem_layt(type_tc type, size_tc offset) : mem_layt() { set_type(type); set_offset(offset); }
+	mem_layt::mem_layt(elem_tc& copy) : mem_layt() { operator=(copy); }
+	mem_layt::mem_layt(elem_t&& copy) : mem_layt() { operator=(copy); }
+	mem_layt::~mem_layt() { }
 	// --setters
 	v1nil mem_layt::set_offset(size_tc offset) {
 		m_offset = offset;
@@ -54,15 +24,12 @@ namespace NW
 	op_stream_t& mem_layt::operator<<(op_stream_t& stm) const {
 		stm << "{";
 		stm << "name:" << get_name() << ";";
-		stm << "vtype:" << get_vtype_info() << ";" << NW_STR_EOL;
-		stm << "space:" << get_space() << ";" << NW_STR_EOL;
-		stm << "offset:" << get_offset() << ";" << NW_STR_EOL;
-		stm << "elements:" << "{";
+		stm << "type:" << get_type() << ";";
+		stm << "space:" << get_space() << ";";
+		stm << "offset:" << get_offset() << ";";
 		stm << "count:" << get_count() << ";";
-		for (auto& inode : get_nodes()) { stm << inode; }
-		stm << "\t" << "}" << ":elements" << NW_STR_EOL;
-		stm << "}" << ":[" << get_name() << "]" << ";" << NW_STR_EOL;
-
+		size_t itr = 0u; for (auto& inode : get_nodes()) { stm << "elem[" << itr++ << "]:" << inode; }
+		stm << "}" << ";";
 		return stm;
 	}
 	ip_stream_t& mem_layt::operator>>(ip_stream_t& stm) {
@@ -72,7 +39,7 @@ namespace NW
 		stm >> m_name;
 		stm.getline(buf, sizeof(buf), ':'); // type:
 		stm.getline(buf, sizeof(buf), ':'); // {id:...
-		stm >> m_vtype;
+		stm >> m_type;
 		stm.getline(buf, sizeof(buf), '}'); // ...}
 		stm.getline(buf, sizeof(buf), ':'); // space:
 		stm >> m_space;
@@ -93,12 +60,11 @@ namespace NW
 	// --==<core_methods>==--
 	v1bit mem_layt::remake()
 	{
-		if (is_leaf()) { m_space = get_vtype_size(); }
+		if (is_leaf()) { m_space = get_type_size(); }
 		else if (is_tree()) {
-			NW_CHECK(has_node(), "no leafs", return NW_FALSE);
+			//NW_CHECK(has_node(), "no leafs", return NW_FALSE);
 			m_space = NW_NULL;
-			for (v1u ie = 0u; ie < get_count(); ie++) {
-				auto& ielem = get_node(ie);
+			for (auto& ielem : m_nodes) {
 				NW_CHECK(ielem.remake(m_space + m_offset), "failed to remake", return NW_FALSE);
 				m_space += ielem.get_space();
 			}

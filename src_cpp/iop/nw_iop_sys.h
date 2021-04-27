@@ -5,7 +5,6 @@
 #	include "../std/nw_std_sing.h"
 #	include "../ecs/nw_ecs_ent_sys.h"
 #	include "../ecs/nw_ecs_cmp_sys.h"
-#	include "../info/nw_info_err.h"
 #	include "nw_iop_flib.h"
 #	include "nw_iop_fpath.h"
 #	include "nw_iop_stm.h"

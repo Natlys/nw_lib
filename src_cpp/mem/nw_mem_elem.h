@@ -2,20 +2,20 @@
 #define NW_MEM_ELEMENT_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#	include "../info/nw_info_type.h"
+#	include "../std/nw_std_type.h"
 #	include "nw_mem_layt.h"
 namespace NW
 {
 	/// memory_element class
-	class NW_API mem_elem_t : public a_mem_cmp
+	class NW_API mem_elem_t : public a_mem_user
 	{
 	public:
 		using layt_t = mem_layt;
 		using layt_tc = const layt_t;
 		using elem_t = mem_elem_t;
 		using elem_tc = const elem_t;
-		using vtype_t = layt_t::vtype_t;
-		using vtype_tc = layt_t::vtype_tc;
+		using type_t = layt_t::type_t;
+		using type_tc = layt_t::type_tc;
 	public:
 		mem_elem_t(byte_t* data, layt_t& layt) : m_data(data), m_layt(layt) { }
 		// --getters
@@ -30,15 +30,15 @@ namespace NW
 		inline elem_tc get_elem(cv1u key) const { return elem_t(m_data + m_layt[key].get_offset(), m_layt[key]); }
 		inline elem_t get_elem(cstr_t key)        { return elem_t(m_data + m_layt[key].get_offset(), m_layt[key]); }
 		inline elem_tc get_elem(cstr_t key) const { return elem_t(m_data + m_layt[key].get_offset(), m_layt[key]); }
-		inline byte_t* get_data(vtype_tc type)        { NW_CHECK(get_layt().has_vtype(type), "type error!", return NW_NULL); return get_data(); }
-		inline byte_tc* get_data(vtype_tc type) const { NW_CHECK(get_layt().has_vtype(type), "type error!", return NW_NULL); return get_data(); }
+		inline byte_t* get_data(type_tc type)        { NW_CHECK(get_layt().has_type(type), "type error!", return NW_NULL); return get_data(); }
+		inline byte_tc* get_data(type_tc type) const { NW_CHECK(get_layt().has_type(type), "type error!", return NW_NULL); return get_data(); }
 		template<typename tname> tname* get_data()             { return reinterpret_cast<tname*>(get_data(type_info::get_type<tname>())); }
 		template<typename tname> const tname* get_data() const { return reinterpret_cast<const tname*>(get_data(type_info::get_type<tname>())); }
 		template<typename tname> tname& get()             { return *reinterpret_cast<tname*>(get_data(type_info::get_type<tname>())); }
 		template<typename tname> const tname& get() const { return *reinterpret_cast<const tname*>(get_data(type_info::get_type<tname>())); }
 		// --setters
-		inline v1nil set_data(ptr_tc buffer)                { memcpy(get_data(), buffer, get_space()); }
-		inline v1nil set_data(ptr_tc buffer, vtype_tc type) { memcpy(get_data(type), buffer, get_space()); }
+		inline v1nil set_data(ptr_tc buffer)               { memcpy(get_data(), buffer, get_space()); }
+		inline v1nil set_data(ptr_tc buffer, type_tc type) { memcpy(get_data(type), buffer, get_space()); }
 		template<typename tname> v1nil set_data(const tname* buffer) { set_data(buffer, type_info::get_type<tname>()); }
 		template<typename tname> v1nil set(const tname& buffer)      { set_data(&buffer, type_info::get_type<tname>()); }
 		template<typename tname>
@@ -71,8 +71,8 @@ namespace NW
 		using layt_tc = const layt_t;
 		using elem_t = mem_elem_tc;
 		using elem_tc = const elem_t;
-		using vtype_t = layt_t::vtype_t;
-		using vtype_tc = layt_t::vtype_tc;
+		using vtype_t = layt_t::type_t;
+		using vtype_tc = layt_t::type_tc;
 	public:
 		mem_elem_tc(byte_tc* data, layt_tc& layt) : m_data(data), m_layt(layt) { }
 		// --getters
@@ -83,7 +83,7 @@ namespace NW
 		inline size_tc get_offset() const { return get_layt().get_offset(); }
 		inline elem_tc get_elem(cv1u key) const { return elem_t(m_data + get_layt()[key].get_offset(), m_layt); }
 		inline elem_tc get_elem(cstr_t key) const { return elem_t(m_data + get_layt()[key].get_offset(), m_layt); }
-		inline byte_tc* get_data(vtype_tc type) const { NW_CHECK(get_layt().has_vtype(type), "type error!", return NW_NULL); return get_data(); }
+		inline byte_tc* get_data(vtype_tc type) const { NW_CHECK(get_layt().has_type(type), "type error!", return NW_NULL); return get_data(); }
 		template<typename tname> const tname* get_data() const { return reinterpret_cast<const tname*>(get_data(type_info::get_type<tname>())); }
 		template<typename tname> const tname& get() const { return *reinterpret_cast<const tname*>(get_data(type_info::get_type<tname>())); }
 		// --operators

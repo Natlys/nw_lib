@@ -1,5 +1,5 @@
 #include "nw_lib_pch.hpp"
-#include "nw_info_err.h"
+#include "nw_std_err.h"
 #if (defined NW_API)
 namespace NW
 {
@@ -11,10 +11,10 @@ namespace NW
 	// --operators
 	op_stream_t& a_error::operator<<(op_stream_t& stm) const {
 		return stm <<
-			"--==<error_info>==--" << std::endl <<
-			"string: " << get_str() << std::endl <<
-			"number: " << get_num() << std::endl <<
-			"--==</erro_info>==--" << std::endl;
+			"--==<error_info>==--" << NW_STR_EOL <<
+			"string: " << get_str() << NW_STR_EOL <<
+			"number: " << get_num() << NW_STR_EOL <<
+			"--==</erro_info>==--" << NW_STR_EOL;
 	}
 	// --==<core_methods>==--
 	// --==</core_methods>==--

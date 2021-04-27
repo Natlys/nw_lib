@@ -2,7 +2,7 @@
 #define NW_STD_LIBRARY_H
 #include "nw_lib_core.hpp"
 #if (defined NW_WAPI)
-#	include "info/nw_info_name.h"
+#	include "nw_std_name.h"
 namespace NW
 {
 	/// library_loader class
@@ -13,7 +13,7 @@ namespace NW
 		using handle_tc = const handle_t;
 	public:
 		lib_loader() : a_name_owner(NW_DEFAULT_STR), m_handle(NW_NULL) { }
-		lib_loader(cstr_t name) : a_name_owner(name), m_handle(NW_NULL) { NW_CHECK(remake(name), "failed remake!", return); }
+		lib_loader(cstr_t name) : a_name_owner(name), m_handle(NW_NULL) { NW_CHECK(remake(name), "remake error!", return); }
 		virtual ~lib_loader() { if (has_handle()) { ::FreeLibrary(m_handle); m_handle = NW_NULL; } }
 		// --getters
 		inline handle_t& get_handle()        { return m_handle; }
