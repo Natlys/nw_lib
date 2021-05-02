@@ -31,8 +31,8 @@ namespace NW
 		inline tab_tc& get_tab(cv1u type) const { NW_CHECK(has_tab(type), "not found!", return tab_tc()); return get_reg().find(type)->second; }
 		template<class tname> tab_t& get_tab() { return get_tab(tname::get_type_static()); }
 		template<class tname> tab_tc& get_tab() const { return get_tab(tname::get_type_static()); }
-		inline ref_t& get_ref(cv1u type, cv1u idx)        { NW_CHECK(has_ref(type, idx), "not found!", return ref_t()); return get_tab(type)[idx]; }
-		inline ref_tc& get_ref(cv1u type, cv1u idx) const { NW_CHECK(has_ref(type, idx), "not found!", return ref_tc()); return get_tab(type).find(idx)->second; }
+		inline ref_t& get_ref(cv1u type, cv1u idx)        { NW_CHECK(has_ref(type, idx), "not found!", return get_tab(type)[0u]); return get_tab(type)[idx]; }
+		inline ref_tc& get_ref(cv1u type, cv1u idx) const { NW_CHECK(has_ref(type, idx), "not found!", return get_tab(type).find(0u)->second); return get_tab(type).find(idx)->second; }
 		template<class tname> mem_ref<tname> get_ref(cv1u idx)       { return get_ref(tname::get_type_static(), idx); }
 		template<class tname> mem_ref<tname> get_ref(cv1u idx) const { return get_ref(tname::get_type_static(), idx); }
 		// --predicates

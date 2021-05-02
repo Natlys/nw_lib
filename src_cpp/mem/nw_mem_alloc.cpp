@@ -69,7 +69,7 @@ namespace NW
 		NW_CHECK(size != NW_NULL, "memory error!", return NW_NULL);
 		ptr_t data = NW_NULL;
 		// 100% essential thing for this allocator!;
-		alig = NW_MATH_MAX(alig, NW_DEFAULT_SIZE);
+		alig = NW_NUM_MAX(alig, NW_DEFAULT_SIZE);
 		size = NW_ALIGN(size, alig);
 		NW_CHECK(has_free(size), "memory error!", return NW_NULL);
 #		if (NW_TRUE)
@@ -93,7 +93,7 @@ namespace NW
 		NW_CHECK(has_data(data), "memory error!", return);
 		NW_CHECK(size > NW_NULL, "memory_error!", return);
 		// 100% essential thing for this allocator!;
-		alig = NW_MATH_MAX(alig, NW_DEFAULT_SIZE);
+		alig = NW_NUM_MAX(alig, NW_DEFAULT_SIZE);
 		size = NW_ALIGN(size, alig);
 		NW_CHECK(has_used(size), "memory error!", return);
 		// memset(data, NW_NULL, size); dangerous to use because it can erase our free_list;

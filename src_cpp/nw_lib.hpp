@@ -5,8 +5,8 @@
 #include "nw_lib_core.hpp"
 // standard
 #include "nw_std.hpp"
-// maths
-#include "nw_mat.hpp"
+// numbers
+#include "nw_num.hpp"
 // input_output
 #include "nw_iop.hpp"
 // memory

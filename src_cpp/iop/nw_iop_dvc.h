@@ -5,7 +5,7 @@
 #	include "nw_iop_evt.h"
 namespace NW
 {
-	/// keyboard_state class
+	/// input_output_keyboard_type class
 	class NW_API iop_keybod_t
 	{
 	public:
@@ -43,12 +43,10 @@ namespace NW
 		button_t m_buttons[NW_KEYCODE_COUNT];
 	};
 }
-#	include "mat/nw_mat_rect.h"
-#	include "mat/nw_mat_circ.h"
-#	include "mat/nw_mat_vec.h"
+#	include "num/nw_num_vec.h"
 namespace NW
 {
-	/// cursor_type class
+	/// input_output_cursor_type class
 	class NW_API iop_cursor_t
 	{
 	public:

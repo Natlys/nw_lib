@@ -60,15 +60,12 @@
 
 // --==<core_files>==--
 #include "nw_lib_pch.hpp"
-// configurations
 #include "core/nw_core_wapi.h"
 #include "core/nw_core_gapi.h"
 #include "core/nw_core_capi.h"
-// operations
-#include "core/nw_core_math.h"
-// types
-#include "core/nw_core_mem.h"
 #include "core/nw_core_val.h"
+#include "core/nw_core_num.h"
+#include "core/nw_core_mem.h"
 #include "core/nw_core_str.h"
 // --==</core_files>==--
 

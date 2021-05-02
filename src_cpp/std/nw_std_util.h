@@ -317,7 +317,7 @@ namespace NW
 				for (auto ie = 0u; ie < new_count; ie++) { new(&new_elems[ie])elem_t(); }
 			}
 			if (old_count > NW_NULL) {
-				memcpy(new_elems, old_elems, NW_ALIGN(NW_MATH_MIN(old_count, new_count) * sizeof(elem_t), alignof(elem_t)));
+				memcpy(new_elems, old_elems, NW_ALIGN(NW_NUM_MIN(old_count, new_count) * sizeof(elem_t), alignof(elem_t)));
 				giver_t::static_free(old_elems, old_count * sizeof(elem_t), alignof(elem_t));
 			}
 			m_count = new_count;
@@ -334,7 +334,7 @@ namespace NW
 				for (auto ie = 0u; ie < new_range; ie++) { new(&new_elems[ie])elem_t(); }
 			}
 			if (old_range > NW_NULL) {
-				memcpy(new_elems, old_elems, NW_ALIGN(NW_MATH_MIN(old_range, new_range) * sizeof(elem_t), alignof(elem_t)));
+				memcpy(new_elems, old_elems, NW_ALIGN(NW_NUM_MIN(old_range, new_range) * sizeof(elem_t), alignof(elem_t)));
 				giver_t::static_free(old_elems, old_range * sizeof(elem_t), alignof(elem_t));
 			}
 			m_range = new_range;

@@ -94,24 +94,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ext\stb\nw_stb_img.h" />
+    <ClInclude Include="src_cpp\iop\nw_iop_sound.h" />
     <ClInclude Include="src_cpp\core\nw_core_capi.h" />
     <ClInclude Include="src_cpp\core\nw_core_gapi.h" />
-    <ClInclude Include="src_cpp\core\nw_core_math.h" />
+    <ClInclude Include="src_cpp\core\nw_core_num.h" />
     <ClInclude Include="src_cpp\core\nw_core_mem.h" />
-    <ClInclude Include="src_cpp\mat\nw_mat_box.h" />
-    <ClInclude Include="src_cpp\mat\nw_mat_circ.h" />
-    <ClInclude Include="src_cpp\mat\nw_mat_mtx.h" />
+    <ClInclude Include="src_cpp\num\nw_num_imag.h" />
+    <ClInclude Include="src_cpp\num\nw_num_circ.h" />
+    <ClInclude Include="src_cpp\num\nw_num_edge.h" />
+    <ClInclude Include="src_cpp\num\nw_num_mat.h" />
     <ClInclude Include="src_cpp\core\nw_core_str.h" />
     <ClInclude Include="src_cpp\core\nw_core_val.h" />
-    <ClInclude Include="src_cpp\mat\nw_mat_vec.h" />
+    <ClInclude Include="src_cpp\num\nw_num_val.h" />
+    <ClInclude Include="src_cpp\num\nw_num_vec.h" />
     <ClInclude Include="src_cpp\core\nw_core_wapi.h" />
     <ClInclude Include="src_cpp\ecs\nw_ecs_cmp.h" />
     <ClInclude Include="src_cpp\ecs\nw_ecs_cmp_sys.h" />
     <ClInclude Include="src_cpp\ecs\nw_ecs_ent.h" />
     <ClInclude Include="src_cpp\ecs\nw_ecs_ent_sys.h" />
     <ClInclude Include="src_cpp\ecs\nw_ecs_sys.h" />
-    <ClInclude Include="src_cpp\mat\nw_mat_rect.h" />
-    <ClInclude Include="src_cpp\nw_mat.hpp" />
+    <ClInclude Include="src_cpp\num\nw_num_rect.h" />
+    <ClInclude Include="src_cpp\num\nw_num_voron.h" />
+    <ClInclude Include="src_cpp\nw_num.hpp" />
     <ClInclude Include="src_cpp\std\nw_std_err.h" />
     <ClInclude Include="src_cpp\std\nw_std_idx.h" />
     <ClInclude Include="src_cpp\std\nw_std_name.h" />
@@ -145,7 +149,6 @@
     <ClInclude Include="src_cpp\std\nw_std_lib.h" />
     <ClInclude Include="src_cpp\std\nw_std_list.h" />
     <ClInclude Include="src_cpp\std\nw_std_paral.h" />
-    <ClInclude Include="src_cpp\std\nw_std_rand.h" />
     <ClInclude Include="src_cpp\std\nw_std_sing.h" />
     <ClInclude Include="src_cpp\std\nw_std_stack.h" />
     <ClInclude Include="src_cpp\std\nw_std_table.h" />

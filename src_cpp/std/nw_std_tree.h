@@ -19,6 +19,8 @@ namespace NW
 		using node_tc = const node_t;
 		using nodes_t = list2_t<node_t>;
 		using nodes_tc = const nodes_t;
+		using node_list_t = init_list_t<node_t>;
+		using node_list_tc = const node_list_t;
 		using tree_t = t_tree_cmp<node_t>;
 		using tree_tc = const tree_t;
 	public:
@@ -81,18 +83,8 @@ namespace NW
 			return stm.str();
 		}
 		// --setters
-		inline tree_t& set_nodes(nodes_tc& nodes) {
-			NW_CHECK(is_tree(), "type error!", return *this);
-			m_nodes.clear();
-			for (auto& inode : nodes) { add_node(inode); }
-			return *this;
-		}
-		inline tree_t& set_nodes(init_list_tc<node_t>& nodes) {
-			NW_CHECK(is_tree(), "type error!", return *this);
-			m_nodes.clear();
-			for (auto& inode : nodes) { add_node(inode); }
-			return *this;
-		}
+		inline tree_t& set_nodes(nodes_tc& nodes) { NW_CHECK(is_tree(), "type error!", return *this); m_nodes.clear(); for (auto& inode : nodes) { add_node(inode); } return *this; }
+		inline tree_t& set_nodes(node_list_tc& nodes) { NW_CHECK(is_tree(), "type error!", return *this); m_nodes.clear(); for (auto& inode : nodes) { add_node(inode); } return *this; }
 		inline tree_t& add_node(node_tc& node) {
 			NW_CHECK(is_tree(), "type error!", return *this);
 			NW_CHECK(!has_node(node.get_name()), "key error!", return *this);

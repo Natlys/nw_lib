@@ -21,7 +21,7 @@ namespace NW
 		using val_t = tval;
 		using val_tc = const val_t;
 	public:
-		// --constructor_destructor
+		// --ctor_dtor
 #	if (NW_TRUE)
 		constexpr inline t_num() : m_value(static_cast<val_t>(NW_NULL)) { }
 		constexpr inline t_num(val_tc value) : m_value(value) { }

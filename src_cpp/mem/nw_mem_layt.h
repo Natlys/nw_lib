@@ -17,19 +17,23 @@ namespace NW
 	class NW_API mem_layt : public t_tree_cmp<mem_layt>, public a_mem_user, public a_iop_cmp
 	{
 	public:
+		using layt_t = mem_layt;
+		using layt_tc = const layt_t;
 		using tree_t = t_tree_cmp<mem_layt>;
 		using tree_tc = const tree_t;
 		using elem_t = mem_layt;
 		using elem_tc = const elem_t;
 		using elems_t = tree_t::nodes_t;
 		using elems_tc = tree_t::nodes_tc;
+		using elem_list_t = tree_t::node_list_t;
+		using elem_list_tc = tree_t::node_list_tc;
 	public:
 		mem_layt();
 		mem_layt(cstr_t key);
 		mem_layt(cstr_t key, elems_tc& elems);
 		mem_layt(elems_tc& elems);
-		mem_layt(cstr_t key, init_list_tc<elem_t>& elems);
-		mem_layt(init_list_tc<elem_t>& elems);
+		mem_layt(cstr_t key, elem_list_tc& elems);
+		mem_layt(elem_list_tc& elems);
 		mem_layt(cstr_t key, type_tc type, size_tc offset = NW_NULL);
 		mem_layt(type_tc type, size_tc offset = NW_NULL);
 		mem_layt(elem_tc& copy);
@@ -39,8 +43,10 @@ namespace NW
 		inline size_tc get_space() const  { return m_space; }
 		inline size_tc get_offset() const { return m_offset; }
 		// --setters
-		v1nil set_offset(size_tc offset);
+		layt_t& set_offset(size_tc offset);
 		// --predicates
+		inline v1bit has_offset(size_t offset = 1u) const { return m_offset >= offset; };
+		inline v1bit has_space(size_t space = 1u) const { return m_space >= space; };
 		// --operators
 		inline v1nil operator=(elem_tc& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "remake error!", return); }
 		inline v1nil operator=(elem_t&& copy) { t_tree_cmp::operator=(copy); NW_CHECK(remake(copy.m_offset), "remake error!", return); }

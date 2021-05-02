@@ -3,6 +3,7 @@
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
 #	include "std/nw_std_func.h"
+#	include "num/nw_num_vec.h"
 #	include "nw_iop_code.h"
 #	ifndef NW_IOP_EVDEF_H
 #	define NW_IOP_EVDEF_H
@@ -76,7 +77,6 @@ namespace NW
 	};
 	using event_callback = std::function<void(iop_event_t&)>;
 }
-#	include "mat/nw_mat_vec.h"
 namespace NW
 {
 	/// iop_event_cursor_t struct

@@ -9,17 +9,15 @@ namespace NW
 	mem_layt::mem_layt(cstr_t key) : mem_layt() { set_name(key); }
 	mem_layt::mem_layt(cstr_t key, elems_tc& elems) : mem_layt() { set_name(key); set_nodes(elems); }
 	mem_layt::mem_layt(elems_tc& elems) : mem_layt() { set_nodes(elems); }
-	mem_layt::mem_layt(cstr_t key, init_list_tc<elem_t>& elems) : mem_layt() { set_name(key); set_nodes(elems); }
-	mem_layt::mem_layt(init_list_tc<elem_t>& elems) : mem_layt() { set_nodes(elems); }
+	mem_layt::mem_layt(cstr_t key, elem_list_tc& elems) : mem_layt() { set_name(key); set_nodes(elems); }
+	mem_layt::mem_layt(elem_list_tc& elems) : mem_layt() { set_nodes(elems); }
 	mem_layt::mem_layt(cstr_t key, type_tc type, size_tc offset) : mem_layt() { set_name(key); set_type(type); set_offset(offset); }
 	mem_layt::mem_layt(type_tc type, size_tc offset) : mem_layt() { set_type(type); set_offset(offset); }
 	mem_layt::mem_layt(elem_tc& copy) : mem_layt() { operator=(copy); }
 	mem_layt::mem_layt(elem_t&& copy) : mem_layt() { operator=(copy); }
 	mem_layt::~mem_layt() { }
 	// --setters
-	v1nil mem_layt::set_offset(size_tc offset) {
-		m_offset = offset;
-	}
+	mem_layt::layt_t& mem_layt::set_offset(size_tc offset) { m_offset = offset; return *this; }
 	// --operators
 	op_stream_t& mem_layt::operator<<(op_stream_t& stm) const {
 		stm << "{";
