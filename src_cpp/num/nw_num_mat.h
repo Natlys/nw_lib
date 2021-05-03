@@ -212,185 +212,149 @@ namespace NW
 #	if (NW_TRUE)
 		// // --value
 		static constexpr inline mat_tc make_add(mat_tc& mat, val_tc val) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat[iy][ix] + val;
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat[iy][ix] + val; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_sub(mat_tc& mat, val_tc val) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat[iy][ix] - val;
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat[iy][ix] - val; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_mul(mat_tc& mat, val_tc val) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat[iy][ix] * val;
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat[iy][ix] * val; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_div(mat_tc& mat, val_tc val) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat[iy][ix] / val;
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat[iy][ix] / val; }
 			}
 			return res;
 		}
 		// // --vector
 		static constexpr inline vec_tc make_add(mat_tc& mat, val_tc& vec) {
-			vec_t res;
+			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u iz(0u); iz < size_x; iz++) {
-					res[iz] += m_val[iy][iz] + vec[iz];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] + vec[ix]; }
 			}
 			return res;
 		}
 		static constexpr inline vec_tc make_sub(mat_tc& mat, val_tc& vec) {
-			vec_t res;
+			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u iz(0u); iz < size_x; iz++) {
-					res[iz] += m_val[iy][iz] - vec[iz];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] - vec[ix]; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_mul(mat_tc& mat, val_tc& vec) {
-			vec_t res;
+			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u iz(0u); iz < size_x; iz++) {
-					res[iz] += m_val[iy][iz] * vec[iz];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] * vec[ix]; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_div(mat_tc& mat, val_tc& vec) {
-			vec_t res;
+			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u iz(0u); iz < size_x; iz++) {
-					res[iz] += m_val[iy][iz] / vec[iz];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] / vec[ix]; }
 			}
 			return res;
 		}
 		// // --matrix
 		static constexpr inline mat_tc make_add(mat_tc& mat0, mat_tc& mat1) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat0[iy][ix] + mat1[iy][ix];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat0[iy][ix] + mat1[iy][ix]; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_sub(mat_tc& mat0, mat_tc& mat1) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) {
-					res[iy][ix] = mat0[iy][ix] - mat1[iy][ix];
-				}
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat0[iy][ix] - mat1[iy][ix]; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_mul(mat_tc& mat0, mat_tc& mat1) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
 				for (v1u ix(0u); ix < size_x; ix++) {
-					for (v1u iz(0u); iz < size_y; iz++) {
-						res[iy][ix] += mat0[iy][iz] * mat1[iz][ix];
-					}
+					for (v1u iz(0u); iz < size_y; iz++) { res[iy][ix] += mat0[iy][iz] * mat1[iz][ix]; }
 				}
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_div(mat_tc& mat0, mat_tc& mat1) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
 				for (v1u ix(0u); ix < size_x; ix++) {
-					for (v1u iz(0u); iz < size_y; iz++) {
-						res[iy][ix] += mat0[iy][iz] / mat1[iz][ix];
-					}
+					for (v1u iz(0u); iz < size_y; iz++) { res[iy][ix] += mat0[iy][iz] / mat1[iz][ix]; }
 				}
 			}
 			return res;
 		}
 		template<size_tc sz_x, size_tc sz_y> static constexpr d_mat_tc<sz_x, sz_y> make_add(mat_tc& mat0, d_mat_tc<sz_x, sz_y>& mat1) {
-			d_mat_t<sz_x, size_y> res;
+			d_mat_t<sz_x, size_y> res(NW_NULL);
 			for (v1u iy(0u); iy < NW_NUM_MIN(sz_y, size_y); iy++) {
-				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) {
-					res[iy][ix] += mat0[iy][ix] + mat1[iy][ix];
-				}
+				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) { res[iy][ix] += mat0[iy][ix] + mat1[iy][ix]; }
 			}
 			return res;
 		}
 		template<size_tc sz_x, size_tc sz_y> static constexpr d_mat_tc<sz_x, sz_y> make_sub(mat_tc& mat0, d_mat_tc<sz_x, sz_y>& mat1) {
-			d_mat_t<sz_x, size_y> res;
+			d_mat_t<sz_x, size_y> res(NW_NULL);
 			for (v1u iy(0u); iy < NW_NUM_MIN(sz_y, size_y); iy++) {
-				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) {
-					res[iy][ix] += mat0[iy][ix] - mat1[iy][ix];
-				}
+				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) { res[iy][ix] += mat0[iy][ix] - mat1[iy][ix]; }
 			}
 			return res;
 		}
 		template<size_tc sz_x> static constexpr d_mat_tc<sz_x, size_x> make_mul(mat_tc& mat0, d_mat_tc<sz_x, size_x>& mat1) {
-			d_mat_t<sz_x, size_y> res;
+			d_mat_t<sz_x, size_y> res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < sz_x; ix++) {
-					for (v1u iz(0u); iz < NW_NUM_MIN(sz_x, size_x); iz++) {
-						res[iy][ix] += mat0[iy][iz] * mat1[iz][ix];
-					}
+				for (v1u ix(0u); ix < size_x; ix++) {
+					for (v1u iz(0u); iz < sz_x; iz++) { res[iy][ix] += mat0[iy][iz] * mat1[iz][ix]; }
 				}
 			}
 			return res;
 		}
 		template<size_tc sz_x> static constexpr d_mat_tc<sz_x, size_x> make_div(mat_tc& mat0, d_mat_tc<sz_x, size_x>& mat1) {
-			d_mat_t<sz_x, size_y> res;
+			d_mat_t<sz_x, size_y> res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < sz_x; ix++) {
-					for (v1u iz(0u); iz < NW_NUM_MIN(sz_x, size_x); iz++) {
-						res[iy][ix] += mat0[iy][iz] / mat1[iz][ix];
-					}
+				for (v1u ix(0u); ix < size_x; ix++) {
+					for (v1u iz(0u); iz < sz_x; iz++) { res[iy][ix] += mat0[iy][iz] / mat1[iz][ix]; }
 				}
 			}
 			return res;
 		}
 		template<size_tc sz_x, size_tc sz_y> static constexpr d_mat_tc<sz_x, sz_y> make_mat(mat_tc& mat) {
-			d_mat_t<sz_x, sz_y> res;
+			d_mat_t<sz_x, sz_y> res(NW_NULL);
 			for (v1u iy(0u); iy < NW_NUM_MIN(sz_y, size_y); iy++) {
-				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) {
-					res[iy][ix] = mat[iy][ix];
-				}
+				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) { res[iy][ix] = mat[iy][ix]; }
 			}
 			return res;
 		}
 		template<size_tc sz_x, size_tc sz_y> static constexpr d_mat_tc<sz_x, sz_y> make_mat(mat_tc&& mat) {
-			d_mat_t<sz_x, sz_y> res;
+			d_mat_t<sz_x, sz_y> res(NW_NULL);
 			for (v1u iy(0u); iy < NW_NUM_MIN(sz_y, size_y); iy++) {
-				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) {
-					res[iy][ix] = mat[iy][ix];
-				}
+				for (v1u ix(0u); ix < NW_NUM_MIN(sz_x, size_x); ix++) { res[iy][ix] = mat[iy][ix]; }
 			}
 			return res;
 		}
 		static constexpr inline mat_tc make_ident(val_tc diag = NW_UNIT) {
 			static_assert(size_x == size_y, "this operation cannot be used for a not square mat");
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u idiag(0u); idiag < get_size_max(); idiag++) { res[idiag][idiag] = diag; }
 			return res;
 		}
 		static constexpr inline mat_tc make_trpos(mat_tc& mat) {
-			mat_t res;
+			mat_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) { for (v1u ix(0u); ix < size_x; ix++) { res[iy][ix] = mat[ix][iy]; } }
 			return res;
 		}
@@ -474,11 +438,7 @@ namespace NW
 		}
 		static constexpr inline mat_tc make_rand(val_tc vmin, val_tc vmax) {
 			mat_t res(first);
-			for (v1u iy(0u); iy < get_size_y(); iy++) {
-				for (v1u ix(0u); ix < get_size_x(); ix++) {
-					res[iy][ix] = get_rand<val_t>(vmin, vmax);
-				}
-			}
+			for (v1u iy(0u); iy < get_size_y(); iy++) { res[iy] = vec_t::make_rand(vmin, vmax); }
 			return res;
 		}
 		static constexpr inline mat_tc apply_all(mat_tc& mat, func_tc<vec_tc(val_tc& val)>& func) {
@@ -503,13 +463,22 @@ namespace NW
 	public:
 		vec_t m_val[size_y];
 	};
+	// --typedefs
+	template<typename tval, size_tc size_x, size_tc size_y> using num_mat_tc = const num_mat_t<tval, size_x, size_y>;
+	// --mathematics
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator+(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator+(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator-(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator-(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator*(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator*(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator/(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator/(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator+=(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator+=(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator-=(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator-=(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator*=(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator*=(val); }
+	template<typename tname, typename tval, size_tc size_x, size_tc size_y> num_mat_tc<tval, size_x, size_y> operator/=(tname val, num_mat_tc<tval, size_x, size_y> mat) { return mat.operator/=(val); }
 	// --input_output
 	template<typename tval, size_tc size_x, size_tc size_y>
 	inline std::ostream& operator<<(std::ostream& stm, const num_mat_t<tval, size_x, size_y>& matrix) { return matrix.operator<<(stm); }
 	template<typename tval, size_tc size_x, size_tc size_y>
 	inline std::istream& operator>>(std::istream& stm, num_mat_t<tval, size_x, size_y>& matrix) { return matrix.operator>>(stm); }
-	// --typedefs
-	template<typename tval, size_tc size_x, size_tc size_y> using num_mat_tc = const num_mat_t<tval, size_x, size_y>;
 }
 #	if (!defined NW_FOREACH && !defined NW_INVOKER && !defined NW_ITERATOR)
 #	define NW_FOREACH(INVOKER, ITERATOR) \

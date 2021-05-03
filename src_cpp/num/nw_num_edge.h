@@ -27,6 +27,8 @@ namespace NW
 		constexpr inline d_edge_t(edge_t&& copy) : d_edge_t() { m_beg = copy.m_beg; m_end = copy.m_end; }
 		inline ~d_edge_t() = default;
 		// --getters
+		// // --info
+		static constexpr inline size_tc get_dcount() { return dims; }
 		// --operators
 		// // --mathematics
 		// // --asignment

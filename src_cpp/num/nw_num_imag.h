@@ -42,11 +42,16 @@ namespace NW
 #	endif	// constructor_destructor
 		// --getters
 #	if (NW_TRUE)
+		// // --info
+		static constexpr inline size_tc get_dcount() { return dims; }
 		// // --real_part
 		inline inum_tc get_add(real_tc real) const { return make_add(*this, real); }
 		inline inum_tc get_sub(real_tc real) const { return make_sub(*this, real); }
 		inline inum_tc get_mul(real_tc real) const { return make_mul(*this, real); }
 		inline inum_tc get_div(real_tc real) const { return make_div(*this, real); }
+		inline real_tc get_dst(inum_tc& inum) const { return make_dst(*this, inum); }
+		inline real_tc get_dot(inum_tc& inum) const { return make_dot(*this, inum); }
+		inline real_tc get_len() const { return make_len(*this); }
 		// // --imag_part
 		inline inum_tc get_add(imag_tc& iamg) const { return make_add(*this, imag); }
 		inline inum_tc get_sub(imag_tc& iamg) const { return make_sub(*this, imag); }
@@ -57,6 +62,8 @@ namespace NW
 		inline inum_tc get_sub(inum_tc& inum) const { return make_sub(*this, inum); }
 		inline inum_tc get_mul(inum_tc& inum) const { return make_mul(*this, inum); }
 		inline inum_tc get_div(inum_tc& inum) const { return make_div(*this, inum); }
+		inline inum_tc get_conj() const { return make_conj(*this); }
+		inline inum_tc get_inver() const { return make_inver(*this); }
 #	endif	// getters
 		// --setters
 #	if (NW_TRUE)
@@ -110,8 +117,10 @@ namespace NW
 		inline inum_t& operator-=(inum_tc& inum) { return *this = make_sub(*this, inum); }
 		inline inum_t& operator*=(inum_tc& inum) { return *this = make_mul(*this, inum); }
 		inline inum_t& operator/=(inum_tc& inum) { return *this = make_div(*this, inum); }
-		inline inum_tc operator+() { return inum_t(+m_real, +m_imag); }
-		inline inum_tc operator-() { return inum_t(-m_real, -m_imag); }
+		inline inum_t& operator+()       { m_real = +m_real; m_imag = +m_imag; return *this; }
+		inline inum_tc operator+() const { return inum_t(+m_real, +m_imag); }
+		inline inum_t& operator-()       { m_real = -m_real; m_imag = -m_imag; return *this; }
+		inline inum_tc operator-() const { return inum_t(-m_real, -m_imag); }
 #		endif	// mathematics
 		// // --assignment
 #		if (NW_TRUE)
@@ -122,8 +131,8 @@ namespace NW
 		// // // --imaginary_numbers
 		inline inum_t& operator=(inum_tc& inum) { m_real = inum.m_real; m_imag = inum.m_imag; return *this; }
 		inline inum_t& operator=(inum_t&& inum) { m_real = inum.m_real; m_imag = inum.m_imag; return *this; }
-		template<size_tc inum_dims> inum_t& operator=(num_imag_tc<inum_dims>& inum) const { m_real = inum.m_real; m_imag = inum.m_imag; return this*; }
-		template<size_tc inum_dims> inum_t& operator=(num_imag_t<inum_dims>&& inum) const { m_real = inum.m_real; m_imag = inum.m_imag; return this*; }
+		template<size_tc inum_dims> inum_t& operator=(num_imag_tc<inum_dims>& inum) { m_real = inum.m_real; m_imag = inum.m_imag; return *this; }
+		template<size_tc inum_dims> inum_t& operator=(num_imag_t<inum_dims>&& inum) { m_real = inum.m_real; m_imag = inum.m_imag; return *this; }
 #		endif	// assignment
 		// // --conversion
 #		if (NW_TRUE)
@@ -135,6 +144,8 @@ namespace NW
 #		endif	// conversion
 		// // --input_output
 #		if (NW_TRUE)
+		inline std::ostream& operator<<(std::ostream& stm) const { stm << "{" << m_real << m_imag; stm << "};"; return stm; }
+		inline std::istream& operator>>(std::istream& stm)       { stm >> m_real >> m_imag; return stm; }
 #		endif	// input_output
 #	endif	// operators
 		// --core_methods
@@ -143,13 +154,13 @@ namespace NW
 		static constexpr inline inum_tc make_add(inum_tc& inum, real_tc real) {
 			inum_t res;
 			res.m_real = inum.m_real + real;
-			res.m_imag = inum.m_imag;
+			res.m_imag = inum.m_imag + 0.0f;
 			return res;
 		}
 		static constexpr inline inum_tc make_sub(inum_tc& inum, real_tc real) {
 			inum_t res;
 			res.m_real = inum.m_real - real;
-			res.m_imag = inum.m_imag;
+			res.m_imag = inum.m_imag - 0.0f;
 			return res;
 		}
 		static constexpr inline inum_tc make_mul(inum_tc& inum, real_tc real) {
@@ -166,34 +177,44 @@ namespace NW
 		}
 		static constexpr inline real_tc make_len(inum_tc& inum) {
 			real_t res(inum.m_real * inum.m_real);
-			for (v1u idim(0u); idim < dims; idim++) { res += (inum.m_imag[idim] * inum.m_imag[idim]); }
+			for (v1u idim(0u); idim < dims; idim++) { res += inum.m_imag[idim] * inum.m_imag[idim]; }
+			return NW_NUM_ROOT(res, 2u);
+		}
+		static constexpr inline real_tc make_dst(inum_tc& inum0, inum_tc& inum1) {
+			real_t res((inum1.m_real * inum1.m_real) - (inum0.m_real * inum0.m_real));
+			for (v1u idim(0u); idim < dims; idim++) { res += (inum1.m_imag[idim] - inum0.m_imag[idim]) * (inum1.m_imag[idim] - inum0.m_imag[idim]); }
 			return NW_NUM_ROOT(res, 2u);
 		}
 		static constexpr inline real_tc make_dot(inum_tc& inum0, inum_tc& inum1) {
-			return real_tc(inum0.m_real * inum1.m_real + imag_t::make_dot(inum0.m_imag, inum1.m_imag));
+			real_t res(inum0.m_real * inum1.m_real);
+			for (v1u idim(0u); idim < dims; idim++) { res += inum0.m_imag[idim] * inum1.m_imag[idim]; }
+			return res;
 		}
 		// // --imag_part
 		static constexpr inline inum_tc make_add(inum_tc& inum, imag_tc& imag) {
 			inum_t res;
-			res.m_real = inum.m_real;
+			res.m_real = inum.m_real + 0.0f;
 			res.m_imag = inum.m_imag + imag;
 			return res;
 		}
 		static constexpr inline inum_tc make_sub(inum_tc& inum, imag_tc& imag) {
 			inum_t res;
-			res.m_real = inum.m_real;
+			res.m_real = inum.m_real - 0.0f;
 			res.m_imag = inum.m_imag - imag;
 			return res;
 		}
 		static constexpr inline inum_tc make_mul(inum_tc& inum, imag_tc& imag) {
 			inum_t res;
-			res.m_real = (inum.m_real * 0.0f) - imag_t::make_dot(inum.m_imag, imag);
-			res.m_imag = (inum.m_real * imag) + (0.0f * imag) - imag_t::make_crs(inum.m_imag, imag);
+			//res.m_real = (inum.m_real * 0.0f) - imag_t::make_dot(inum.m_imag, imag);
+			//res.m_imag = (inum.m_real * imag) + (0.0f * imag) - imag_t::make_crs(inum.m_imag, imag);
+			res.m_real = -imag_t::make_dot(inum.m_imag, imag);
+			res.m_imag = (inum.m_real * imag) - imag_t::make_crs(inum.m_imag, imag);
 			return res;
 		}
 		static constexpr inline inum_tc make_div(inum_tc& inum, imag_tc& imag) {
 			inum_t res;
-			res = make_div(inum, inum_tc(imag));
+			res.m_real = (inum.m_real / 0.0f) - imag_t::make_dot(inum.m_imag, imag);
+			res.m_imag = (inum.m_real / imag) + (0.0f / imag) - imag_t::make_crs(inum.m_imag, imag);
 			return res;
 		}
 		// // --imaginary_number
@@ -217,21 +238,17 @@ namespace NW
 		}
 		static constexpr inline inum_tc make_div(inum_tc& inum0, inum_tc& inum1) {
 			inum_t res;
+			res.m_real = (inum0.m_real / inum1.m_real) - imag_t::make_dot(inum0.m_imag, inum1.m_imag);
+			res.m_imag = (inum0.m_real / inum1.m_imag) + (inum1.m_real / inum0.m_imag) + imag_t::make_crs(inum0.m_imag, inum1.m_imag);
 			return res;
 		}
 		static constexpr inline inum_tc make_conj(inum_tc& inum) { return inum_tc(inum.m_real, -inum.m_imag); }
 		static constexpr inline inum_tc make_norm(inum_tc& inum) { return inum / make_len(inum); }
 		static constexpr inline inum_tc make_diff(inum_tc& inum0, inum_tc& inum1) { return inum_tc(); }
-		static constexpr inline inum_tc make_inver(inum_tc& inum) { return make_conj(inum) / make_dot(inum, inum); }
+		static constexpr inline inum_tc make_inver(inum_tc& inum) { return make_conj(inum) / make_len(inum); }
 		static constexpr inline inum_tc make_rotat(real_tc angle, imag_tc& axis, vec_tc& vec) {
-			inum_t res;
-			real_tc cos = NW_NUM_COS( ( angle < 0.0f ? 359.9f : (angle > 360.0f ? 0.1f : angle) ) * 0.5f );
-			real_tc sin = NW_NUM_SIN( ( angle < 0.0f ? 359.9f : (angle > 360.0f ? 0.1f : angle) ) * 0.5f );
-			res.m_real = cos;
-			res.m_imag = sin * axis.get_norm();
-			res *= vec;
-			res *= make_inver(res);
-			return res;
+			inum_t rotat(NW_NUM_COS(angle), axis.get_norm() * NW_NUM_SIN(angle));
+			return (rotat * vec) * make_inver(rotat);
 		}
 		// // --matrix
 		static constexpr inline mat_tc make_mat(inum_tc& inum) {
@@ -243,6 +260,20 @@ namespace NW
 		real_t m_real;
 		imag_t m_imag;
 	};
+	// --typedefs
+	template<size_tc dims> using num_imag_tc = const num_imag_t<dims>;
+	// --mathematics
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator+(tname val, num_imag_tc<dims>& inum) { return inum.operator+(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator-(tname val, num_imag_tc<dims>& inum) { return inum.operator-(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator*(tname val, num_imag_tc<dims>& inum) { return inum.operator*(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator/(tname val, num_imag_tc<dims>& inum) { return inum.operator/(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator+=(tname val, num_imag_tc<dims>& inum) { return inum.operator+=(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator-=(tname val, num_imag_tc<dims>& inum) { return inum.operator-=(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator*=(tname val, num_imag_tc<dims>& inum) { return inum.operator*=(val); }
+	template<typename tname, size_tc dims> num_imag_tc<dims> operator/=(tname val, num_imag_tc<dims>& inum) { return inum.operator/=(val); }
+	// --input_output
+	template<size_tc dims> std::ostream& operator<<(std::ostream& stm, num_imag_tc<dims>& inum) { return inum.operator<<(stm); }
+	template<size_tc dims> std::istream& operator>>(std::istream& stm, num_imag_t<dims>& inum) { return inum.operator>>(stm); }
 	// --typedefs
 	typedef num_imag_t<1u> inum1d_t;
 	typedef num_imag_t<2u> inum2d_t;

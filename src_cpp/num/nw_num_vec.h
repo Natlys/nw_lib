@@ -2,8 +2,8 @@
 #define NW_NUM_VECTOR_H
 #include "nw_lib_core.hpp"
 #if (defined NW_API)
-#	include "nw_num_val.h"
 #	include "../std/nw_std_func.h"
+#	include "nw_num_val.h"
 namespace NW
 {
 	/// number_vector struct
@@ -51,6 +51,10 @@ namespace NW
 		// // --info
 		static constexpr inline size_tc get_count() { return dims; }
 		// // --value
+		inline vec_tc get_add(val_tc& val) const { return make_add(*this, val); }
+		inline vec_tc get_sub(val_tc& val) const { return make_sub(*this, val); }
+		inline vec_tc get_mul(val_tc& val) const { return make_mul(*this, val); }
+		inline vec_tc get_div(val_tc& val) const { return make_div(*this, val); }
 		inline val_tc get_len() const { return make_len(*this); }
 		inline val_tc get_dst(vec_tc& vec) const { return make_dst(*this, vec); }
 		inline val_tc get_cos(vec_tc& vec) const { return make_cos(*this, vec); }
@@ -60,6 +64,10 @@ namespace NW
 		inline val_tc get_near_dst(vecs_tc& vecs) const { return make_near_dst(*this, vecs); }
 		inline val_tc get_near_dst(vec_list_tc& vecs) const { return make_near_dst(*this, vecs); }
 		// // --vector
+		inline vec_tc get_add(vec_tc& vec) const { return make_add(*this, vec); }
+		inline vec_tc get_sub(vec_tc& vec) const { return make_sub(*this, vec); }
+		inline vec_tc get_mul(vec_tc& vec) const { return make_mul(*this, vec); }
+		inline vec_tc get_div(vec_tc& vec) const { return make_div(*this, vec); }
 		inline vec_tc get_crs(vec_tc& vec) const { return make_crs(*this, vec); }
 		inline vec_tc get_norm() const { return make_norm(*this); }
 		inline vec_tc get_near(vecs_tc& vecs) const { return make_near(*this, vecs); }
@@ -68,6 +76,16 @@ namespace NW
 #	endif	// getters
 		// --setters
 #	if (NW_TRUE)
+		// // --value
+		inline vec_t& set_add(val_tc& val) { return get_add(val); }
+		inline vec_t& set_sub(val_tc& val) { return get_sub(val); }
+		inline vec_t& set_mul(val_tc& val) { return get_mul(val); }
+		inline vec_t& set_div(val_tc& val) { return get_div(val); }
+		// // --vector
+		inline vec_t& set_add(vec_tc& vec) { return *this = get_add(vec); }
+		inline vec_t& set_sub(vec_tc& vec) { return *this = get_sub(vec); }
+		inline vec_t& set_mul(vec_tc& vec) { return *this = get_mul(vec); }
+		inline vec_t& set_div(vec_tc& vec) { return *this = get_div(vec); }
 		inline vec_t& set_crs() { return *this = get_crs(); }
 		inline vec_t& set_norm() { return *this = get_norm(); }
 		inline vec_t& set_near(vecs_tc& vecs) { return *this = get_near(vecs); }
@@ -79,25 +97,27 @@ namespace NW
 		// // --mathematics
 #		if (NW_TRUE)
 		// // // --value
-		inline vec_tc operator+(val_tc val) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] + val; } return res; }
-		inline vec_tc operator-(val_tc val) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] - val; } return res; }
-		inline vec_tc operator*(val_tc val) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] * val; } return res; }
-		inline vec_tc operator/(val_tc val) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] / val; } return res; }
-		inline vec_t& operator+=(val_tc val) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] += val; } return *this; }
-		inline vec_t& operator-=(val_tc val) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] -= val; } return *this; }
-		inline vec_t& operator*=(val_tc val) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] *= val; } return *this; }
-		inline vec_t& operator/=(val_tc val) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] /= val; } return *this; }
+		inline vec_tc operator+(val_tc val) const { return get_add(val); }
+		inline vec_tc operator-(val_tc val) const { return get_sub(val); }
+		inline vec_tc operator*(val_tc val) const { return get_mul(val); }
+		inline vec_tc operator/(val_tc val) const { return get_div(val); }
+		inline vec_t& operator+=(val_tc val) { return set_add(val); }
+		inline vec_t& operator-=(val_tc val) { return set_sub(val); }
+		inline vec_t& operator*=(val_tc val) { return set_mul(val); }
+		inline vec_t& operator/=(val_tc val) { return set_div(val); }
 		// // // --vector
-		inline vec_tc operator+(vec_tc& vec) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] + vec[ix]; } return res; }
-		inline vec_tc operator-(vec_tc& vec) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] - vec[ix]; } return res; }
-		inline vec_tc operator*(vec_tc& vec) const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] * vec[ix]; } return res; }
-		inline vec_tc operator/(vec_tc& vec) const { val_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = m_val[ix] / vec[ix]; } return res; }
-		inline vec_t& operator+=(vec_tc& vec) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] += vec[ix]; } return *this; }
-		inline vec_t& operator-=(vec_tc& vec) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] -= vec[ix]; } return *this; }
-		inline vec_t& operator*=(vec_tc& vec) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] *= vec[ix]; } return *this; }
-		inline vec_t& operator/=(vec_tc& vec) { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] /= vec[ix]; } return *this; }
-		inline vec_tc operator+() const { vec_t res(*this); for (v1u ix(0u); ix < dims; ix++) { res[ix] = +m_val[ix]; } return res; }
-		inline vec_tc operator-() const { vec_t res(*this); for (v1u ix(0u); ix < dims; ix++) { res[ix] = -m_val[ix]; } return res; }
+		inline vec_tc operator+(vec_tc& vec) const { return get_add(vec); }
+		inline vec_tc operator-(vec_tc& vec) const { return get_sub(vec); }
+		inline vec_tc operator*(vec_tc& vec) const { return get_mul(vec); }
+		inline vec_tc operator/(vec_tc& vec) const { return get_div(vec); }
+		inline vec_t& operator+=(vec_tc& vec) { return set_add(vec); }
+		inline vec_t& operator-=(vec_tc& vec) { return set_sub(vec); }
+		inline vec_t& operator*=(vec_tc& vec) { return set_mul(vec); }
+		inline vec_t& operator/=(vec_tc& vec) { return set_div(vec); }
+		inline vec_t& operator+()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = +m_val[ix]; } return *this; }
+		inline vec_tc operator+() const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = +m_val[ix]; } return res; }
+		inline vec_t& operator-()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = -m_val[ix]; } return *this; }
+		inline vec_tc operator-() const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = -m_val[ix]; } return res; }
 #		endif	// mathematics
 		// // --asignment
 #		if (NW_TRUE)
@@ -116,7 +136,8 @@ namespace NW
 		// // --conversion
 #		if (NW_TRUE)
 		// // // --value
-		inline operator val_t() const { return get_len(); }
+		// inline operator val_t&()        { return m_val[0]; }
+		// inline operator val_tc&() const { return m_val[0]; }
 		// // // --vector
 		template<typename tname> operator t_vec_t<tname>() { t_vec_t<tname> res; for (v1u ix(0u); ix < dim; ix++) { res[ix] = m_val[ix]; } return res; }
 		template<size_tc vec_dims> operator d_vec_t<vec_dims>() { d_vec_t<vec_dims> res; for (v1u ix(0u); ix < NW_NUM_MIN(dims, vec_dims); ix++) { res[ix] = m_val[ix]; } return res; }
@@ -147,33 +168,30 @@ namespace NW
 		// --core_methods
 #	if (NW_TRUE)
 		// // --value
-		static constexpr inline vec_tc make_add(vec_tc vec, val_tc val) {
-			vec_t res;
-			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] + val[ix]; }
+		static constexpr inline vec_tc make_add(vec_tc& vec, val_tc val) {
+			vec_t res(NW_NULL);
+			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] + val; }
 			return res;
 		}
-		static constexpr inline vec_tc make_sub(vec_tc vec, val_tc val) {
-			vec_t res;
-			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] - val[ix]; }
+		static constexpr inline vec_tc make_sub(vec_tc& vec, val_tc val) {
+			vec_t res(NW_NULL);
+			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] - val; }
 			return res;
 		}
-		static constexpr inline vec_tc make_mul(vec_tc vec, val_tc val) {
-			vec_t res;
-			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] * val[ix]; }
+		static constexpr inline vec_tc make_mul(vec_tc& vec, val_tc val) {
+			vec_t res(NW_NULL);
+			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] * val; }
 			return res;
 		}
-		static constexpr inline vec_tc make_div(vec_tc vec, val_tc val) {
-			vec_t res;
-			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] / val[ix]; }
+		static constexpr inline vec_tc make_div(vec_tc& vec, val_tc val) {
+			vec_t res(NW_NULL);
+			for (v1u ix(0u); ix < dims; ix++) { res[ix] = vec[ix] / val; }
 			return res;
 		}
 		static constexpr inline val_tc make_dot(vec_tc& vec0, vec_tc& vec1) {
-			v1f res(NW_NULL);
+			val_t res(NW_NULL);
 			for (v1u ix(0u); ix < dims; ix++) { res += vec0[ix] * vec1[ix]; }
 			return res;
-		}
-		static constexpr inline val_tc make_cos(vec_tc& vec0, vec_tc& vec1) {
-			return get_dot(vec0, vec1) / (vec0.get_len() * vec1.get_len());
 		}
 		static constexpr inline val_tc make_dst(vec_tc& vec0, vec_tc& vec1) {
 			val_t res(NW_NULL);
@@ -182,9 +200,10 @@ namespace NW
 		}
 		static constexpr inline val_tc make_len(vec_tc& vec) {
 			val_t res(NW_NULL);
-			for (v1u ix(0u); ix < dims; ix++) { res += NW_NUM_POW(vec[ix], 2); }
+			for (v1u ix(0u); ix < dims; ix++) { res += vec[ix] * vec[ix]; }
 			return NW_NUM_ROOT(res, 2);
 		}
+		static constexpr inline val_tc make_cos(vec_tc& vec0, vec_tc& vec1) { return get_dot(vec0, vec1) / (vec0.get_len() * vec1.get_len()); }
 		static constexpr inline val_tc make_near_dst(vec_tc& vec, vecs_tc& vecs) {
 			v1f dst(INFINITY);
 			for (v1u ixy = 0u; ixy < vecs.size(); ixy++) {
@@ -202,8 +221,7 @@ namespace NW
 			return dst;
 		}
 		static constexpr inline cv1u make_near_idx(vec_tc& vec, vecs_tc& vecs) {
-			v1f dst(INFINITY);
-			v1u idx(NW_NULL);
+			v1f dst(INFINITY); v1u idx(NW_NULL);
 			for (v1u ixy = 0u; ixy < vecs.size(); ixy++) {
 				v1f next = vec.get_dst(vecs[ixy]);
 				if (next < dst) { dst = next; idx = ixy; }
@@ -211,8 +229,7 @@ namespace NW
 			return idx;
 		}
 		static constexpr inline cv1u make_near_idx(vec_tc& vec, vec_list_tc& vecs) {
-			v1f dst(INFINITY);
-			v1u idx(NW_NULL);
+			v1f dst(INFINITY); v1u idx(NW_NULL);
 			for (v1u ixy = 0u; ixy < vecs.size(); ixy++) {
 				v1f next = vec.get_dst(vecs[ixy]);
 				if (next < dst) { dst = next; idx = ixy; }
@@ -243,21 +260,17 @@ namespace NW
 		static constexpr inline vec_tc make_unit(val_tc val = NW_UNIT) { return vec_t(val); }
 		static constexpr inline vec_tc make_crs(vec_tc& vec0, vec_tc& vec1) {
 			static_assert(dims >= 3, "not enough dimensions for cross product");
-			vec_t res(NW_NULL);
+			vec_t res;
 			res[0] = (vec0[1] * vec1[2]) - (vec0[2] * vec1[1]);
 			res[1] = (vec0[2] * vec1[0]) - (vec0[0] * vec1[2]);
 			res[2] = (vec0[0] * vec1[1]) - (vec0[1] * vec1[0]);
 			return res;
 		}
 		static constexpr inline vec_tc make_norm(vec_tc& vec) { return vec / vec.get_len(); }
-		static constexpr inline vec_tc make_near(vec_tc& vec, vecs_tc& vecs) {
-			return vecs[make_near_idx(vec, vecs)];
-		}
-		static constexpr inline vec_tc make_near(vec_tc& vec, vec_list_tc& vecs) {
-			return vecs[make_near_idx(vec, vecs)];
-		}
+		static constexpr inline vec_tc make_near(vec_tc& vec, vecs_tc& vecs) { return vecs[make_near_idx(vec, vecs)]; }
+		static constexpr inline vec_tc make_near(vec_tc& vec, vec_list_tc& vecs) { return vecs[make_near_idx(vec, vecs)]; }
 		static constexpr inline vec_tc make_rand(val_tc vmin, val_tc vmax) {
-			vec_t res(NW_NULL);
+			vec_t res;
 			for (v1u idim(0u); idim < get_count(); idim++) { res[idim] = get_rand<val_t>(vmin, vmax); }
 			return res;
 		}
@@ -268,19 +281,26 @@ namespace NW
 		}
 		static constexpr inline vec_tc apply_all(vec_tc& vec, func_tc<val_tc(val_tc& val)>& func) { for (v1u idim(0u); idim < get_count(); idim++) { vec[idim] = func(vec[idim]); } }
 		static constexpr inline vec_tc apply_all(vec_tc& vec, func_tc<val_tc(val_tc& val, cv1u dim)>& func) { for (v1u idim(0u); idim < get_count(); idim++) { vec[idim] = func(vec[idim], idim); } }
-		inline vec_t& apply_all(func_tc<val_tc(val_tc& val)>& func) { return this* = apply_all(*this, func); }
-		inline vec_t& apply_all(func_tc<val_tc(val_tc& val, cv1u dim)>& func) { return this* = apply_all(*this, func); }
+		inline vec_t& apply_all(func_tc<val_tc(val_tc& val)>& func) { return *this = apply_all(*this, func); }
+		inline vec_t& apply_all(func_tc<val_tc(val_tc& val, cv1u dim)>& func) { return *this = apply_all(*this, func); }
 #	endif	// core_methods
 	public:
 		val_t m_val[dims];
 	};
-	// --input_output
-	template<typename tval, size_tc dims>
-	inline std::ostream& operator<<(std::ostream& stm, const num_vec_t<tval, dims>& vector) { return vector.operator<<(stm); }
-	template<typename tval, size_tc dims>
-	inline std::istream& operator>>(std::istream& stm, num_vec_t<tval, dims>& vector) { return vector.operator>>(stm); }
-	// typedefs
+	// --typedefs
 	template<typename tval, size_tc dims> using num_vec_tc = const num_vec_t<tval, dims>;
+	// --mathematics
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator+(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator+(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator-(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator-(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator*(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator*(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator/(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator/(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator+=(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator+=(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator-=(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator-=(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator*=(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator*=(val); }
+	template<typename tname, typename tval, size_tc dims> num_vec_tc<tval, dims> operator/=(tname val, num_vec_tc<tval, dims>& vec) { return vec.operator/=(val); }
+	// --input_output
+	template<typename tval, size_tc dims> std::ostream& operator<<(std::ostream& stm, num_vec_tc<tval, dims>& vec) { return vec.operator<<(stm); }
+	template<typename tval, size_tc dims> std::istream& operator>>(std::istream& stm, num_vec_t<tval, dims>& vec) { return vec.operator>>(stm); }
 }
 #	if (!defined NW_FOREACH && !defined NW_INVOKER && !defined NW_ITERATOR)
 #	define NW_FOREACH(INVOKER, ITERATOR) \

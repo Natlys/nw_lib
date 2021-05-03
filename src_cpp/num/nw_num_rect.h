@@ -44,11 +44,11 @@ namespace NW
 #		endif	// constructor_destructor
 		// --getters
 #		if (NW_TRUE)
-		static constexpr inline size_tc get_count() { return dims; }
-		static constexpr inline size_tc get_vcount() { return 1ul << get_count(); }
+		static constexpr inline size_tc get_dcount() { return dims; }
+		static constexpr inline size_tc get_dcount(size_tc dcount) { return NW_NUM_POW(2u, dcount - dims) * NW_NUM_COMBIN(dcount, dims, NW_FALSE); }
+		static constexpr inline size_tc get_vcount() { return 1ul << get_dcount(); }
 		static constexpr inline size_tc get_ecount() { return NW_CAST_SIZE( NW_CAST_FLOAT(get_vcount() * get_count()) * 0.5f ); }
-		static constexpr inline size_tc get_fcount() { return get_vcount() * 1u; }
-		static constexpr inline size_tc get_count(size_tc dcount) { return NW_NUM_POW(2u, dcount - dims) * NW_NUM_COMBIN(dcount, dims, NW_FALSE); }
+		static constexpr inline size_tc get_fcount() { return get_dcount(3u); }
 		inline cv1f get_half(size_tc dim) const { return m_halfsz[dim] * 1u; }
 		inline cv1f get_size(size_tc dim) const { return m_halfsz[dim] * 2u; }
 		inline cv1f get_dst(rect_tc& rect) const { return make_dst(*this, rect); }
@@ -82,7 +82,7 @@ namespace NW
 		static constexpr inline vert_tc make_vert(rect_tc& rect, size_t vindex) { // make a vertex coordinate accordingly to it's index
 			vert_t res;
 			vindex = ~vindex;
-			for (v1u idim(0u); idim < get_count(); idim++) {
+			for (v1u idim(0u); idim < get_dcount(); idim++) {
 				res[idim] = rect.m_center[idim] + (vindex % 2 ? +rect.m_halfsz[idim] : -rect.m_halfsz[idim]);
 				vindex /= 2u;
 			}
@@ -93,25 +93,15 @@ namespace NW
 			for (v1u ivert(0u); ivert < res.size(); ivert++) { res[ivert] = make_vert(rect, ivert); }
 			return res;
 		}
-		static constexpr inline edge_tc make_edge(rect_tc& rect, size_t eindex) { // make an edge coordinate accordingly to it's index
-			edge_t res;
-			res.m_beg = make_vert(rect, (eindex + (eindex + 0) % get_count()));
-			res.m_end = make_vert(rect, (eindex + (eindex + 1 ) % get_count()));
-			return res;
-		}
-		static constexpr inline edata_tc make_edata(rect_tc& rect) { // make a list of all edge coordinates
-			edata_t res(get_ecount());
-			for (v1u iedge(0u); iedge < res.size(); iedge++) { res[iedge] = make_edge(rect, iedge); }
-			return res;
-		}
 		static constexpr inline idata_tc make_idata_vert() { // make an indexed list of points
 			idata_t res(get_vcount());
 			for (v1u idx(0u); idx < res.size(); idx += 1u) { res[idx] = idx; }
 			return res;
 		}
 		static constexpr inline idata_tc make_idata_wire() { // make an indexed list of lines
-			idata_t res; res.reserve(get_vcount() + get_ecount());
-			v1u last(0u), inum(0u);
+			idata_t res(get_vcount() * get_dcount() * 2u, 0u); v1u last(0u);
+#			if (NW_FALSE)
+			v1u inum(0u);
 			for ( v1u idim(0u); idim < get_count(); inum = (1 << (idim += 1u)) ) {
 				for ( v1u istep(1u << dims >> 1u); istep > (idim << 1u); istep >>= 1u ) {
 					res.push_back(inum);
@@ -127,11 +117,36 @@ namespace NW
 				}
 				inum = 1u << idim;
 			}
+#			endif
+			for (v1u ivtx(0u); ivtx < get_vcount(); ivtx += 1u) { // every vertex is a node for "d" edges;
+				for (v1u idim(0u); idim < get_dcount(); idim += 1u) { // every ivtx is a set of 0 and 1;
+					// take every digit of the current number(to work with left zeros - add next bit);
+					v1u dgt = ((get_vcount() + ivtx) >> (idim)) % 2;
+					// add the vertex index every time;
+					res[last++] = ivtx + 0u;
+					// push another vertex with offset in only one dimension which is simply one different sign;
+					res[last++] = dgt == 0u ? (ivtx + (1u << idim)) : (ivtx - (1u << idim));
+				}
+			}
 			return res;
 		}
 		static constexpr inline idata_tc make_idata_trig() { // make an indexed list of triangles
 			idata_t res(get_fcount());
 			for (v1u idx(0u); idx < res.size(); idx += 3u) { res[idx] = idx; }
+			return res;
+		}
+		static constexpr inline idata_tc make_idata_wire() { // make an indexed list of lines
+			idata_t res(get_vcount() * get_dcount() * 2u, 0u); v1u last(0u);
+			for (v1u ivtx(0u); ivtx < get_vcount(); ivtx += 1u) { // every vertex is a node for "d" edges;
+				for (v1u idim(0u); idim < get_dcount(); idim += 1u) { // every ivtx is a set of 0 and 1;
+					// take every digit of the current number(to work with left zeros - add next bit);
+					v1u dgt = ((get_vcount() + ivtx) >> (idim)) % 2;
+					// add the vertex index every time;
+					res[last++] = ivtx + 0u;
+					// push another vertex with offset in only one dimension which is simply one different sign;
+					res[last++] = dgt == 0u ? (ivtx + (1u << idim)) : (ivtx - (1u << idim));
+				}
+			}
 			return res;
 		}
 		static constexpr inline cv1f make_dst(rect_tc& rect0, rect_tc& rect1) { // make the distance between two rectangles using a vector;

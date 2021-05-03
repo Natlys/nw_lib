@@ -48,7 +48,7 @@ namespace NW
 #	endif	// constructor_destructor
 		// --getters
 #	if (NW_TRUE)
-		static constexpr inline size_tc get_count() { return dims; }
+		static constexpr inline size_tc get_dcount() { return dims; }
 		inline cv1f get_dst(circ_tc& circ) const { return make_dst(*this, circ); }
 		inline cv1f get_dst(circ_tc& circ, size_tc dim) const { return make_dst(*this, circ, dim); }
 		inline vert_tc get_vert(size_tc vcount, size_tc vindex) const { return make_vert(*this, vcount, vindex); }
