@@ -45,7 +45,7 @@ namespace NW
 		template<size_tc vec_dims> constexpr inline num_vec_t(d_vec_t<vec_dims>&& vec) : num_vec_t() { operator=(vec); }
 		template<typename tname, size_tc vec_dims> constexpr inline num_vec_t(num_vec_t<tname, vec_dims>&& vec) : num_vec_t() { operator=(vec); }
 		inline ~num_vec_t() = default;
-#	endif	// constructor_destructor
+#	endif	// ctor_dtor
 		// --getters
 #	if (NW_TRUE)
 		// // --info
@@ -114,9 +114,9 @@ namespace NW
 		inline vec_t& operator-=(vec_tc& vec) { return set_sub(vec); }
 		inline vec_t& operator*=(vec_tc& vec) { return set_mul(vec); }
 		inline vec_t& operator/=(vec_tc& vec) { return set_div(vec); }
-		inline vec_t& operator+()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = +m_val[ix]; } return *this; }
+		//inline vec_t& operator+()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = +m_val[ix]; } return *this; }
 		inline vec_tc operator+() const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = +m_val[ix]; } return res; }
-		inline vec_t& operator-()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = -m_val[ix]; } return *this; }
+		//inline vec_t& operator-()       { for (v1u ix(0u); ix < dims; ix++) { m_val[ix] = -m_val[ix]; } return *this; }
 		inline vec_tc operator-() const { vec_t res; for (v1u ix(0u); ix < dims; ix++) { res[ix] = -m_val[ix]; } return res; }
 #		endif	// mathematics
 		// // --asignment

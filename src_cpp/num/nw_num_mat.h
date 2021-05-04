@@ -59,7 +59,7 @@ namespace NW
 		template<size_tc mat_size_x, size_tc mat_size_y> num_mat_t(d_mat_tc<mat_size_x, mat_size_y>& mat) { operator=(mat); }
 		template<size_tc mat_size_x, size_tc mat_size_y> num_mat_t(d_mat_t<mat_size_x, mat_size_y>&& mat) { operator=(mat); }
 		inline ~num_mat_t() = default;
-#	endif	// constructor_destructor
+#	endif	// ctor_dtor
 		// --getters
 #	if (NW_TRUE)
 		// // --info
@@ -76,10 +76,10 @@ namespace NW
 		inline mat_tc get_mul(val_tc val) const { return make_mul(*this, val); }
 		inline mat_tc get_div(val_tc val) const { return make_div(*this, val); }
 		// // --vector
-		inline mat_tc get_add(vec_tc& vec) const { return make_add(*this, vec); }
-		inline mat_tc get_sub(vec_tc& vec) const { return make_sub(*this, vec); }
-		inline mat_tc get_mul(vec_tc& vec) const { return make_mul(*this, vec); }
-		inline mat_tc get_div(vec_tc& vec) const { return make_div(*this, vec); }
+		inline vec_tc get_add(vec_tc& vec) const { return make_add(*this, vec); }
+		inline vec_tc get_sub(vec_tc& vec) const { return make_sub(*this, vec); }
+		inline vec_tc get_mul(vec_tc& vec) const { return make_mul(*this, vec); }
+		inline vec_tc get_div(vec_tc& vec) const { return make_div(*this, vec); }
 		// // --matrix
 		inline mat_tc get_add(mat_tc& mat) const { return make_add(*this, mat); }
 		inline mat_tc get_sub(mat_tc& mat) const { return make_sub(*this, mat); }
@@ -240,31 +240,31 @@ namespace NW
 			return res;
 		}
 		// // --vector
-		static constexpr inline vec_tc make_add(mat_tc& mat, val_tc& vec) {
+		static constexpr inline vec_tc make_add(mat_tc& mat, vec_tc& vec) {
 			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] + vec[ix]; }
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy] += mat[iy][ix] + vec[ix]; }
 			}
 			return res;
 		}
-		static constexpr inline vec_tc make_sub(mat_tc& mat, val_tc& vec) {
+		static constexpr inline vec_tc make_sub(mat_tc& mat, vec_tc& vec) {
 			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] - vec[ix]; }
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy] += mat[iy][ix] - vec[ix]; }
 			}
 			return res;
 		}
-		static constexpr inline mat_tc make_mul(mat_tc& mat, val_tc& vec) {
+		static constexpr inline vec_tc make_mul(mat_tc& mat, vec_tc& vec) {
 			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] * vec[ix]; }
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy] += mat[iy][ix] * vec[ix]; }
 			}
 			return res;
 		}
-		static constexpr inline mat_tc make_div(mat_tc& mat, val_tc& vec) {
+		static constexpr inline vec_tc make_div(mat_tc& mat, vec_tc& vec) {
 			vec_t res(NW_NULL);
 			for (v1u iy(0u); iy < size_y; iy++) {
-				for (v1u ix(0u); ix < size_x; ix++) { res[ix] += m_val[iy][ix] / vec[ix]; }
+				for (v1u ix(0u); ix < size_x; ix++) { res[iy] += mat[iy][ix] / vec[ix]; }
 			}
 			return res;
 		}

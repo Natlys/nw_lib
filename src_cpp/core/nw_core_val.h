@@ -28,7 +28,7 @@ namespace NW
 		constexpr inline t_num(num_tc& copy) : m_value(copy.m_value) { }
 		constexpr inline t_num(num_t&& copy) : m_value(std::move(copy.m_value)) { }
 		~t_num() = default;
-#	endif	// constructor_destructor
+#	endif	// ctor_dtor
 		// --getters
 #	if (NW_TRUE)
 #	endif	// getters

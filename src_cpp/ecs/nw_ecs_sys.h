@@ -6,6 +6,7 @@
 #	include "std/nw_std_sing.h"
 #	include "std/nw_std_table.h"
 #	include "mem/nw_mem_ref.h"
+#	pragma warning(disable:4172)
 namespace NW
 {
 	template<class tsys, class tref>
@@ -86,5 +87,6 @@ namespace NW
 		reg_t m_reg;
 	};
 }
+#	pragma warning(default:4172)
 #endif	// NW_API
 #endif	// NW_ECS_SYS_H

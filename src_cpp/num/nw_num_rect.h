@@ -4,6 +4,7 @@
 #if (defined NW_API)
 #	include "nw_num_vec.h"
 #	include "nw_num_edge.h"
+#	pragma warning(disable:4774)
 namespace NW
 {
 	/// dimensional_rectangle struct
@@ -41,25 +42,26 @@ namespace NW
 		constexpr inline d_rect_t(rect_tc& copy) : d_rect_t() { m_center = copy.m_center; m_halfsz = copy.m_halfsz; }
 		constexpr inline d_rect_t(rect_t&& copy) : d_rect_t() { m_center = copy.m_center; m_halfsz = copy.m_halfsz; }
 		inline ~d_rect_t() = default;
-#		endif	// constructor_destructor
+#		endif	// ctor_dtor
 		// --getters
 #		if (NW_TRUE)
 		static constexpr inline size_tc get_dcount() { return dims; }
 		static constexpr inline size_tc get_dcount(size_tc dcount) { return NW_NUM_POW(2u, dcount - dims) * NW_NUM_COMBIN(dcount, dims, NW_FALSE); }
-		static constexpr inline size_tc get_vcount() { return 1ul << get_dcount(); }
+		static constexpr inline size_tc get_vcount() { return NW_CAST_SIZE(1u) << NW_CAST_SIZE(get_dcount()); }
 		static constexpr inline size_tc get_ecount() { return NW_CAST_SIZE( NW_CAST_FLOAT(get_vcount() * get_count()) * 0.5f ); }
 		static constexpr inline size_tc get_fcount() { return get_dcount(3u); }
-		inline cv1f get_half(size_tc dim) const { return m_halfsz[dim] * 1u; }
-		inline cv1f get_size(size_tc dim) const { return m_halfsz[dim] * 2u; }
+		inline cv1f get_half(size_tc dim) const { return m_halfsz[dim] * 1.0f; }
+		inline cv1f get_size(size_tc dim) const { return m_halfsz[dim] * 2.0f; }
 		inline cv1f get_dst(rect_tc& rect) const { return make_dst(*this, rect); }
 		inline cv1f get_dst(rect_tc& rect, size_tc dim) const { return make_dst(*this, rect, dim); }
-		inline vert_tc get_vert(size_t vindex) const { return make_vert(*this, vindex); }
-		inline vdata_tc get_vdata() const            { return make_vdata(*this); }
-		inline edge_tc get_edge(size_t eindex) const { return make_edge(*this, eindex); }
-		inline edata_tc get_edata() const            { return make_edata(*this); }
-		inline idata_tc get_idata_vert() const { return make_idata_vert(); }
-		inline idata_tc get_idata_wire() const { return make_idata_wire(); }
-		inline idata_tc get_idata_trig() const { return make_idata_trig(); }
+		inline vert_tc get_vert(size_tc vindex) const   { return make_vert(*this, vindex); }
+		inline vdata_tc get_vdata(size_tc vindex) const { return make_vdata(*this, vindex); }
+		inline idata_tc get_idata_vert(size_tc vindex) const { return make_idata_vert(vindex); }
+		inline idata_tc get_idata_wire(size_tc vindex) const { return make_idata_wire(vindex); }
+		inline idata_tc get_idata_trig(size_tc vindex) const { return make_idata_trig(vindex); }
+		inline idata_tc get_idata_gizm_wire(size_tc vindex) const { return make_idata_gizm_wire(vindex); }
+		inline idata_tc get_idata_gizm_trig(size_tc vindex) const { return make_idata_gizm_trig(vindex); }
+		inline idata_tc get_idata_gizm_face(size_tc vindex) const { return make_idata_gizm_face(vindex); }
 #		endif	// getters
 		// --setters
 #		if (NW_TRUE)
@@ -79,72 +81,122 @@ namespace NW
 #		endif	// operators
 		// --core_methods
 #		if (NW_TRUE)
-		static constexpr inline vert_tc make_vert(rect_tc& rect, size_t vindex) { // make a vertex coordinate accordingly to it's index
-			vert_t res;
-			vindex = ~vindex;
-			for (v1u idim(0u); idim < get_dcount(); idim++) {
-				res[idim] = rect.m_center[idim] + (vindex % 2 ? +rect.m_halfsz[idim] : -rect.m_halfsz[idim]);
-				vindex /= 2u;
+		static constexpr inline vert_tc make_vert(rect_tc& rect, size_tc vindex) { // make a vertex coordinate accordingly to it's index
+			vert_t res(NW_NULL);
+			NW_CHECK(vindex < get_vcount(), "index error!", return res);
+			for (v1u idim(0u), ivtx(~vindex % get_vcount()); idim < get_dcount(); idim++, ivtx /= 2) {
+				res[idim] = rect.m_center[idim] + (ivtx % 2 ? +rect.m_halfsz[idim] : -rect.m_halfsz[idim]);
 			}
 			return res;
 		}
-		static constexpr inline vdata_tc make_vdata(rect_tc& rect) { // make a list of all vertex coordinates
-			vdata_t res(get_vcount());
-			for (v1u ivert(0u); ivert < res.size(); ivert++) { res[ivert] = make_vert(rect, ivert); }
+		static constexpr inline vdata_tc make_vdata(rect_tc& rect, size_tc vindex) { // make a list of all vertex coordinates
+			vdata_t res(get_vcount() - vindex);
+			for (v1u ivert(vindex); ivert < res.size(); ivert++) { res[ivert] = make_vert(rect, ivert); }
 			return res;
 		}
-		static constexpr inline idata_tc make_idata_vert() { // make an indexed list of points
-			idata_t res(get_vcount());
-			for (v1u idx(0u); idx < res.size(); idx += 1u) { res[idx] = idx; }
+		static constexpr inline idata_tc make_idata_vert(size_tc vindex) { // make an indexed list of points
+			idata_t res(get_vcount() - vindex);
+			NW_CHECK(vindex < get_vcount(), "index error!", return res);
+			for (v1u ivert(vindex); ivert < res.size(); ivert += 1u) { res[ivert] = ivert; }
 			return res;
 		}
-		static constexpr inline idata_tc make_idata_wire() { // make an indexed list of lines
-			idata_t res(get_vcount() * get_dcount() * 2u, 0u); v1u last(0u);
-#			if (NW_FALSE)
-			v1u inum(0u);
-			for ( v1u idim(0u); idim < get_count(); inum = (1 << (idim += 1u)) ) {
-				for ( v1u istep(1u << dims >> 1u); istep > (idim << 1u); istep >>= 1u ) {
-					res.push_back(inum);
-					res.push_back(inum + istep);
-					res.push_back(get_vcount() - 1u - inum);
-					res.push_back(get_vcount() - 1u - inum - istep);
-				}
-				for ( v1u istep(1u); istep < (idim << 1u); istep <<= 1u ) {
-					res.push_back(inum);
-					res.push_back(inum + istep);
-					res.push_back(get_vcount() - 1u - inum);
-					res.push_back(get_vcount() - 1u - inum - istep);
-				}
-				inum = 1u << idim;
-			}
-#			endif
-			for (v1u ivtx(0u); ivtx < get_vcount(); ivtx += 1u) { // every vertex is a node for "d" edges;
-				for (v1u idim(0u); idim < get_dcount(); idim += 1u) { // every ivtx is a set of 0 and 1;
-					// take every digit of the current number(to work with left zeros - add next bit);
-					v1u dgt = ((get_vcount() + ivtx) >> (idim)) % 2;
+		static constexpr inline idata_tc make_idata_wire(size_tc vindex) { // make an indexed list of lines
+			NW_CHECK(vindex < get_vcount(), "index error!", return idata_t());
+			idata_t res((get_vcount() - vindex) * (get_dcount() * 2u), 0u); // vertex "dcount" nodes; node = 1 edge; edge = 2 indices;
+			for (v1u ivert(vindex), last(0u); ivert < get_vcount(); ivert += 1u) { // vertex = "dcount" nodes;
+				for (v1u idim(0u), dgt(0u); idim < get_dcount(); idim += 1u, last += 2u) { // node = minuses and pluses;
 					// add the vertex index every time;
-					res[last++] = ivtx + 0u;
-					// push another vertex with offset in only one dimension which is simply one different sign;
-					res[last++] = dgt == 0u ? (ivtx + (1u << idim)) : (ivtx - (1u << idim));
+					res[last + 0u] = ivert + 0u;
+					// take every digit (idim-th from left) to define whether we add or substract one bit;
+					dgt = ((get_vcount() + ivert) >> (idim)) % 2;
+					res[last + 1u] = static_cast<v1s>(ivert) + (dgt == 0u ? +static_cast<v1s>(1u << idim) : -static_cast<v1s>(1u << idim) );
 				}
 			}
 			return res;
 		}
-		static constexpr inline idata_tc make_idata_trig() { // make an indexed list of triangles
-			idata_t res(get_fcount());
-			for (v1u idx(0u); idx < res.size(); idx += 3u) { res[idx] = idx; }
+		static constexpr inline idata_tc make_idata_trig(size_tc vindex) { // make an indexed list of triangles
+			NW_CHECK(vindex < get_vcount(), "index error!", return idata_t());
+			idata_t res((get_vcount() - vindex) * get_dcount() * ((get_dcount() - 1u) * 3u)); // vertex = "dcount" nodes; node = "dcount - 1" trigs; trig = 3 indicies;
+			for (v1u ivert(vindex), last(0u); ivert < get_vcount(); ivert += 1u) { // vertex = "dcount" nodes;
+				for (v1u idim(0u); idim < get_dcount(); idim += 1u) { // vertex -> "dcount" nodes;
+					for (v1u inode(1u), dgt0(0u), dgt1(0u); inode < get_dcount(); inode += 1u, last += 3u) { // node -> "dcount - 1" trigs;
+						res[last + 0u] = (ivert) % get_vcount();
+						// take every digit (idim-th from left) to define whether we add or substract idim-th bit;
+						dgt0 = ((get_vcount() + ivert) >> (idim)) % 2;
+						res[last + 1u] = (static_cast<v1s>(ivert) + ( dgt0 == 0u ? +static_cast<v1s>(1u << idim) : -static_cast<v1s>(1u << idim) ) ) % get_vcount();
+						// take every digit ((idim + ivert)-th from left) to define whether we add or substract (idim + ivert)-th bit;
+						dgt1 = ((get_vcount() + ivert) >> (idim + inode)) % 2;
+						res[last + 2u] = ( static_cast<v1s>(ivert) + ( dgt1 == 0u ? +static_cast<v1s>(1u << (idim + inode)) : -static_cast<v1s>(1u << (idim + inode)) ) ) % get_vcount();
+					}
+				}
+			}
 			return res;
 		}
-		static constexpr inline idata_tc make_idata_wire() { // make an indexed list of lines
-			idata_t res(get_vcount() * get_dcount() * 2u, 0u); v1u last(0u);
-			for (v1u ivtx(0u); ivtx < get_vcount(); ivtx += 1u) { // every vertex is a node for "d" edges;
-				for (v1u idim(0u); idim < get_dcount(); idim += 1u) { // every ivtx is a set of 0 and 1;
-					// take every digit of the current number(to work with left zeros - add next bit);
-					v1u dgt = ((get_vcount() + ivtx) >> (idim)) % 2;
-					// add the vertex index every time;
-					res[last++] = ivtx + 0u;
-					// push another vertex with offset in only one dimension which is simply one different sign;
-					res[last++] = dgt == 0u ? (ivtx + (1u << idim)) : (ivtx - (1u << idim));
+		static constexpr inline idata_tc make_idata_gizm_wire(size_tc vindex) { // make an indexed list of gizmo wireframe;
+			NW_CHECK(vindex < get_vcount(), "index error!", return idata_t());
+			idata_t res(get_dcount() * 2u, 0u); // vertex = "dcount" edges; edge = 2 indicies;
+			for (v1u idim(0u), dgt(0u), last(0u); idim < get_dcount(); idim += 1u, last += 2u) {
+				res[last + 0u] = ( vindex ) % get_vcount();
+				// take every digit (idim-th from left) to define whether we add or substract one bit;
+				dgt = ((get_vcount() + vindex) >> (idim)) % 2;
+				res[last + 1u] = ( static_cast<v1s>(vindex) + (dgt == 0u ?
+					+static_cast<v1s>(1u << idim) :
+					-static_cast<v1s>(1u << idim)
+					) ) % get_vcount();
+			}
+			return res;
+		}
+		static constexpr inline idata_tc make_idata_gizm_trig(size_tc vindex) { // make an indexed list of gizmo triangles;
+			NW_CHECK(vindex < get_vcount(), "index error!", return idata_t());
+			idata_t res(get_dcount() * (get_dcount() - 1u) * 3u, 0u); // vertex = "dcount" nodes; node = "dcount - 1" trigs; trig = 3 indices;
+			for (v1u idim(0u), last(0u); idim < get_dcount(); idim += 1u) { // vertex -> "dcount" nodes;
+				for (v1u inode(1u), dgt0(0u), dgt1(0u); inode < get_dcount(); inode += 1u, last += 3u) { // node -> "dcount - 1" trigs;
+					res[last + 0u] = ( vindex ) % get_vcount();
+					// take every digit (idim-th from left) to define whether we add or substract idim-th bit;
+					dgt0 = ((get_vcount() + vindex) >> (idim)) % 2;
+					res[last + 1u] = ( static_cast<v1s>(vindex) + ( dgt0 == 0u ?
+						+static_cast<v1s>(1u << idim) :
+						-static_cast<v1s>(1u << idim)
+						) ) % get_vcount();
+					// take every digit ((idim + ivert)-th from left) to define whether we add or substract (idim + ivert)-th bit;
+					dgt1 = ((get_vcount() + vindex) >> (idim + inode)) % 2;
+					res[last + 2u] = ( static_cast<v1s>(vindex) + ( dgt1 == 0u ?
+						+static_cast<v1s>(1u << (idim + inode)) :
+						-static_cast<v1s>(1u << (idim + inode))
+						) ) % get_vcount();
+				}
+			}
+			return res;
+		}
+		static constexpr inline idata_tc make_idata_gizm_face(size_tc vindex) { // make an indexed list of gizmo faces;
+			NW_CHECK(vindex < get_vcount(), "index error!", return idata_t());
+			idata_t res(get_dcount() * (get_dcount() - 1u) * 3u * 2u, 0u); // vertex = "dcount" node; node = "dcount - 1" faces; face = 2 trigs; trig = 3 indicies;
+			for (v1u idim(0u), last(0u); idim < get_dcount(); idim += 1u) { // vertex -> "dcount" nodes;
+				for (v1u inode(1u), dgt0(0u), dgt1(0u); inode < get_dcount(); inode += 1u, last += 6u) { // node -> "dcount - 1" faces;
+					res[last + 0u] = (vindex) % get_vcount();
+					// take every digit (idim-th from left) to define whether we add or substract idim-th bit;
+					dgt0 = ((get_vcount() + vindex) >> (idim)) % 2;
+					res[last + 1u] = ( static_cast<v1s>(vindex) + ( dgt0 == 0u ?
+						+static_cast<v1s>(1u << idim) :
+						-static_cast<v1s>(1u << idim)
+						) ) % get_vcount();
+					// take every digit ((idim + ivert)-th from left) to define whether we add or substract (idim + ivert)-th bit;
+					dgt1 = ((get_vcount() + vindex) >> (idim + inode)) % 2;
+					res[last + 2u] = ( static_cast<v1s>(vindex) + ( dgt1 == 0u ?
+						+static_cast<v1s>(1u << (idim + inode)) :
+						-static_cast<v1s>(1u << (idim + inode))
+						) ) % get_vcount();
+					// add complementary triangle;
+					res[last + 3u] = res[last + 2u];
+					res[last + 4u] = res[last + 1u];
+					res[last + 5u] = ( static_cast<v1s>(vindex)
+						+ ( dgt0 == 0u ?
+							+static_cast<v1s>(1u << idim) :
+							-static_cast<v1s>(1u << idim) )
+						+ ( dgt1 == 0u ?
+							+static_cast<v1s>(1u << (idim + inode)) :
+							-static_cast<v1s>(1u << (idim + inode)) )
+						) % get_vcount();
 				}
 			}
 			return res;

@@ -39,7 +39,7 @@ namespace NW
 		template<size_tc inum_dims> num_imag_t(num_imag_tc<inum_dims>& inum) : num_imag_t() { operator=(inum); ; }
 		template<size_tc inum_dims> num_imag_t(num_imag_t<inum_dims>&& inum) : num_imag_t() { operator=(inum); }
 		inline ~num_imag_t() = default;
-#	endif	// constructor_destructor
+#	endif	// ctor_dtor
 		// --getters
 #	if (NW_TRUE)
 		// // --info
@@ -248,7 +248,10 @@ namespace NW
 		static constexpr inline inum_tc make_inver(inum_tc& inum) { return make_conj(inum) / make_len(inum); }
 		static constexpr inline inum_tc make_rotat(real_tc angle, imag_tc& axis, vec_tc& vec) {
 			inum_t rotat(NW_NUM_COS(angle), axis.get_norm() * NW_NUM_SIN(angle));
-			return (rotat * vec) * make_inver(rotat);
+			inum_t inver(make_inver(rotat));
+			inum_t res = make_mul(rotat, vec);
+			//res = make_mul(res, inver);
+			return res;
 		}
 		// // --matrix
 		static constexpr inline mat_tc make_mat(inum_tc& inum) {
