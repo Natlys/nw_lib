@@ -4,17 +4,19 @@
 #	if (defined NC_API)
 // includes //
 #		include "../../nc_mem/src_cpp/core/nc_mem_sys.hpp"
-#		include "../std/nc_lib_type_indx.hpp"
+#		include "nc_lib_type.hpp"
+#		include "nc_lib_indx.hpp"
+// defines //
 // types //
 /// component_type
 /// description:
-class NC_API nc_cmp_t : public nc_type_indx_owner_t
+class nc_cmp_t : public nc_type_owner_t, public nc_indx_owner_t
 {
 public:
 public:
 	// ctor_dtor //
-	constexpr inline nc_cmp_t() : nc_type_indx_owner_t() { }
-	virtual inline ~nc_cmp_t() { }
+	inline nc_cmp_t() = default;
+	virtual ~nc_cmp_t() = default;
 	// getters //
 	// setters //
 	// predicates //
@@ -24,13 +26,13 @@ public:
 /// component_type_template
 /// description:
 template<class tcmp>
-class NC_API nc_cmp_tt : public nc_type_indx_owner_tt<tcmp, nc_cmp_t>
+class nc_cmp_tt : public nc_type_owner_tt<tcmp, nc_cmp_t>, public nc_indx_owner_tt<tcmp>
 {
 public:
 public:
 	// ctor_dtor //
-	constexpr inline nc_cmp_tt() : nc_type_indx_owner_tt() { }
-	virtual inline ~nc_cmp_tt() { }
+	inline nc_cmp_tt() = default;
+	virtual ~nc_cmp_tt() = default;
 	// getters //
 	// setters //
 	// predicates //

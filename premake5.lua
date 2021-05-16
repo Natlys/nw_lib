@@ -1,15 +1,12 @@
 --==<native_wolrd_library/>==--
 project("nc_lib")
 	--general--
-	--kind("consoleapp")
-	kind("staticlib")
+	kind("consoleapp")
+	--kind("staticlib")
 	--kind("sharedlib")
-	--language--
-	language("c")
-	toolset("gcc")
 	--libraries--
-	links{"nc_cfg"}
-	libdirs{"../nc_cfg/"}
+	links{ "nc_cfg" }
+	libdirs{ "../nc_cfg/" }
 	--filters--
 	----platform_filters----
 	filter("platforms:win64")
@@ -20,7 +17,6 @@ project("nc_lib")
 	----language_filters----
 	filter("language:c++")
 		--standard--
-		toolset("gcc")
 		premake.tools.gcc.cxx = "g++.exe"
 		cppdialect("c++17")
 		clr("off")
@@ -33,10 +29,10 @@ project("nc_lib")
 		objdir ("bin_cpp/")
 	filter("language:c")
 		--standard--
-		toolset("gcc")
 		premake.tools.gcc.cc = "gcc.exe"
 		cdialect("c99")
 		clr("off")
+		--source--
 		files{"src_cxx/**.c", "src_cxx/**.h"}
 		includedirs {"src_cxx/"}
 		--binary--

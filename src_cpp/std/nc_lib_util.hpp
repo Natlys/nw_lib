@@ -1,24 +1,23 @@
 #ifndef NC_LIB_UTILITY_HPP
 #	define NC_LIB_UTILITY_HPP
 #	include "../nc_lib_core.hpp"
-#	if (defined NC_API)
-// includes //
-#   	include <utility>
-#		include "../../nc_mem/src_cpp/core/nc_mem_sys.hpp"
-#		include "nc_lib_type.hpp"
-// types //
-template <typename tval1, typename tval2>
-using nc_pair_t = std::pair<tval1, tval2>;
-template <typename tval1, typename tval2>
-using nc_pair_tc = const pair_t<tval1, tval2>;
-template <typename tval>
-using nc_init_list_t = std::initializer_list<tval>;
-template <typename tval>
-using nc_init_list_tc = const init_list_t<tval>;
-#		if (NC_FALSE)
+#	if (defined NC_UTIL)
+#		if (NC_UTIL & NC_UTIL_STD)
+#		   	include <utility>
+#       	define nc_pair_tt         std::pair
+#       	define nc_pair_ttc        const std::pair
+#       	define nc_init_list_tt    std::initializer_list
+#       	define nc_init_list_ttc   const std::initializer_list
+//template <typename tval1, typename tval2> using nc_pair_t = std::pair<tval1, tval2>;
+//template <typename tval1, typename tval2> using nc_pair_tc = const nc_pair_t<tval1, tval2>;
+//template <typename tval> using nc_init_list_t = std::initializer_list<tval>;
+//template <typename tval> using nc_init_list_tc = const nc_init_list_t<tval>;
+#		endif	// NC_UTIL_STD //
+#		if (NC_UTIL & NC_UTIL_OWN)
+#			include "nc_lib_type.hpp"
 /// initializer_list_type
 template<typename tdata>
-class NC_API nc_init_list_t
+class nc_init_list_t
 {
 public:
 	using data_t = tdata;
@@ -48,8 +47,6 @@ private:
 	iter_tc m_head;
 	iter_tc m_back;
 };
-#		endif
-#		if (NC_FALSE)
 /// value_iterator_array class
 class a_iter_array : public a_nc_type_owner
 {
@@ -128,8 +125,6 @@ public:
 public:
 	data_t* m_data;
 };
-#		endif
-#		if (NC_FALSE)
 /// typed_iterator_array class
 template<typename tdata>
 class t_iter_array
@@ -191,18 +186,16 @@ public:
 	inline v1bit_t operator<(iter_tc& iter) const { return m_data < iter.m_data; }
 	inline v1bit_t operator<=(iter_tc& iter) const { return m_data <= iter.m_data; }
 	// // --iop
-	inline op_stream_t& operator<<(op_stream_t& stm) const { return stm << *m_data; }
-	inline ip_stream_t& operator<<(ip_stream_t& stm) { return stm >> *m_data; }
+	inline nc_ostream_t& operator<<(nc_ostream_t& stm) const { return stm << *m_data; }
+	inline nc_istream_t& operator<<(nc_istream_t& stm) { return stm >> *m_data; }
 	// commands //
 public:
 	data_t* m_data;
 };
 template<typename tname>
-inline op_stream_t& operator<<(op_stream_t& stm, const t_iter_array<tname>& iter) { return iter.operator<<(stm); }
+inline nc_ostream_t& operator<<(nc_ostream_t& stm, const t_iter_array<tname>& iter) { return iter.operator<<(stm); }
 template<typename tname>
-inline ip_stream_t& operator<<(ip_stream_t& stm, t_iter_array<tname>& iter) { return iter.operator>>(stm); }
-#		endif
-#		if (NC_FALSE)
+inline nc_istream_t& operator<<(nc_istream_t& stm, t_iter_array<tname>& iter) { return iter.operator>>(stm); }
 /// value_array class
 template<class tgiver = mem_sys>
 class v_array : public t_mem_user<tgiver>
@@ -274,8 +267,6 @@ public:
 	elem_t* m_elems;
 	size_t m_count;
 };
-#		endif
-#		if (NC_FALSE)
 /// typed_array class
 template<typename telem, class tgiver = mem_sys>
 class t_array : public t_mem_user<tgiver>
@@ -392,7 +383,7 @@ public:
 	size_t m_range;
 	size_t m_count;
 };
-#		endif
-#	endif	// NC_API //
+#		endif	// NC_UTIL_OWN //
+#	endif	// NC_UTIL //
 // end_of_file //
 #endif	// NC_LIB_UTILITY_HPP //

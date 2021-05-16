@@ -3,8 +3,8 @@
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
 // includes //
-#		include "nc_lib_stack.h"
-#		include "nc_lib_array.h"
+#		include "../std/nc_lib_stack.hpp"
+#		include "../std/nc_lib_array.hpp"
 // types //
 /// index_stack_type
 /// description:
@@ -12,29 +12,41 @@
 /// --contains one single id for any class;
 /// --you can get new id during construction of and object and put it back into the stack;
 /// --if any destroyed instance gives back own id to the stack - there is no loss;
-class NC_API indx_stack_t : protected stack_t<v1u_t>
+class nc_indx_stack_t
 {
 public:
+	using stack_t = nc_indx_stack_t;
 	using indx_t = v1u_t;
-	using indx_tc = const idx_t;
+	using indx_tc = const indx_t;
 public:
 	// ctor_dtor //
-	inline indx_stack_t(indx_t first = 1u) : stack_t<idx_t>() { push(first); }
+	inline nc_indx_stack_t() { m_stack.push(NC_DEFAULT_VAL); }
+	inline nc_indx_stack_t(indx_t first) : nc_indx_stack_t() { m_stack.top() = first; }
+	inline ~nc_indx_stack_t() = default;
 	// getters //
-	inline indx_tc get_indx() { idx_t indx = top(); if (size() == 1) { top()++; } else { pop(); } return indx; }
+	inline indx_tc get_indx() {
+		indx_t indx = m_stack.top();
+		if (m_stack.size() == NC_UNIT) { m_stack.top()++; }
+		else { m_stack.pop(); }
+		return indx;
+	}
 	// setters //
-	inline v1nil_t set_indx(indx_t indx) { if (indx != top()) { push(indx); } }
+	inline stack_t& set_indx(indx_t indx) {
+		if (indx != m_stack.top()) { m_stack.push(indx); }
+		return *this;
+	}
 	// predicates //
 	// commands //
 private:
+	nc_stack_tt<v1u_t> m_stack;
 };
 /// index_info_type
-class NC_API indx_info_t
+class nc_indx_info_t
 {
 public:
 	using indx_t = v1u_t;
 	using indx_tc = const indx_t;
-	using stack_t = indx_stack_t;
+	using stack_t = nc_indx_stack_t;
 	using stack_tc = const stack_t;
 public:
 	template<typename tname> static indx_tc get_indx()             { return get_stack<tname>().get_indx(); }
@@ -43,7 +55,7 @@ private:
 	template<typename tname> static stack_t& get_stack()  { static stack_t s_stack(NC_NULL); return s_stack; }
 };
 /// index_owner_type
-class NC_API nc_indx_owner_t
+class nc_indx_owner_t
 {
 public:
 	using indx_t = v1u_t;
@@ -64,8 +76,8 @@ template<class tname>
 class nc_indx_owner_tt : nc_indx_owner_t
 {
 public:
-	inline nc_indx_owner_tt() : nc_indx_owner_t(), m_indx(idx_info_t::get_indx<tname>()) { }
-	virtual inline ~nc_indx_owner_tt() { indx_info_t::set_indx<tname>(m_indx); }
+	inline nc_indx_owner_tt() : nc_indx_owner_t(), m_indx(nc_indx_info_t::get_indx<tname>()) { }
+	virtual inline ~nc_indx_owner_tt() { nc_indx_info_t::set_indx<tname>(m_indx); }
 	// getters //
 	virtual inline indx_tc get_indx() const override { return m_indx; }
 protected:

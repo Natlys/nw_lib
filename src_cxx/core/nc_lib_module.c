@@ -1,9 +1,8 @@
 #include "../nc_lib_pch.h"
-#include "nc_lib_load.h"
+#include "nc_lib_module.h"
 #if (defined NC_API)
-#   include "../../nc_mem/src_cxx/core/nc_mem_sys.h"
 // ctor_dtor //
-v1bit_t nc_lib_loader_ctor(nc_lib_loader_t* ref) {
+v1bit_t nc_module_ctor(nc_module_t* ref) {
     // checking //
     // action //
     ref->handle = NC_NULL;
@@ -11,7 +10,7 @@ v1bit_t nc_lib_loader_ctor(nc_lib_loader_t* ref) {
     // result //
     return NC_TRUTH;
 }
-v1bit_t nc_lib_loader_dtor(nc_lib_loader_t* ref) {
+v1bit_t nc_module_dtor(nc_module_t* ref) {
     // checking //
     NC_CHECK(ref->name == NC_NULL, "quit is required!", return NC_FALSE);
     NC_CHECK(ref->handle == NC_NULL, "quit is required!", return NC_FALSE);
@@ -21,11 +20,11 @@ v1bit_t nc_lib_loader_dtor(nc_lib_loader_t* ref) {
 }
 // getters //
 // setters //
-v1bit_t nc_lib_loader_set_name(nc_lib_loader_t* ref, cstr_t name) {
+v1bit_t nc_module_set_name(nc_module_t* ref, cstr_t name) {
     // checking //
     NC_CHECK(ref->handle == NC_NULL, "quit is required", return NC_FALSE);
     // action //
-    if (ref->name != NC_NULL) {  NC_MEM_FREE(ref->name, strlen(ref->name)); }
+    if (ref->name != NC_NULL) { NC_MEM_FREE(ref->name, strlen(ref->name)); }
     NC_MEM_TAKE(ref->name, strlen(name));
     strcpy(ref->name, name);
     // result //
@@ -33,7 +32,7 @@ v1bit_t nc_lib_loader_set_name(nc_lib_loader_t* ref, cstr_t name) {
 }
 // predicates //
 // commands //
-v1bit_t nc_lib_loader_init(nc_lib_loader_t* ref) {
+v1bit_t nc_module_init(nc_module_t* ref) {
     // checking //
     NC_CHECK(ref->name != NC_NULL, "ctor is required!", return NC_FALSE);
     // action //
@@ -42,7 +41,7 @@ v1bit_t nc_lib_loader_init(nc_lib_loader_t* ref) {
     NC_CHECK(ref->handle != NC_NULL, "load error!", return NC_FALSE);
     return NC_TRUTH;
 }
-v1bit_t nc_lib_loader_quit(nc_lib_loader_t* ref) {
+v1bit_t nc_module_quit(nc_module_t* ref) {
     // checking //
     NC_CHECK(ref->name != NC_NULL, "init is required!", return NC_FALSE);
     NC_CHECK(ref->handle != NC_NULL, "init is required!", return NC_FALSE);
@@ -52,7 +51,7 @@ v1bit_t nc_lib_loader_quit(nc_lib_loader_t* ref) {
     // result //
     return NC_TRUTH;
 }
-v1bit_t nc_lib_loader_load(nc_lib_loader_t* ref, cstr_t name, ptr_t* proc) {
+v1bit_t nc_module_load(nc_module_t* ref, cstr_t name, ptr_t* proc) {
     // checking //
     NC_CHECK(ref != NC_NULL, "handle error!", return NC_FALSE);
     NC_CHECK(ref->handle != NC_NULL, "handle error!", return NC_FALSE);

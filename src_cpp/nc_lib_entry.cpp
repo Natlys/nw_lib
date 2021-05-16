@@ -5,8 +5,8 @@
 #   if (NC_BUILD & NC_BUILD_EXE)
 int main(int arg_num, const char* arg_str[])
 {
-    printf("hello" NC_NAME_STR "!\n");
-    system("pause");
+    NC_OLOG(NC_GREETING);
+    NC_BREAK();
     return 0;
 }
 #   endif   // NC_BUILD_EXE //

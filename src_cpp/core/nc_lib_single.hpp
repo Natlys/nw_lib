@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /// singleton_type
 template<class tname>
-class nc_single_tt
+class nc_single_tt : public nc_mem_owner_t
 {
 public:
 	using sing_t = nc_single_tt<tname>;

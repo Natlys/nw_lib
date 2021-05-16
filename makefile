@@ -22,7 +22,7 @@ ifeq ($(config),work_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.lib
+  TARGET = $(TARGETDIR)/nc_lib.exe
   OBJDIR = bin_cxx/win64/work
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -34,7 +34,7 @@ ifeq ($(config),work_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -58,7 +58,7 @@ ifeq ($(config),test_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.lib
+  TARGET = $(TARGETDIR)/nc_lib.exe
   OBJDIR = bin_cxx/win64/test
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -70,7 +70,7 @@ ifeq ($(config),test_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64 -s
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -94,7 +94,7 @@ ifeq ($(config),play_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.lib
+  TARGET = $(TARGETDIR)/nc_lib.exe
   OBJDIR = bin_cxx/win64/play
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -106,7 +106,7 @@ ifeq ($(config),play_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64 -s
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -119,13 +119,14 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/nc_lib_load.o \
+	$(OBJDIR)/nc_lib_module.o \
 	$(OBJDIR)/nc_lib_entry.o \
 	$(OBJDIR)/nc_lib_pch.o \
 	$(OBJDIR)/nc_stb_img.o \
 	$(OBJDIR)/nc_stb_rect_pack.o \
 	$(OBJDIR)/nc_stb_text_edit.o \
 	$(OBJDIR)/nc_stb_true_type.o \
+	$(OBJDIR)/nc_lib_flow.o \
 
 RESOURCES := \
 
@@ -184,7 +185,7 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/nc_lib_load.o: src_cxx/core/nc_lib_load.c
+$(OBJDIR)/nc_lib_module.o: src_cxx/core/nc_lib_module.c
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -251,6 +252,17 @@ ifeq ($(config),play_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
 $(OBJDIR)/nc_stb_true_type.o: src_cxx/stb/nc_stb_true_type.c
+	@echo $(notdir $<)
+ifeq ($(config),work_win64)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+endif
+ifeq ($(config),test_win64)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+endif
+ifeq ($(config),play_win64)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+endif
+$(OBJDIR)/nc_lib_flow.o: src_cxx/std/nc_lib_flow.c
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

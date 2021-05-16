@@ -19,7 +19,7 @@ public:
 	using millisec_t = std::chrono::duration<val_t, std::milli>;
 public:
 	// ctor_dtor //
-	inline nc_timer_t() : m_tp_last(point_t()), m_tp_curr(point_t()), m_curr(NC_NULL), m_last(NC_NULL), m_delta(NC_NULL), m_begin(NC_NULL) { }
+	inline nc_timer_t() : m_tp_last(point_t()), m_tp_curr(point_t()), m_curr(NC_ZERO), m_last(NC_ZERO), m_delta(NC_ZERO), m_begin(NC_ZERO) { }
 	inline ~nc_timer_t() { }
 	// getters //
 	inline val_tc get_curr(val_tc scale = 1.0) const  { return m_curr * scale; }
@@ -28,12 +28,13 @@ public:
 	inline val_tc get_begin(val_tc scale = 1.0) const { return m_begin * scale; }
 	inline val_tc get_ups(val_tc scale = 1.0) const	  { return 1.0 / m_delta * scale; }
 	// setters //
-	inline v1nil_t update() {
+	inline v1bit_t update() {
 		m_tp_curr = clock_t::now();
 		m_delta = sec_t(m_tp_curr - m_tp_last).count();
 		m_last = m_curr;
 		m_curr += m_delta;
 		m_tp_last = m_tp_curr;
+		return NC_TRUTH;
 	}
 	// predicates //
 	// commands //

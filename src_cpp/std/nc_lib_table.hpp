@@ -1,15 +1,17 @@
 #ifndef NC_LIB_TABLE_HPP
 #	define NC_LIB_TABLE_HPP
 #	include "../nc_lib_core.hpp"
-#	if (defined NC_API)
-// includes //
-#       include <map>
-#       include <unordered_map>
-#       include <set>
-#       include <unordered_set>
-// types //
-template <typename tkey, typename tval> using nc_table_t = std::unordered_map<tkey, tval>;
-template <typename tkey, typename tval> using nc_table_tc = const nc_table_t<tkey, tval>;
-#	endif	// NC_API //
+#	if (defined NC_TABLE)
+#	    if (NC_TABLE & NC_TABLE_STD)
+#           include <map>
+#           include <unordered_map>
+#           define nc_table_tt     std::unordered_map
+#           define nc_table_ttc    const std::unordered_map
+//template <typename tkey, typename tval> using nc_table_tt = std::unordered_map<tkey, tval>;
+//template <typename tkey, typename tval> using nc_table_ttc = const nc_table_tt<tkey, tval>;
+#       endif   // NC_TABLE_STD //
+#	    if (NC_TABLE & NC_TABLE_OWN)
+#       endif   // NC_TABLE_OWN //
+#	endif	// NC_TABLE //
 // end_of_file //
 #endif	// NC_LIB_TABLE_HPP //

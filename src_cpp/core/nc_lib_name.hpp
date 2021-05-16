@@ -6,7 +6,7 @@
 // types //
 /// name_owner_type
 /// description:
-class NC_API nc_name_owner_t
+class nc_name_owner_t
 {
 public:
 	using name_t = dstr_t;
@@ -23,15 +23,15 @@ public:
 	// getters //
 	inline cstr_t get_name() const { return &m_name[0]; }
 	// setters //
-	inline v1nil_t set_name(cstr_t name)   { m_name = name; }
-	inline v1nil_t set_name(name_tc& name) { m_name = name; }
+	inline owner_t& set_name(cstr_t name)   { m_name = name; return *this; }
+	inline owner_t& set_name(name_tc& name) { m_name = name; return *this; }
 	// predicates //
 	inline v1bit_t has_name() const              { return m_name != ""; }
 	inline v1bit_t has_name(cstr_t name) const   { return m_name == name; }
 	inline v1bit_t has_name(name_tc& name) const { return m_name == name; }
 	// operators //
-	inline v1nil_t operator=(owner_tc& copy) { set_name(copy.get_name()); }
-	inline v1nil_t operator=(owner_t&& copy) { set_name(copy.get_name()); }
+	inline owner_t operator=(owner_tc& copy) { return set_name(copy.get_name()); }
+	inline owner_t operator=(owner_t&& copy) { return set_name(copy.get_name()); }
 	// commands //
 protected:
 	name_t m_name;

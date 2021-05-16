@@ -2,11 +2,11 @@
 #	define NC_LIB_COMPONENT_SYSTEM_HPP
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
-#		include "../core/nc_lib_system_ref.hpp"
+#		include "nc_lib_system.hpp"
 #		include "nc_lib_cmp.hpp"
 /// component_system
 /// description:
-class NC_API nc_cmp_sys : public ref_sys_tt<cmp_sys, nc_cmp_t>
+class nc_cmp_sys : public nc_system_ttr<nc_cmp_sys, nc_cmp_t>
 {
 public:
 public:
@@ -19,6 +19,7 @@ public:
 	// commands //
 	v1bit_t init();
 	v1bit_t quit();
+	v1bit_t work();
 private:
 };
 #	endif	// NC_API //

@@ -12,30 +12,34 @@
 /// --base class for complex objects;
 /// --allows to construct an object of different components;
 /// --takes responsibility for creation and destruction of all components
-class NC_API nc_ent_t : public nc_type_indx_owner_t
+class nc_ent_t : public nc_type_owner_t, public nc_indx_owner_t
 {
 public:
 public:
 	// ctor_dtor //
-	inline nc_ent_t() : nc_type_indx_owner_t() { }
-	virtual inline ~nc_ent_t() { }
+	inline nc_ent_t() : nc_type_owner_t(), nc_indx_owner_t() { }
+	virtual ~nc_ent_t() = default;
+	// getters //
+	// setters //
+	// operators //
+	// commands //
 };
 /// entity_type_template
 /// description:
 template<class tent, class tref = nc_cmp_t>
-class NC_API nc_ent_tt : public nc_type_indx_owner_tt<tent, nc_ent_t>
+class nc_ent_tt : public nc_type_owner_tt<tent, nc_ent_t>, public nc_indx_owner_tt<tent>
 {
 public:
-	using cmp_ref_t = mem_ref_t<tref>;    // component reference
+	using cmp_ref_t = nc_ref_t<tref>;    // component reference
 	using cmp_ref_tc = const cmp_ref_t; // component constant reference
 	using cmp_tab_t = array_t<cmp_ref_t>;// component table
 	using cmp_tab_tc = const cmp_tab_t; // component constant table
-	template<class tcmp> using nc_cmp_tt = mem_ref_t<tcmp>; // particular component
+	template<class tcmp> using nc_cmp_tt = nc_ref_t<tcmp>; // particular component
 	template<class tcmp> using cmp_tc = nc_cmp_tt<tcmp>;  // particular constant component
 public:
 	// ctor_dtor //
 	inline nc_ent_tt() : nc_type_indx_owner_tt(), m_cmp_tab(get_cmp_tab_static()) { }
-	virtual inline ~nc_ent_tt() { }
+	virtual inline ~nc_ent_tt() = default;
 	// getters //
 	inline cmp_tab_t& get_cmp_tab()        { return m_cmp_tab; }
 	inline cmp_tab_tc& get_cmp_tab() const { return m_cmp_tab; }
@@ -57,6 +61,8 @@ public:
 	// predicates //
 	inline v1bit_t has_cmp(size_t key) const         { key < get_cmp_count(); }
 	static inline v1bit_t has_cmp_static(size_t key) { return key < get_cmp_count_static(); }
+	// commands //
+	// operators //
 protected:
 	cmp_tab_t m_cmp_tab;
 };

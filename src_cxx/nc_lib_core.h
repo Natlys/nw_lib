@@ -1,6 +1,11 @@
 #ifndef NC_LIB_CORE_H
 #   define NC_LIB_CORE_H
 // config //
+// // building // //
+#   if (defined NC_BUILD)
+#       undef NC_BUILD
+#   endif   // NC_BUILD //
+#   define NC_BUILD NC_BUILD_EXE
 // includes //
 #   include "nc_lib_pch.h"
 // linkage //
