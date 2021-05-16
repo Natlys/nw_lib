@@ -2,12 +2,12 @@
 #	define NC_LIB_ARRAY_H
 #	include "../nc_lib_core.h"
 #	if (defined NC_API)
-#		if !(defined NC_DEFAULT_NUMB_ARRAY)
-#			define NC_MINIMAL_NUMB_ARRAY 0u
-#			define NC_AVERAGE_NUMB_ARRAY 3u
-#			define NC_MAXIMAL_NUMB_ARRAY 10u
-#			define NC_DEFAULT_NUMB_ARRAY NC_MINIMAL_NUMB_ARRAY
-#		endif	// NC_DEFAULT_NUMB_ARRAY //
+#		if !(defined NC_USE_NUMB_ARRAY)
+#			define NC_MIN_NUMB_ARRAY 0u
+#			define NC_MID_NUMB_ARRAY 3u
+#			define NC_MAX_NUMB_ARRAY 10u
+#			define NC_USE_NUMB_ARRAY NC_MIN_NUMB_ARRAY
+#		endif	// NC_USE_NUMB_ARRAY //
 /// array_iter_type
 #       define nc_array_iter_t(tname) nc_array_iter##_##tname
 #       if (NC_FALSE)
@@ -37,13 +37,17 @@
             } nc_array_main_t(tname); /*template name__*/ \
 // type is defined //
 // ctor_dtor //
-#       define nc_array_ctor(tname, ref) ({ /*_________________*/ \
-            memset(&ref, NC_ZERO, sizeof(ref)); /*_____________*/ \
-            nc_array_set_numb(tname, ref, NC_DEFAULT_NUMB_ARRAY); \
+#       define nc_array_ctor(tname, ref) ({    \
+            ref.head = NC_NULL;                \
+            ref.back = NC_NULL;                \
+            size_tc sz = NC_USE_NUMB_ARRAY;    \
+            nc_array_set_numb(tname, ref, sz); \
         })
-#       define nc_array_dtor(tname, ref) ({ /*_________________*/ \
-            nc_array_set_numb(tname, ref, NC_ZERO); /*_________*/ \
-            memset(&ref, NC_ZERO, sizeof(ref)); /*_____________*/ \
+#       define nc_array_dtor(tname, ref) ({    \
+            size_tc sz = NC_ZERO;              \
+            nc_array_set_numb(tname, ref, sz); \
+            ref.head = NC_NULL;                \
+            ref.back = NC_NULL;                \
         })
 // getters //
 #       define nc_array_get_numb(tname, ref, numb) ({ \
@@ -106,23 +110,22 @@
 			);                                \
 			NC_OPUT("};");                    \
 		})
-#		define nc_array_olog(tname, ref) ({    \
-			NC_OLOG(                           \
-                "array:" "{" NC_STR_EOL        \
-                "   numb: %d;" NC_STR_EOL      \
-                "   data:" "{"                 \
-                , ref.back - ref.head          \
-            );                                 \
-			nc_array_each(tname, ref, {        \
-                    NC_OPUT(                   \
-                    "   {indx:%d;data:%d};"    \
-                        NC_STR_EOL             \
-                        , indx, *each          \
-                    );                         \
-				}                              \
-			);                                 \
-			NC_OPUT("   };" NC_STR_EOL);       \
-			NC_OPUT("};" NC_STR_EOL);          \
+#		define nc_array_olog(tname, ref) ({           \
+            size_t numb = NC_ZERO;                    \
+            nc_array_get_numb(tname, ref, numb);      \
+			NC_OLOG("array:");                        \
+            NC_OPUT("{" NC_EOL);                      \
+            NC_OPUT(NC_TAB "numb: %d;" NC_EOL, numb); \
+			nc_array_each(tname, ref, {               \
+                NC_OPUT(                              \
+                    NC_TAB "{" NC_EOL                 \
+                    NC_TAB NC_TAB "indx:%d;" NC_EOL   \
+                    NC_TAB NC_TAB "data:%d;" NC_EOL   \
+                    NC_TAB "};" NC_EOL                \
+                    , indx, each ? *each : NC_ZERO    \
+                );                                    \
+			});                                       \
+			NC_OPUT("};" NC_EOL);                     \
 		})
 // other_names //
 #       define nc_array_t(tname) nc_array_main_t(tname)

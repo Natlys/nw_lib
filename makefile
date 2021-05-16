@@ -22,7 +22,7 @@ ifeq ($(config),work_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.exe
+  TARGET = $(TARGETDIR)/nc_lib.lib
   OBJDIR = bin_cxx/win64/work
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -34,7 +34,7 @@ ifeq ($(config),work_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64
-  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -58,7 +58,7 @@ ifeq ($(config),test_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.exe
+  TARGET = $(TARGETDIR)/nc_lib.lib
   OBJDIR = bin_cxx/win64/test
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -70,7 +70,7 @@ ifeq ($(config),test_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64 -s
-  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -94,7 +94,7 @@ ifeq ($(config),play_win64)
   endif
   RESCOMP = default
   TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.exe
+  TARGET = $(TARGETDIR)/nc_lib.lib
   OBJDIR = bin_cxx/win64/play
   DEFINES +=
   INCLUDES += -Isrc_cxx
@@ -106,7 +106,7 @@ ifeq ($(config),play_win64)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
   ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64 -s
-  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS

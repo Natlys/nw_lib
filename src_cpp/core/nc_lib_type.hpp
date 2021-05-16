@@ -3,7 +3,6 @@
 #	include "../nc_lib_core.hpp"
 #		if (defined NC_API)
 // includes //
-#		include "../../nc_iop/src_cpp/cmp/nc_iop_cmp.hpp"
 #		include "../std/nc_lib_array.hpp"
 // types //
 /// type_information_type
@@ -101,10 +100,10 @@ public:
 	inline owner_t& operator=(owner_t&& copy) { set_type(copy.m_type); return *this; }
 	inline v1bit_t operator==(owner_tc& owner) { return has_type(owner.get_type()); }
 	inline v1bit_t operator!=(owner_tc& owner) { return !has_type(owner.get_type()); }
-	template<typename tname> operator tname* ()             { NC_CHECK(has_type<tname>(), "type error!", NC_DEFAULT); return NC_CAST(this, tname*); }
-	template<typename tname> operator const tname* () const { NC_CHECK(has_type<tname>(), "type error!", NC_DEFAULT); return NC_CAST(this, const tname*); }
-	template<typename tname> operator tname& ()             { NC_CHECK(has_type<tname>(), "type error!", NC_DEFAULT); return *NC_CAST(this, tname*); }
-	template<typename tname> operator const tname& () const { NC_CHECK(has_type<tname>(), "type error!", NC_DEFAULT); return *NC_CAST(this, const tname*); }
+	template<typename tname> operator tname* ()             { NC_CHECK(has_type<tname>(), "type error!", NC_VOID); return NC_CAST(this, tname*); }
+	template<typename tname> operator const tname* () const { NC_CHECK(has_type<tname>(), "type error!", NC_VOID); return NC_CAST(this, const tname*); }
+	template<typename tname> operator tname& ()             { NC_CHECK(has_type<tname>(), "type error!", NC_VOID); return *NC_CAST(this, tname*); }
+	template<typename tname> operator const tname& () const { NC_CHECK(has_type<tname>(), "type error!", NC_VOID); return *NC_CAST(this, const tname*); }
 protected:
 	type_t m_type;
 };

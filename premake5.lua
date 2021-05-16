@@ -1,8 +1,8 @@
 --==<native_wolrd_library/>==--
 project("nc_lib")
 	--general--
-	kind("consoleapp")
-	--kind("staticlib")
+	--kind("consoleapp")
+	kind("staticlib")
 	--kind("sharedlib")
 	--libraries--
 	links{ "nc_cfg" }

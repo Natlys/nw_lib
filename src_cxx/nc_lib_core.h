@@ -5,7 +5,7 @@
 #   if (defined NC_BUILD)
 #       undef NC_BUILD
 #   endif   // NC_BUILD //
-#   define NC_BUILD NC_BUILD_EXE
+#   define NC_BUILD NC_BUILD_LIB
 // includes //
 #   include "nc_lib_pch.h"
 // linkage //

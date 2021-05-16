@@ -2,6 +2,9 @@
 #   define NC_LIB_H
 // core //
 #   include "nc_lib_core.h"
+// memory //
+#   include "mem/nc_mem_list.h"
+#   include "mem/nc_mem_arena.h"
 // standard //
 #   include "std/nc_lib_array.h"
 #   include "std/nc_lib_list1.h"

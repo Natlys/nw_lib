@@ -2,12 +2,12 @@
 #	define NC_LIB_TABLE_H
 #	include "../nc_lib_core.h"
 #	if (defined NC_API)
-#		if !(defined NC_DEFAULT_NUMB_TABLE)
-#			define NC_MINIMAL_NUMB_TABLE 5u
-#			define NC_AVERAGE_NUMB_TABLE 10u
-#			define NC_MAXIMAL_NUMB_TABLE 30u
-#			define NC_DEFAULT_NUMB_TABLE NC_AVERAGE_NUMB_TABLE
-#		endif	// NC_DEFAULT_NUMB_TABLE //
+#		if !(defined NC_USE_NUMB_TABLE)
+#			define NC_MIN_NUMB_TABLE 5u
+#			define NC_MID_NUMB_TABLE 10u
+#			define NC_MAX_NUMB_TABLE 30u
+#			define NC_USE_NUMB_TABLE NC_MID_NUMB_TABLE
+#		endif	// NC_USE_NUMB_TABLE //
 /// table_iterator_type
 /// description:
 /// ->table iterator;
@@ -37,11 +37,11 @@
 // ctor_dtor //
 #       define nc_table_ctor(tname, ref) ({         \
             ref.head = ref.back = NC_NULL;          \
-            size_t size = NC_DEFAULT_NUMB_TABLE;    \
+            size_t size = NC_USE_NUMB_TABLE;    \
             size *= sizeof(nc_table_iter_t(tname)); \
             NC_MEM_MOVE(ref.head, NC_ZERO, size);   \
             ref.back = ref.head;                    \
-            ref.back += NC_DEFAULT_NUMB_TABLE;      \
+            ref.back += NC_USE_NUMB_TABLE;      \
         })
 #       define nc_table_dtor(tname, ref) ({         \
             size_t size = ref.back - ref.head;      \

@@ -3,7 +3,7 @@
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
 #		include "../std/nc_lib_table.hpp"
-#		include "../std/nc_lib_ref.hpp"
+#		include "../mem/nc_mem_ref.hpp"
 #		include "nc_lib_single.hpp"
 /// standard_system_type
 template<class tsys>
