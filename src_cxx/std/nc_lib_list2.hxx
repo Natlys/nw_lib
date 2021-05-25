@@ -1,6 +1,6 @@
 #ifndef NC_LIB_LIST2_H
 #	define NC_LIB_LIST2_H
-#	include "../nc_lib_core.h"
+#	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 #		if !(defined NC_USE_NUMB_LIST2)
 #			define NC_MIN_NUMB_LIST2 0u
@@ -56,7 +56,7 @@
             ref.back = NC_NULL;                          \
             ref.numb = NC_ZERO;                          \
         })
-// getters //
+/* getters */
 #       define nc_list2_get_numb(tname, ref, numb) ({ \
             nc_list2_iter_t(tname)* iter = ref.head;  \
             numb = NC_ZERO;                           \
@@ -73,7 +73,7 @@
                 numb = numb + NC_UNIT;                      \
             }                                               \
         })
-// setters //
+/* setters */
 #       define nc_list2_set_elem(tname, ref, indx, elem) ({ \
             nc_list2_iter_t(tname)* temp = ref.head;        \
             size_t numb = NC_ZERO;                          \
@@ -114,7 +114,7 @@
             ref.numb = ref.numb - NC_UNIT;            \
             NC_MEM_FREE(iter, size);                  \
         })
-// commands //
+/* commands */
 #       define nc_list2_each(tname, ref, actn) ({    \
             nc_list2_iter_t(tname)* each = ref.head; \
             indx_t indx = NC_ZERO;                   \
@@ -178,6 +178,6 @@
             NC_TYPEDEF_LIST2_ITER(tname); \
             NC_TYPEDEF_LIST2_MAIN(tname); \
 // type is defined //
-#	endif   // NC_API //
-// end_of_file //
+#	endif   /* NC_API */
+/* end_of_file */
 #endif // NC_LIB_LIST2_H //

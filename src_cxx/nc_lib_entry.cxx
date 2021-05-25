@@ -1,5 +1,5 @@
-#include "nc_lib_pch.h"
-#include "nc_lib.h"
+#include "nc_lib_pch.hxx"
+#include "nc_lib.hxx"
 
 #if (defined NC_BUILD)
 #   if (NC_BUILD & NC_BUILD_EXE || NC_TRUTH)
@@ -66,17 +66,10 @@ int main(int arg_num, const char* arg_str[])
     nc_table_dtor(v1u_t, table);
 #   endif
 #   if (NC_TRUTH)
-    struct nc_mem_arena_t giver = { NC_ZERO };
-    nc_mem_arena_ctor(giver);
-    ptr_t data;
-    nc_mem_arena_set(giver, NC_MEM_USE_SIZE_FULL);
-    nc_mem_arena_new_one(v1u_t, giver, data);
-    nc_mem_arena_del_one(v1u_t, giver, data);
-    nc_mem_arena_dtor(giver);
 #   endif
     NC_BREAK();
     return 0;
 }
-#   endif   // NC_BUILD_EXE //
-#endif  // NC_BUILD //
-// end_of_file //
+#   endif   /* NC_BUILD_EXE */
+#endif  /* NC_BUILD */
+/* end_of_file */

@@ -1,5 +1,5 @@
-#include "../nc_lib_pch.h"
-#include "nc_stb_rect_pack.h"
+#include "../nc_lib_pch.hxx"
+#include "nc_stb_rect_pack.hxx"
 #if (defined NC_API)
 
 #   ifndef STBRP_SORT
@@ -392,5 +392,5 @@ STBRP_DEF int stbrp_pack_rects(stbrp_context *context, stbrp_rect *rects, int nu
    // return the all_rects_packed status
    return all_rects_packed;
 }
-// end_of_file //
-#  endif // NC_API //
+/* end_of_file */
+#  endif /* NC_API */

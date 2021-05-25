@@ -2,7 +2,8 @@
 #	define NC_LIB_NAME_HPP
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
-// includes //
+/* includes */
+/* defines */
 // types //
 /// name_owner_type
 /// description:
@@ -20,22 +21,22 @@ public:
 	inline nc_name_owner_t(owner_tc& copy) : nc_name_owner_t() { operator=(copy); }
 	inline nc_name_owner_t(owner_t&& copy) : nc_name_owner_t() { operator=(copy); }
 	virtual ~nc_name_owner_t() = default;
-	// getters //
+	/* getters */
 	inline cstr_t get_name() const { return &m_name[0]; }
-	// setters //
+	/* setters */
 	inline owner_t& set_name(cstr_t name)   { m_name = name; return *this; }
 	inline owner_t& set_name(name_tc& name) { m_name = name; return *this; }
-	// predicates //
+	/* predicates */
 	inline v1bit_t has_name() const              { return m_name != ""; }
 	inline v1bit_t has_name(cstr_t name) const   { return m_name == name; }
 	inline v1bit_t has_name(name_tc& name) const { return m_name == name; }
-	// operators //
+	/* operators */
 	inline owner_t operator=(owner_tc& copy) { return set_name(copy.get_name()); }
 	inline owner_t operator=(owner_t&& copy) { return set_name(copy.get_name()); }
-	// commands //
+	/* commands */
 protected:
 	name_t m_name;
 };
-#	endif	// NC_API //
-// end_of_file //
+#	endif	/* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_NAME_HPP //

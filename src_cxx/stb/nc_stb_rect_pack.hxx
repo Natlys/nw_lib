@@ -1,6 +1,6 @@
 #ifndef NC_STB_RECT_PACK_H
 #  define NC_STB_RECT_PACK_H
-#  include "../nc_lib_core.h"
+#  include "../nc_lib_core.hxx"
 #  if (defined NC_API)
 
 #     define STB_RECT_PACK_VERSION  1
@@ -132,8 +132,8 @@ struct stbrp_context
 #     ifdef __cplusplus
 }
 #     endif // __cplusplus //
-#  endif // NC_API //
-// end_of_file //
+#  endif /* NC_API */
+/* end_of_file */
 #endif   // NC_STB_RECT_PACK_H //
 
 /*

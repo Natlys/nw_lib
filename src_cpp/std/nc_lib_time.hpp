@@ -2,7 +2,7 @@
 #	define NC_LIB_TIME_HPP
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
-// includes //
+/* includes */
 #   	include <chrono>
 // types //
 /// timer_type
@@ -21,13 +21,13 @@ public:
 	// ctor_dtor //
 	inline nc_timer_t() : m_tp_last(point_t()), m_tp_curr(point_t()), m_curr(NC_ZERO), m_last(NC_ZERO), m_delta(NC_ZERO), m_begin(NC_ZERO) { }
 	inline ~nc_timer_t() { }
-	// getters //
+	/* getters */
 	inline val_tc get_curr(val_tc scale = 1.0) const  { return m_curr * scale; }
 	inline val_tc get_last(val_tc scale = 1.0) const  { return m_last * scale; }
 	inline val_tc get_delta(val_tc scale = 1.0) const { return m_delta * scale; }
 	inline val_tc get_begin(val_tc scale = 1.0) const { return m_begin * scale; }
 	inline val_tc get_ups(val_tc scale = 1.0) const	  { return 1.0 / m_delta * scale; }
-	// setters //
+	/* setters */
 	inline v1bit_t update() {
 		m_tp_curr = clock_t::now();
 		m_delta = sec_t(m_tp_curr - m_tp_last).count();
@@ -36,9 +36,9 @@ public:
 		m_tp_last = m_tp_curr;
 		return NC_TRUTH;
 	}
-	// predicates //
-	// commands //
-	// operators //
+	/* predicates */
+	/* commands */
+	/* operators */
 private:
 	point_t m_tp_curr;
 	point_t m_tp_last;
@@ -47,6 +47,6 @@ private:
 	val_t m_delta;
 	val_t m_begin;
 };
-#	endif	// NC_API //
-// end_of_file //
+#	endif	/* NC_API */
+/* end_of_file */
 #endif // NC_LIB_TIME_HPP //

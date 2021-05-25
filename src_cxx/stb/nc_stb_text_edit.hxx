@@ -1,6 +1,6 @@
 #ifndef NC_STB_TEXT_EDIT_H
 #  define NC_STB_TEXT_EDIT_H
-#  include "../nc_lib_core.h"
+#  include "../nc_lib_core.hxx"
 #  if (defined NC_API)
 
 //
@@ -100,8 +100,8 @@ typedef struct
    int num_chars;
 } StbTexteditRow;
 
-#  endif // NC_API //
-// end_of_file //
+#  endif /* NC_API */
+/* end_of_file */
 #endif // NC_STB_TEXT_EDIT_H //
 
 /*

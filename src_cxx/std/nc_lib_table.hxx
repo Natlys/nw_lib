@@ -1,6 +1,6 @@
 #ifndef NC_LIB_TABLE_H
 #	define NC_LIB_TABLE_H
-#	include "../nc_lib_core.h"
+#	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 #		if !(defined NC_USE_NUMB_TABLE)
 #			define NC_MIN_NUMB_TABLE 5u
@@ -49,7 +49,7 @@
             NC_MEM_MOVE(ref.head, size, NC_ZERO);   \
             ref.head = ref.back = NC_NULL;          \
         })
-// getters //
+/* getters */
 #       define nc_table_get_numb(tname, ref, numb) ({ \
             numb = ref.back - ref.head;               \
         })
@@ -77,7 +77,7 @@
             nc_table_get_iter(tname, ref, key, iter);      \
             elem = iter.data;                              \
         })
-// setters //
+/* setters */
 #       define nc_table_set_numb(tname, ref, numb) ({ \
             size_t sz_old, sz_new;                    \
             sz_old = ref.back - ref.head;             \
@@ -109,7 +109,7 @@
             iter->hash = hash;                            \
             iter->data = val;                             \
         })
-// commands //
+/* commands */
 #       define nc_table_each(tname, ref, actn) ({ \
             nc_table_iter_t(tname)* each;         \
             each = ref.head;                      \
@@ -153,6 +153,6 @@
             NC_TYPEDEF_TABLE_ITER(tname); \
             NC_TYPEDEF_TABLE_MAIN(tname); \
 // type is defined //
-#	endif	// NC_API //
-// end_of_file //
+#	endif	/* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_TABLE_H //

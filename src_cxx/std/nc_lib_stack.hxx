@@ -1,6 +1,6 @@
 #ifndef NC_LIB_STACK_H
 #	define NC_LIB_STACK_H
-#	include "../nc_lib_core.h"
+#	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 #		if !(defined NC_USE_NUMB_STACK)
 #			define NC_MIN_NUMB_STACK 0x000u // empty stack //
@@ -48,11 +48,11 @@
             ref.head = NC_NULL;             \
             ref.numb = NC_ZERO;             \
         })
-// getters //
+/* getters */
 #       define nc_stack_get(tname, ref, elem) ({ \
             elem = ref.head->data;               \
         })
-// setters //
+/* setters */
 #       define nc_stack_set(tname, ref, elem) ({ \
             ref.head->data = elem;               \
         })
@@ -80,7 +80,7 @@
             ref.head = temp;                         \
             ref.numb = ref.numb - 1u;                \
         })
-// commands //
+/* commands */
 #       define nc_stack_oput(tname, ref) ({  \
             NC_OPUT(                         \
                 "{"                          \
@@ -109,6 +109,6 @@
             NC_TYPEDEF_STACK_ITER(tname); \
             NC_TYPEDEF_STACK_MAIN(tname); \
 // type is defined //
-#	endif   // NC_API //
-// end_of_file //
+#	endif   /* NC_API */
+/* end_of_file */
 #endif // NC_LIB_STACK_H //

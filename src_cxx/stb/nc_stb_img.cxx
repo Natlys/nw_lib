@@ -1,5 +1,5 @@
-#include "../nc_lib_pch.h"
-#include "nc_stb_img.h"
+#include "../nc_lib_pch.hxx"
+#include "nc_stb_img.hxx"
 #if (1)
 #define STB_IMAGE_READ_IMPLEMENTATION
 #ifndef STB_IMAGE_READ_IMPLEMENTATION
@@ -41,22 +41,22 @@
 #endif
 
 
-#include "stdarg.h"
-#include "stddef.h" // ptrdiff_t on osx
-#include "stdlib.h"
-#include "string.h"
-#include "limits.h"
+#include "stdarg.hxx"
+#include "stddef.hxx" // ptrdiff_t on osx
+#include "stdlib.hxx"
+#include "string.hxx"
+#include "limits.hxx"
 
 #if !defined(STBI_NO_LINEAR) || !defined(STBI_NO_HDR)
-#include "math.h"  // ldexp, pow
+#include "math.hxx"  // ldexp, pow
 #endif
 
 #ifndef STBI_NO_STDIO
-#include "stdio.h"
+#include "stdio.hxx"
 #endif
 
 #ifndef STBI_ASSERT
-#include "assert.h"
+#include "assert.hxx"
 #define STBI_ASSERT(x) assert(x)
 #endif
 
@@ -101,7 +101,7 @@ typedef   signed short stbi__int16;
 typedef unsigned int   stbi__uint32;
 typedef   signed int   stbi__int32;
 #else
-#include "stdint.h"
+#include "stdint.hxx"
 typedef uint16_t stbi__uint16;
 typedef int16_t  stbi__int16;
 typedef uint32_t stbi__uint32;
@@ -180,12 +180,12 @@ typedef unsigned char validate_uint32[sizeof(stbi__uint32) == 4 ? 1 : -1];
 
 #if !defined(STBI_NO_SIMD) && (defined(STBI__X86_TARGET) || defined(STBI__X64_TARGET))
 #define STBI_SSE2
-#include "emmintrin.h"
+#include "emmintrin.hxx"
 
 #ifdef _MSC_VER
 
 #if _MSC_VER >= 1400  // not VC6
-#include "intrin.h" // __cpuid
+#include "intrin.hxx" // __cpuid
 static int stbi__cpuid3(void)
 {
     int info[4];
@@ -237,7 +237,7 @@ static int stbi__sse2_available(void)
 #endif
 
 #ifdef STBI_NEON
-#include "arm_neon.h"
+#include "arm_neon.hxx"
 // assume GCC or Clang on ARM targets
 #define STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
 #endif

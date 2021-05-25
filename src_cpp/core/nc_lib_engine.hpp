@@ -1,12 +1,17 @@
 #ifndef NC_LIB_ENGINE_HPP
 #	define NC_LIB_ENGINE_HPP
 #	include "../nc_lib_core.hpp"
-#	if (defined NC_API && NC_FALSE)
+#	if (defined NC_API)
+/* includes */
+/* defines */
 #		include "../std/nc_lib_flow.hpp"
 #		include "../std/nc_lib_func.hpp"
 #		include "../std/nc_lib_array.hpp"
 #		include "nc_lib_single.hpp"
 #		include "nc_lib_name.hpp"
+// types //
+/// engine_state_type
+/// description:
 class nc_engine_state_t : public nc_name_owner_t
 {
 public:
@@ -18,17 +23,18 @@ public:
 	inline nc_engine_state_t() : nc_name_owner_t(NC_DEFAULT_STR) { }
 	inline nc_engine_state_t(cstr_t name) : nc_engine_state_t() { set_name(name); }
 	virtual ~nc_engine_state_t() = default;
-	// getters //
-	// setters //
-	// predicates //
-	// commands //
+	/* getters */
+	/* setters */
+	/* predicates */
+	/* commands */
 	virtual inline v1bit_t init() { return NC_TRUTH; }
 	virtual inline v1bit_t quit() { return NC_TRUTH; }
 	virtual inline v1bit_t work() { return NC_TRUTH; }
-	// operators //
+	/* operators */
 public:
 };
 /// engine_type
+/// description:
 template<class teng, class tstate = nc_engine_state_t>
 class nc_engine_tt : public nc_single_tt<teng>
 {
@@ -49,14 +55,14 @@ public:
 	// ctor_dtor //
 	inline nc_engine_tt() = default;
 	inline ~nc_engine_tt() = default;
-	// getters //
+	/* getters */
 	inline work_flow_t& get_work_flow()        { return m_work_flow; }
 	inline work_flow_tc& get_work_flow() const { return m_work_flow; }
 	inline work_flag_t& get_work_flag()        { return m_work_flag; }
 	inline work_flag_tc& get_work_flag() const { return m_work_flag; }
 	inline state_t* get_state(size_tc key)        { NC_CHECK(has_state(key), "not found!", return NC_NULL); return m_states[key]; }
 	inline state_tc* get_state(size_tc key) const { NC_CHECK(has_state(key), "not found!", return NC_NULL); return m_states[key]; }
-	// setters //
+	/* setters */
 	template<class tname, typename ... args> engine_t& add_state(args&& ... arguments) { m_states.push_back(new tname(std::forward<args>(arguments)...)); return *this; }
 	inline engine_t& rmv_state(size_tc key) { NC_CHECK(has_state(key), "key error!", return *this); delete m_states[key]; m_states.erase(m_states.begin() + key); return *this; }
 	inline engine_t& rmv_state() { return rmv_state(NC_NULL); }
@@ -65,21 +71,21 @@ public:
 	inline v1bit_t has_state() const { return !m_states.empty(); }
 	inline v1bit_t has_state(size_tc key) const { return m_states.size() > key; }
 	inline v1bit_t has_state(cstr_t key) const { for (auto& istate : m_states) { if (istate->has_name(key)) { return NC_TRUTH; } } return NC_FALSE; }
-	// commands //
+	/* commands */
 	virtual inline v1bit_t init() {
-		// checking //
-		// action //
+		/* init */
+		/* work */
 		for (auto& istate : m_states) { NC_CHECK(istate->init(), "init error!", return NC_FALSE); }
-		// result //
+		/* quit */
 		return NC_TRUTH;
 	}
 	virtual inline v1bit_t quit() {
-		// checking //
+		/* init */
 		for (auto& istate : m_states) { NC_CHECK(istate->quit(), "quit error!", return NC_FALSE); }
-		// action //
+		/* work */
 		while (has_state()) { rmv_state(); }
 		m_states.clear();
-		// result //
+		/* quit */
 		return NC_TRUTH;
 	}
 	virtual inline v1bit_t work() {
@@ -87,23 +93,23 @@ public:
 		return NC_TRUTH;
 	}
 	inline v1bit_t exec() {
-		// checking //
+		/* init */
 		NC_CHECK(!has_work(), "init is already done!", return NC_FALSE);
-		// action //
+		/* work */
 		m_work_flow = work_flow_t(m_work_proc);
 		m_work_flag = NC_TRUTH;
-		// result //
+		/* quit */
 		return NC_TRUTH;
 	}
 	inline v1bit_t stop() {
-		// checking //
+		/* init */
 		NC_CHECK(has_work(), "quit is already done!", return NC_FALSE);
-		// action //
+		/* work */
 		m_work_flag = NC_FALSE;
-		// result //
+		/* quit */
 		return NC_TRUTH;
 	}
-	// operators //
+	/* operators */
 protected:
 	work_flow_t m_work_flow;
 	work_flag_t m_work_flag;
@@ -117,6 +123,6 @@ protected:
 	};
 	states_t m_states;
 };
-#	endif	// NC_API //
-// end_of_file //
+#	endif	/* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_ENGINE_HPP //

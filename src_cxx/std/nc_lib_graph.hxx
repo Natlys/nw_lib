@@ -1,9 +1,9 @@
 #ifndef NC_LIB_GRAPH_H
 #   define NC_LIB_GRAPH_H
-#   include "../nc_lib_core.h"
+#   include "../nc_lib_core.hxx"
 #   if (defined NC_API)
-#       include "nc_lib_util.h"
-#       include "nc_lib_list1.h"
+#       include "nc_lib_util.hxx"
+#       include "nc_lib_list1.hxx"
 /// graph_iterator_type
 /// description:
 /// ->poly-linked graph iterator;
@@ -31,6 +31,6 @@
             NC_TYPEDEF_GRAPH_MAIN(tkey, tval) \
             NC_TYPEDEF_GRAPH_ITER(tkey, tval) \
 // type is defined //
-#   endif   // NC_API //
-// end_of_file //
+#   endif   /* NC_API */
+/* end_of_file */
 #endif  // NC_LIB_GRAPH_H //

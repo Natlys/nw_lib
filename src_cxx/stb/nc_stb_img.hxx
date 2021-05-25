@@ -1,9 +1,8 @@
 #ifndef NC_STB_IMAGE_H
 #   define NC_STB_IMAGE_H
-#   include "../nc_lib_core.h"
+#   include "../nc_lib_core.hxx"
 #   if (defined NC_API)
 #       define STBI_VERSION 1
-#       include <stdlib.h>
 enum
 {
     STBI_default = 0, // only used for desired_channels
@@ -14,7 +13,6 @@ enum
     STBI_rgb_alpha = 4
 };
 
-#       include "stdlib.h"
 typedef unsigned char stbi_uc;
 typedef unsigned short stbi_us;
 
@@ -38,7 +36,6 @@ STBIDEF stbi_uc* stbi_load_from_memory(stbi_uc           const* buffer, int len,
 STBIDEF stbi_uc* stbi_load_from_callbacks(stbi_io_callbacks const* clbk, void* user, int* x, int* y, int* channels_in_file, int desired_channels);
 
 #   ifndef STBI_NO_STDIO
-#   include "stdio.h"
     STBIDEF stbi_uc* stbi_load(char const* filename, int* x, int* y, int* channels_in_file, int desired_channels);
     STBIDEF stbi_uc* stbi_load_from_file(FILE* f, int* x, int* y, int* channels_in_file, int desired_channels);
     // for stbi_load_from_file, file pointer is left pointing immediately after image
@@ -283,7 +280,7 @@ LICENSE
 
   See end of file for license information.
 */
-#   endif   // NC_API //
+#   endif   /* NC_API */
 #   if (defined NC_API)
 // if STB_IMAGE_WRITE_STATIC causes problems, try defining STBIWDEF to 'inline' or 'static inline'
 #ifndef STBIWDEF
@@ -416,5 +413,5 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------------------------------------------------------------------------------
 */
-#   endif   // NC_API //
+#   endif   /* NC_API */
 #endif	// NC_STB_IMAGE_H //

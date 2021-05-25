@@ -1,6 +1,6 @@
 #ifndef NC_LIB_UTILITY_H
 #	define NC_LIB_UTILITY_H
-#	include "../nc_lib_core.h"
+#	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 /// iterator_type
 /// description:
@@ -14,7 +14,7 @@
             } nc_pair##_##tval0##_##tval1 /*template name_________*/ \
 // type is defined //
 // ctor_dtor //
-// commands //
-#	endif	// NC_API //
-// end_of_file //
+/* commands */
+#	endif	/* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_UTILITY_H //

@@ -1,7 +1,6 @@
 #ifndef NC_LIB_FLOW_HPP
 #   define NC_LIB_FLOW_HPP
-//#   include "../nc_lib_core.hpp"
-#   include "../nc_cfg_core.hpp"
+#   include "../nc_lib_core.hpp"
 #   if (defined NC_API)
 #       include <functional>
 #       define NC_FLOW_FLAG_LIVE ( 1u << 0u )
@@ -14,7 +13,7 @@
 #       endif   // NC_DEFAULT_FLOW_SIZE //
 /// flow_type
 /// description:
-/// interface:
+/// interaction:
 class nc_flow_t
 {
 public:
@@ -32,13 +31,13 @@ public:
     inline nc_flow_t(flow_tc& copy) : nc_flow_t() { operator=(copy); }
     inline nc_flow_t(flow_t&& copy) : nc_flow_t() { operator=(copy); }
     inline ~nc_flow_t() { if (has_work()) { NC_CHECK(quit(), "quit error!", return); } }
-    // getters //
+    /* getters */
     inline mark_tc get_mark() const { return m_mark; }
     inline indx_tc get_indx() const { return m_indx; }
     inline func_tc get_func() const { return m_func; }
     inline size_tc get_size() const { return m_size; }
     inline flag_tc get_flag() const { return m_flag; }
-    // setters //
+    /* setters */
     inline flow_t& set_func(func_tc func) {
         NC_CHECK(!has_work(), "this is a working flow!", return *this);
         //
@@ -76,7 +75,7 @@ public:
         if (flag == NC_FLOW_FLAG_WAIT) { NC_CHECK(::SuspendThread(m_mark) != -1, "flow error!", return *this); }
         return *this;
     }
-    // predicates //
+    /* predicates */
     inline v1bit_t has_mark() const             { return m_mark != NC_NULL; }
     inline v1bit_t has_mark(mark_tc mark) const { return m_mark == mark; }
     inline v1bit_t has_indx() const             { return m_indx != NC_ZERO; }
@@ -88,16 +87,16 @@ public:
     inline v1bit_t has_flag() const             { return m_flag != NC_ZERO; }
     inline v1bit_t has_flag(flag_tc flag) const { return m_flag & flag; }
     inline v1bit_t has_work() const { return has_mark() && has_indx() && has_func() && has_size(); }
-    // commands //
+    /* commands */
     inline v1bit_t init(func_tc func)               { return set_func(func).init(); }
     inline v1bit_t init(size_tc size)               { return set_size(size).init(); }
     inline v1bit_t init(func_tc func, size_tc size) { return set_func(func).set_size(size).init(); }
     inline v1bit_t init()
     {
-        NC_PCALL({ // checking //
+        NC_PCALL({ /* init */
             NC_CHECK(has_work() == NC_FALSE, "this is a working flow!", return NC_FALSE);
         }, "init error!", return NC_FALSE);
-        NC_PCALL({ // action //
+        NC_PCALL({ /* work */
             static LPTHREAD_START_ROUTINE routine = [](LPVOID iput)->DWORD {
                 flow_t* this_flow = reinterpret_cast<flow_t*>(iput);
                 NC_CHECK(this_flow->work(this_flow, NC_NULL), "work error!", return NC_FALSE);
@@ -116,48 +115,49 @@ public:
                 )
             ) != NC_NULL, "windows cannot create a thread!", return NC_FALSE);
         }, "init error!", return NC_FALSE);
-        NC_PCALL({ // logging //
+        NC_PCALL({ /* olog */
             NC_CHECK(olog(), "olog error!", return NC_FALSE);
         }, "init error!", return NC_FALSE);
-        // result //
+        /* quit */
         return NC_TRUTH;
     }
     inline v1bit_t quit()
     {
-        NC_PCALL({ // logging //
+        NC_PCALL({ /* olog */
             NC_CHECK(olog(), "olog error!", return NC_FALSE);
         }, "init error!", return NC_FALSE);
-        NC_PCALL({ // checking //
+        NC_PCALL({ /* init */
             NC_CHECK(has_work() == NC_TRUTH, "this is not a working flow!", return NC_FALSE);
         }, "quit error!", return NC_FALSE);
-        NC_PCALL({ // action //
+        NC_PCALL({ /* work */
             NC_CHECK(::CloseHandle(m_mark), "windows cannot close a thread", return NC_FALSE);
             m_mark = NC_DEFAULT_PTR;
             m_indx = NC_DEFAULT_VAL;
         }, "quit error!", return NC_FALSE);
-        // result //
+        /* quit */
         return NC_TRUTH;
     }
     inline v1bit_t work(ptr_t iput, ptr_t oput) {
-        // checking //
+        /* init */
         NC_CHECK(has_work(), "work error!", return NC_FALSE);
-        // action //
+        /* work */
         add_flag(NC_FLOW_FLAG_LIVE);
         NC_CHECK(m_func(iput, oput), "work error!", return NC_FALSE);
         rmv_flag(NC_FLOW_FLAG_LIVE);
-        // result //
+        /* quit */
         return NC_TRUTH;
     }
     inline v1bit_t olog() {
-        // checking //
-        // action //
-        NC_PCALL({ // logging //
-            NC_OLOG("flow_olog:{" NC_STR_EOL
-                "   mark: %d;" NC_STR_EOL
-                "   indx: %d;" NC_STR_EOL
-                "   func: %d;" NC_STR_EOL
-                "   size: %d;" NC_STR_EOL
-                "   flag: %d;" NC_STR_EOL
+        /* init */
+        /* work */
+        NC_PCALL({ /* olog */
+            NC_OLOG(
+                "flow_olog:{" NC_EOL
+                NC_TAB "mark: %d;" NC_EOL
+                NC_TAB "indx: %d;" NC_EOL
+                NC_TAB "func: %d;" NC_EOL
+                NC_TAB "size: %d;" NC_EOL
+                NC_TAB "flag: %d;" NC_EOL
                 "}",
                 (size_t)get_mark(),
                 (size_t)get_indx(),
@@ -166,7 +166,7 @@ public:
                 (size_t)get_flag()
             );
         }, "olog error!", return NC_FALSE);
-        // result //
+        /* quit */
         return NC_TRUTH;
     }
     // operators //
@@ -179,6 +179,6 @@ private:
     size_t m_size;
     flag_t m_flag;
 };
-#   endif // NC_API //
-// end_of_file //
+#   endif /* NC_API */
+/* end_of_file */
 #endif  // NC_LIB_FLOW_HPP //

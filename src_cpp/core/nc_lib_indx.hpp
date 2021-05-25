@@ -2,9 +2,10 @@
 #	define NC_LIB_INDEX_HPP
 #	include "../nc_lib_core.hpp"
 #	if (defined NC_API)
-// includes //
+/* includes */
 #		include "../std/nc_lib_stack.hpp"
 #		include "../std/nc_lib_array.hpp"
+/* defines */
 // types //
 /// index_stack_type
 /// description:
@@ -23,20 +24,20 @@ public:
 	inline nc_indx_stack_t() { m_stack.push(NC_DEFAULT_VAL); }
 	inline nc_indx_stack_t(indx_t first) : nc_indx_stack_t() { m_stack.top() = first; }
 	inline ~nc_indx_stack_t() = default;
-	// getters //
+	/* getters */
 	inline indx_tc get_indx() {
 		indx_t indx = m_stack.top();
 		if (m_stack.size() == NC_UNIT) { m_stack.top()++; }
 		else { m_stack.pop(); }
 		return indx;
 	}
-	// setters //
+	/* setters */
 	inline stack_t& set_indx(indx_t indx) {
 		if (indx != m_stack.top()) { m_stack.push(indx); }
 		return *this;
 	}
-	// predicates //
-	// commands //
+	/* predicates */
+	/* commands */
 private:
 	nc_stack_tt<v1u_t> m_stack;
 };
@@ -64,12 +65,12 @@ public:
 	// ctor_dtor //
 	constexpr inline nc_indx_owner_t() = default;
 	virtual inline ~nc_indx_owner_t() = default;
-	// getters //
+	/* getters */
 	virtual inline indx_tc get_indx() const = 0;
-	// setters //
-	// predicates //
-	// commands //
-	// operators //
+	/* setters */
+	/* predicates */
+	/* commands */
+	/* operators */
 };
 /// typed_index_owner
 template<class tname>
@@ -78,11 +79,11 @@ class nc_indx_owner_tt : nc_indx_owner_t
 public:
 	inline nc_indx_owner_tt() : nc_indx_owner_t(), m_indx(nc_indx_info_t::get_indx<tname>()) { }
 	virtual inline ~nc_indx_owner_tt() { nc_indx_info_t::set_indx<tname>(m_indx); }
-	// getters //
+	/* getters */
 	virtual inline indx_tc get_indx() const override { return m_indx; }
 protected:
 	indx_t m_indx;
 };
-#	endif	// NC_API //
-// end_of_file //
+#	endif	/* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_INDEX_HPP //

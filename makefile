@@ -28,8 +28,8 @@ ifeq ($(config),work_win64)
   INCLUDES += -Isrc_cxx
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffloat-store -g -w -std=c99
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffloat-store -g -w
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffloat-store -g -w -std=c99 -fpermissive
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffloat-store -g -w -fpermissive
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
@@ -46,7 +46,7 @@ all: prebuild prelink $(TARGET)
 
 endif
 
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
   ifeq ($(origin CC), default)
     CC = F:\dev\gcc\bin\gcc.exe
   endif
@@ -59,49 +59,13 @@ ifeq ($(config),test_win64)
   RESCOMP = default
   TARGETDIR = bin_cxx
   TARGET = $(TARGETDIR)/nc_lib.lib
-  OBJDIR = bin_cxx/win64/test
+  OBJDIR = bin_cxx/win64/game
   DEFINES +=
   INCLUDES += -Isrc_cxx
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -O2 -w -std=c99
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -O2 -w
-  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
-  LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
-  ALL_LDFLAGS += $(LDFLAGS) -L../nc_cfg -L/usr/lib64 -m64 -s
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
-  define PREBUILDCMDS
-  endef
-  define PRELINKCMDS
-  endef
-  define POSTBUILDCMDS
-  endef
-all: prebuild prelink $(TARGET)
-	@:
-
-endif
-
-ifeq ($(config),play_win64)
-  ifeq ($(origin CC), default)
-    CC = F:\dev\gcc\bin\gcc.exe
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = F:\dev\gcc\bin\g++.exe
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
-  RESCOMP = default
-  TARGETDIR = bin_cxx
-  TARGET = $(TARGETDIR)/nc_lib.lib
-  OBJDIR = bin_cxx/win64/play
-  DEFINES +=
-  INCLUDES += -Isrc_cxx
-  FORCE_INCLUDE +=
-  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -O3 -w -std=c99
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -ffast-math -O3 -w
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -w -std=c99 -fpermissive
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -w -fpermissive
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += ../nc_cfg/bin_cxx/nc_cfg.lib
   LDDEPS += ../nc_cfg/bin_cxx/nc_cfg.lib
@@ -119,7 +83,6 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/nc_lib_module.o \
 	$(OBJDIR)/nc_lib_entry.o \
 	$(OBJDIR)/nc_lib_pch.o \
 	$(OBJDIR)/nc_stb_img.o \
@@ -185,92 +148,60 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/nc_lib_module.o: src_cxx/core/nc_lib_module.c
+$(OBJDIR)/nc_lib_entry.o: src_cxx/nc_lib_entry.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_lib_entry.o: src_cxx/nc_lib_entry.c
+$(OBJDIR)/nc_lib_pch.o: src_cxx/nc_lib_pch.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_lib_pch.o: src_cxx/nc_lib_pch.c
+$(OBJDIR)/nc_stb_img.o: src_cxx/stb/nc_stb_img.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_stb_img.o: src_cxx/stb/nc_stb_img.c
+$(OBJDIR)/nc_stb_rect_pack.o: src_cxx/stb/nc_stb_rect_pack.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_stb_rect_pack.o: src_cxx/stb/nc_stb_rect_pack.c
+$(OBJDIR)/nc_stb_text_edit.o: src_cxx/stb/nc_stb_text_edit.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_stb_text_edit.o: src_cxx/stb/nc_stb_text_edit.c
+$(OBJDIR)/nc_stb_true_type.o: src_cxx/stb/nc_stb_true_type.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_stb_true_type.o: src_cxx/stb/nc_stb_true_type.c
+$(OBJDIR)/nc_lib_flow.o: src_cxx/std/nc_lib_flow.cxx
 	@echo $(notdir $<)
 ifeq ($(config),work_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
-ifeq ($(config),test_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-ifeq ($(config),play_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-$(OBJDIR)/nc_lib_flow.o: src_cxx/std/nc_lib_flow.c
-	@echo $(notdir $<)
-ifeq ($(config),work_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-ifeq ($(config),test_win64)
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-endif
-ifeq ($(config),play_win64)
+ifeq ($(config),game_win64)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 endif
 

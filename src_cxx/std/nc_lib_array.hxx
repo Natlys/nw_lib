@@ -1,6 +1,6 @@
 #ifndef NC_LIB_ARRAY_H
 #	define NC_LIB_ARRAY_H
-#	include "../nc_lib_core.h"
+#	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 #		if !(defined NC_USE_NUMB_ARRAY)
 #			define NC_MIN_NUMB_ARRAY 0u
@@ -49,7 +49,7 @@
             ref.head = NC_NULL;                \
             ref.back = NC_NULL;                \
         })
-// getters //
+/* getters */
 #       define nc_array_get_numb(tname, ref, numb) ({ \
             numb = ref.back - ref.head;               \
         })
@@ -66,7 +66,7 @@
 #       define nc_array_get_dist(tname, iter0, iter1, dist) ({ \
             dist = (iter1 - iter0);                            \
         })
-// setters //
+/* setters */
 #       define nc_array_set_numb(tname, ref, numb) ({ \
             size_t sz_old, sz_new;                    \
             sz_old = sizeof(tname);                   \
@@ -91,7 +91,7 @@
             numb -= 1u;                          \
 			nc_array_set_numb(tname, ref, numb); \
         })
-// commands //
+/* commands */
 #       define nc_array_each(tname, ref, actn) ({   \
             nc_array_iter_t(tname) each = ref.head; \
             size_t indx = NC_ZERO;                  \
@@ -133,6 +133,6 @@
             NC_TYPEDEF_ARRAY_ITER(tname); \
             NC_TYPEDEF_ARRAY_MAIN(tname); \
 // type is defined //
-#	endif   // NC_API //
-// end_of_file //
+#	endif   /* NC_API */
+/* end_of_file */
 #endif	// NC_LIB_ARRAY_H //

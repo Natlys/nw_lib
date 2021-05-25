@@ -1,40 +1,35 @@
 #ifndef NC_LIB_LIST1_HPP
 #	define NC_LIB_LIST1_HPP
 #	include "../nc_lib_core.hpp"
-#	if (defined NC_LIST1)
-#		if (NC_LIST1 & NC_LIST_STD)
-#		endif   // NC_LINK1_STD //
-#		if (NC_LIST1 & NC_LIST_OWN)
-/// link_one_type
+#	if (defined NC_API)
+/// list1_iterator_type_template
 template<typename tdata>
-class nc_link1_t
+class nc_list1_iter_t
 {
-	using link_t = nc_link1_t<tdata>;
-	using link_tc = const link_t;
+	using iter_t = nc_link1_iter_t<tdata>;
+	using iter_tc = const iter_t;
 	using data_t = tdata;
 	using data_tc = const data_t;
 public:
 	// ctor_dtor //
-	constexpr inline nc_link1_t() : m_link(NC_NULL), m_data(NC_NULL) { }
-	inline ~nc_link1_t() { }
-	// getters //
-	// setters //
-	// predicates //
-	// commands //
-	// operators //
-	inline link_t* operator++(void)        { return m_link; }
-	inline link_tc* operator++(void) const { return m_link; }
-	inline link_t* operator++(int)         { return m_link; }
-	inline link_tc* operator++(int) const  { return m_link; }
-	template <typename tname> operator tname* () { return static_cast<tname*>(m_data); }
-	template <typename tname> operator const tname* () const { return static_cast<const tname*>(m_data); }
-	template <typename tname> operator tname& () { return *static_cast<tname*>(m_data); }
-	template <typename tname> operator const tname& () const { return *static_cast<const tname*>(m_data); }
+	constexpr inline nc_list1_t() : m_next(NC_NULL), m_data(NC_NULL) { }
+	inline ~nc_list1_t() { }
+	/* getters */
+	inline iter_t* get_next()        { return m_next; }
+	inline iter_tc* get_next() const { return m_next; }
+	inline data_t* get_data()        { return m_data; }
+	inline data_tc* get_data() const { return m_data; }
+	/* setters */
+	inline iter_t& set_next(iter_t* next) { m_next = next; return *this; }
+	inline iter_t& set_data(data_t* data) { NC_MEM_DEL_ONE(tdata, m_data); m_data = data; return *this; }
+	/* predicates */
+	/* commands */
+	/* operators */
 public:
-	link_t* m_link;
+	iter_t* m_next;
 	data_t* m_data;
 };
-#		endif   // NC_LINK1_OWN //
-#	endif   // NC_API //
-// end_of_file //
+// other names //
+#	endif   /* NC_API */
+/* end_of_file */
 #endif // NC_LIB_LIST1_HPP //

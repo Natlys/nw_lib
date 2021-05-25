@@ -3309,7 +3309,7 @@ typedef int stbrp_coord;
 //                                                                                //
 //                                                                                //
 // if you get a compile warning due to these symbols being defined more than      //
-// once, move #include "stb_rect_pack.h" before #include "stb_truetype.h"         //
+// once, move #include "stb_rect_pack.hxx" before #include "stb_truetype.hxx"         //
 //                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -4375,7 +4375,7 @@ STBTT_DEF int stbtt_CompareUTF8toUTF16_bigendian(const char *s1, int len1, const
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif
-// end_of_file //
+/* end_of_file */
 #endif // NC_STB_TRUE_TYPE_H
 
 // stb_truetype.h - v1.20 - public domain
@@ -4470,7 +4470,7 @@ STBTT_DEF int stbtt_CompareUTF8toUTF16_bigendian(const char *s1, int len1, const
 //           stbtt_GetBakedQuad()                 -- compute quad to draw for a given char
 //
 //   Improved 3D API (more shippable):
-//           #include "stb_rect_pack.h"           -- optional, but you really want it
+//           #include "stb_rect_pack.hxx"           -- optional, but you really want it
 //           stbtt_PackBegin()
 //           stbtt_PackSetOversampling()          -- for improved quality on small fonts
 //           stbtt_PackFontRanges()               -- pack and renders

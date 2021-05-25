@@ -1,5 +1,5 @@
-#include "../nc_lib_pch.h"
-#include "nc_stb_text_edit.h"
+#include "../nc_lib_pch.hxx"
+#include "nc_stb_text_edit.hxx"
 #if (defined NC_API && NC_FALSE)
 
 #   ifndef STB_TEXTEDIT_memmove
@@ -1012,5 +1012,5 @@ static int stb_textedit_paste(STB_TEXTEDIT_STRING *str, STB_TexteditState *state
 #   if defined(__GNUC__) || defined(__clang__)
 #       pragma GCC diagnostic pop
 #   endif // __GNUC__ || __clang__ //
-// end_of_file //
-#endif // NC_API //
+/* end_of_file */
+#endif /* NC_API */
