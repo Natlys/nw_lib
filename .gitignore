@@ -1,5 +1,9 @@
-#directories
-bin/**
+# directories
+bin/
+ext/
+.vs/
+data/
+ext/
 
 # gPrerequisites
 *.d
@@ -13,6 +17,7 @@ bin/**
 # Precompiled Headers
 *.gch
 *.pch
+*.pdb
 
 # Compiled Dynamic libraries
 *.so

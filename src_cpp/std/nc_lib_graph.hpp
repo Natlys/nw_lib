@@ -7,7 +7,7 @@
 #		include "../std/nc_lib_list2.hpp"
 #		include "nc_lib_name.hpp"
 #		include "nc_lib_type.hpp"
-// types //
+/* types */
 /// tree_node_type
 /// description:
 /// --data structure for tree composition;
@@ -24,7 +24,7 @@ public:
 	using tree_t = tree_node_t<node_t>;
 	using tree_tc = const tree_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	inline nc_tree_node_t() : nc_name_owner_t(), nc_type_owner_t(), m_nodes(nodes_t()) { set_name(type_info_t::get<tree_t>().m_name); set_type(type_info_t::get<tree_t>().m_type); }
 	inline nc_tree_node_t(cstr_t name, nodes_tc& nodes) : t_tree_cmp() { set_name(name).set_nodes(nodes); }
 	inline nc_tree_node_t(cstr_t name, type_tc type) : t_tree_cmp()    { set_name(name).set_type(type); }
@@ -69,16 +69,16 @@ public:
 	inline dstr_t get_tree_str(size_t generation = 1u) {
 		std::stringstream stm(" ");
 		dstr_t offset(NC_CAST_SIZE((generation == 0ul ? 1ul : generation) * 4ul), ' ');
-		stm << &offset[4u] << (is_tree() ? "[tree]" : "[leaf]") << ":{" NC_STR_EOL;
-		stm << &offset[0u] << "name:" << get_name() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "type:" << get_type() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "count:" << get_count() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "space:" << get_space() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "type_info:" << get_type_info() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "tree_count:" << get_tree_count() << ";" << NC_STR_EOL;
-		stm << &offset[0u] << "tree_space: " << get_tree_space() << ";" NC_STR_EOL;
+		stm << &offset[4u] << (is_tree() ? "[tree]" : "[leaf]") << ":{" NC_STR_ENDL;
+		stm << &offset[0u] << "name:" << get_name() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "type:" << get_type() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "count:" << get_count() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "space:" << get_space() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "type_info:" << get_type_info() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "tree_count:" << get_tree_count() << ";" << NC_STR_ENDL;
+		stm << &offset[0u] << "tree_space: " << get_tree_space() << ";" NC_STR_ENDL;
 		for (auto& inode : get_nodes()) { stm << inode.get_tree_str(generation + 1u); }
-		stm << &offset[4u] << "}:" << (is_tree() ? "[tree]" : "[leaf]") << ";" NC_STR_EOL;
+		stm << &offset[4u] << "}:" << (is_tree() ? "[tree]" : "[leaf]") << ";" NC_STR_ENDL;
 		return stm.str();
 	}
 	/* setters */
@@ -114,7 +114,7 @@ public:
 		NC_ERROR("key error!", return *this);
 		return *this;
 	}
-	/* predicates */
+	/* vetters */
 	inline v1bit_t has_node() const              { return get_count() != NC_NULL; }
 	inline v1bit_t has_node(size_t key) const    { return get_count() > key; }
 	inline v1bit_t has_node(cstr_t key) const    { for (auto& inode : m_nodes) { if (inode.has_name(key)) return NC_TRUTH; } return NC_FALSE; }
@@ -130,7 +130,7 @@ public:
 	/* commands */
 	inline auto begin() { return m_nodes.begin(); }
 	inline auto end()   { return m_nodes.end(); }
-	// operators //
+	/* operators */
 	inline tree_t& operator=(tree_tc& copy) { nc_name_owner_t::operator=(copy); std_nc_type_owner_t::operator=(copy); if (is_tree()) { set_nodes(copy.get_nodes()); } return *this; }
 	inline tree_t& operator=(tree_t&& copy) { nc_name_owner_t::operator=(copy); std_nc_type_owner_t::operator=(copy); if (is_tree()) { set_nodes(copy.get_nodes()); } return *this; }
 	inline node_t& operator[](size_t key)        { return get_node(key); }
@@ -145,7 +145,7 @@ protected:
 /* includes */
 #		include "nc_lib_name.hpp"
 #		include "nc_lib_util.hpp"
-// types //
+/* types */
 /// link_node_type
 /// description:
 template<typename tdata>
@@ -227,7 +227,7 @@ public:
 		while (ilink++ != m_links.end()) { if (*ilink == link) { m_links.erase(ilink); return *this; } }
 		return *this;
 	}
-	/* predicates */
+	/* vetters */
 	inline v1bit_t has_data() const             { return m_data != NC_NULL; }
 	inline v1bit_t has_data(data_t* data) const { return m_data == data; }
 	inline v1bit_t has_link() const { return m_links.empty() == NC_FALSE; }
@@ -242,7 +242,7 @@ public:
 		return NC_FALSE;
 	}
 	/* commands */
-	// operators //
+	/* operators */
 	inline node_t& operator=(node_t& copy) {
 		auto ilink = copy.get_beg();
 		while (ilink++ != copy.get_end()) {
@@ -262,4 +262,4 @@ protected:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_GRAPH_HPP //
+#endif	/* NC_LIB_GRAPH_HPP */

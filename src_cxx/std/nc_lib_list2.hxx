@@ -1,13 +1,14 @@
-#ifndef NC_LIB_LIST2_H
-#	define NC_LIB_LIST2_H
+#ifndef NC_LIB_LIST2_HXX
+#	define NC_LIB_LIST2_HXX
 #	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
-#		if !(defined NC_USE_NUMB_LIST2)
+#       include "../core/nc_lib_sys.hxx"
+#		if (!(defined(NC_USE_NUMB_LIST2)))
 #			define NC_MIN_NUMB_LIST2 0u
 #			define NC_MID_NUMB_LIST2 3u
 #			define NC_MAX_NUMB_LIST2 10u
 #			define NC_USE_NUMB_LIST2 NC_MIN_NUMB_LIST2
-#		endif	// NC_USE_NUMB_LIST2 //
+#		endif	/* NC_USE_NUMB_LIST2 */
 /// list2_iterator_type
 /// description:
 /// ->two-linked list iterator;
@@ -21,7 +22,7 @@
                 nc_list2_iter_t(tname)* prev; /*prev link____*/ \
                 tname data; /*the actual data________________*/ \
             } nc_list2_iter_t(tname); /*template name________*/ \
-// type is defined //
+/* type is defined */
 /// list2_main_type
 /// description:
 /// ->one-linked forward list;
@@ -38,8 +39,8 @@
                 nc_list2_iter_t(tname)* back; /*last link____*/ \
                 size_t numb; /*number of values______________*/ \
             } nc_list2_main_t(tname); /*template name________*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 #       define nc_list2_ctor(tname, ref) ({              \
             ref.head = NC_NULL;                          \
             ref.back = NC_NULL;                          \
@@ -86,7 +87,7 @@
 #       define nc_list2_add_iter(tname, ref, iter) ({     \
             nc_list2_iter_t(tname)* next;                 \
             size_t size = sizeof(nc_list2_iter_t(tname)); \
-            NC_MEM_TAKE(next, size); /*create new node*/  \
+            nc_lib_sys_mset(&next, NC_ZERO, size);        \
             if (ref.head) { /*fix iter and iter->next*/   \
                 ref.numb = ref.numb + NC_UNIT;            \
                 next->next = iter->next;                  \
@@ -112,7 +113,7 @@
             size_t size = NC_ZERO;                    \
             size = sizeof(nc_list2_iter_t(tname));    \
             ref.numb = ref.numb - NC_UNIT;            \
-            NC_MEM_FREE(iter, size);                  \
+            nc_lib_sys_mset(&iter, size, NC_ZERO);    \
         })
 /* commands */
 #       define nc_list2_each(tname, ref, actn) ({    \
@@ -151,19 +152,19 @@
             size_t numb = NC_ZERO;                   \
             nc_list2_get_numb(tname, ref, numb);     \
             NC_OLOG("list2:");                       \
-            NC_OPUT("{" NC_EOL);                     \
-            NC_OPUT(NC_TAB "numb:%d;" NC_EOL, numb); \
+            NC_OPUT("{" NC_ENDL);                     \
+            NC_OPUT(NC_HTAB "numb:%d;" NC_ENDL, numb); \
             nc_list2_each(tname, ref, {              \
                 NC_OPUT(                             \
-                    NC_TAB "{" NC_EOL                \
-                    NC_TAB NC_TAB "indx:%d;" NC_EOL  \
-                    NC_TAB NC_TAB "data:%d;" NC_EOL  \
-                    NC_TAB "};" NC_EOL               \
+                    NC_HTAB "{" NC_ENDL                \
+                    NC_HTAB NC_HTAB "indx:%d;" NC_ENDL  \
+                    NC_HTAB NC_HTAB "data:%d;" NC_ENDL  \
+                    NC_HTAB "};" NC_ENDL               \
                     , indx                           \
                     , each ? each->data : NC_ZERO    \
                 );                                   \
             });                                      \
-            NC_OPUT("};" NC_EOL);                    \
+            NC_OPUT("};" NC_ENDL);                    \
         })
 #       define nc_list2_move(tname, iter, numb) ({ \
             size_t indx = NC_ZERO;                 \
@@ -172,12 +173,12 @@
                 indx = indx + NC_UNIT;             \
             }                                      \
         })
-// other_names //
+/* other_names */
 #       define nc_list2_t(tname) nc_list2_main_t(tname)
 #       define NC_TYPEDEF_LIST2(tname)    \
             NC_TYPEDEF_LIST2_ITER(tname); \
             NC_TYPEDEF_LIST2_MAIN(tname); \
-// type is defined //
+/* type is defined */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif // NC_LIB_LIST2_H //
+#endif /* NC_LIB_LIST2_HXX */

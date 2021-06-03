@@ -7,7 +7,7 @@
 #			define NC_MID_NUMB_TABLE 10u
 #			define NC_MAX_NUMB_TABLE 30u
 #			define NC_USE_NUMB_TABLE NC_MID_NUMB_TABLE
-#		endif	// NC_USE_NUMB_TABLE //
+#		endif	/* NC_USE_NUMB_TABLE */
 /// table_iterator_type
 /// description:
 /// ->table iterator;
@@ -21,7 +21,7 @@
                 tname data; /*the actual data__________________*/ \
                 nc_table_iter_t(tname)* next; /*hash collisions*/ \
             } nc_table_iter_t(tname); /*template name__________*/ \
-// type is defined //
+/* type is defined */
 /// table_main_type
 /// description:
 #       define nc_table_main_t(tname) nc_table_main##_##tname
@@ -33,20 +33,20 @@
                 nc_table_iter_t(tname)* head; /*first link_____*/ \
                 nc_table_iter_t(tname)* back; /*last link______*/ \
             } nc_table_main_t(tname); /*template name__________*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 #       define nc_table_ctor(tname, ref) ({         \
             ref.head = ref.back = NC_NULL;          \
             size_t size = NC_USE_NUMB_TABLE;    \
             size *= sizeof(nc_table_iter_t(tname)); \
-            NC_MEM_MOVE(ref.head, NC_ZERO, size);   \
+            NC_MEM_EDIT(ref.head, NC_ZERO, size);   \
             ref.back = ref.head;                    \
             ref.back += NC_USE_NUMB_TABLE;      \
         })
 #       define nc_table_dtor(tname, ref) ({         \
             size_t size = ref.back - ref.head;      \
             size *= sizeof(nc_table_iter_t(tname)); \
-            NC_MEM_MOVE(ref.head, size, NC_ZERO);   \
+            NC_MEM_EDIT(ref.head, size, NC_ZERO);   \
             ref.head = ref.back = NC_NULL;          \
         })
 /* getters */
@@ -84,7 +84,7 @@
             sz_old *= sizeof(nc_table_iter_t(tname)); \
             sz_new = numb;                            \
             sz_new *= sizeof(nc_table_iter_t(tname)); \
-            NC_MEM_MOVE(ref.head, sz_old, sz_new);    \
+            NC_MEM_EDIT(ref.head, sz_old, sz_new);    \
             ref.back = ref.head + numb;               \
         })
 #       define nc_table_set_elem(tname, ref, key, val) ({ \
@@ -123,8 +123,8 @@
         })
 #       define nc_table_olog(tname, ref) ({      \
             NC_OLOG(                             \
-                "table:" "{" NC_STR_EOL          \
-                "   numb:%d;" NC_STR_EOL         \
+                "table:" "{" NC_STR_ENDL          \
+                "   numb:%d;" NC_STR_ENDL         \
                 "   data:" "{"                   \
                 , (ref.back - ref.head)          \
             );                                   \
@@ -142,17 +142,17 @@
                     );                           \
                     next = next->next;           \
                 }                                \
-                NC_OPUT("};" NC_STR_EOL);        \
+                NC_OPUT("};" NC_STR_ENDL);        \
             });                                  \
-            NC_OPUT("   };" NC_STR_EOL);         \
-            NC_OPUT("};" NC_STR_EOL);            \
+            NC_OPUT("   };" NC_STR_ENDL);         \
+            NC_OPUT("};" NC_STR_ENDL);            \
         })
-// other names //
+/* other names */
 #       define nc_table_t(tname) nc_table_main_t(tname)
 #       define NC_TYPEDEF_TABLE(tname)    \
             NC_TYPEDEF_TABLE_ITER(tname); \
             NC_TYPEDEF_TABLE_MAIN(tname); \
-// type is defined //
+/* type is defined */
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_TABLE_H //
+#endif	/* NC_LIB_TABLE_H */

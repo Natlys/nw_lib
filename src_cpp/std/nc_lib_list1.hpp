@@ -11,7 +11,7 @@ class nc_list1_iter_t
 	using data_t = tdata;
 	using data_tc = const data_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	constexpr inline nc_list1_t() : m_next(NC_NULL), m_data(NC_NULL) { }
 	inline ~nc_list1_t() { }
 	/* getters */
@@ -22,14 +22,14 @@ public:
 	/* setters */
 	inline iter_t& set_next(iter_t* next) { m_next = next; return *this; }
 	inline iter_t& set_data(data_t* data) { NC_MEM_DEL_ONE(tdata, m_data); m_data = data; return *this; }
-	/* predicates */
+	/* vetters */
 	/* commands */
 	/* operators */
 public:
 	iter_t* m_next;
 	data_t* m_data;
 };
-// other names //
+/* other names */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif // NC_LIB_LIST1_HPP //
+#endif /* NC_LIB_LIST1_HPP */

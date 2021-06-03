@@ -4,15 +4,15 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-// types //
+/* types */
 /// table_iterator_type_template
 class nc_table_iter_tt
 {
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     /* getters */
     /* setters */
-    /* predicates */
+    /* vetters */
     /* commands */
     /* operators */
 private:
@@ -21,17 +21,17 @@ private:
 class nc_table_main_tt
 {
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     /* getters */
     /* setters */
-    /* predicates */
+    /* vetters */
     /* commands */
     /* operators */
 private:
 };
-// other_names //
+/* other_names */
 template<typename tname> using nc_table_t = nc_table_main_t<tname>;
 template<typename tname> using nc_table_tc = const nc_table_t<tname>;
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_TABLE_HPP //
+#endif	/* NC_LIB_TABLE_HPP */

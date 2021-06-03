@@ -1,13 +1,13 @@
-#ifndef NC_LIB_LIST1_H
-#	define NC_LIB_LIST1_H
+#ifndef NC_LIB_LIST1_HXX
+#	define NC_LIB_LIST1_HXX
 #	include "../nc_lib_core.hxx"
-#	if (defined NC_API)
-#		if !(defined NC_USE_NUMB_LIST1)
+#	if (defined(NC_API))
+#		if (!(defined(NC_USE_NUMB_LIST1)))
 #			define NC_MIN_NUMB_LIST1 0u
 #			define NC_MID_NUMB_LIST1 3u
 #			define NC_MAX_NUMB_LIST1 10u
 #			define NC_USE_NUMB_LIST1 NC_MIN_NUMB_LIST1
-#		endif	// NC_USE_NUMB_LIST1 //
+#		endif	/* NC_USE_NUMB_LIST1 */
 /// list1_iterator_type
 /// description:
 /// ->one-linked list iterator;
@@ -20,7 +20,7 @@
                 nc_list1_iter_t(tname)* next; /*next link____*/ \
                 tname data; /*the actual data________________*/ \
             } nc_list1_iter_t(tname); /*template name________*/ \
-// type is defined //
+/* type is defined */
 /// list1_main_type
 /// description:
 /// ->one-linked forward list;
@@ -37,8 +37,8 @@
                 nc_list1_iter_t(tname)* back; /*last link____*/ \
                 size_t numb; /*number of links_______________*/ \
             } nc_list1_main_t(tname); /*template name________*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 #       define nc_list1_ctor(tname, ref) ({              \
             ref.head = NC_NULL;                          \
             ref.back = NC_NULL;                          \
@@ -95,7 +95,7 @@
 #       define nc_list1_add_iter(tname, ref, iter) ({     \
             nc_list1_iter_t(tname)* next = NC_NULL;       \
             size_t size = sizeof(nc_list1_iter_t(tname)); \
-            NC_MEM_TAKE(next, size); /*create new node*/  \
+            nc_lib_sys_mset(&next, NC_ZERO, size);        \
             if (ref.head) { /*insert in front*/           \
                 next->next = iter->next;                  \
                 iter->next = next;                        \
@@ -111,7 +111,7 @@
                 ref.head = iter->next;                \
                 ref.back = NC_NULL;                   \
                 ref.numb = ref.numb - NC_UNIT;        \
-                NC_MEM_FREE(iter, size);              \
+                NC_MEM_FREE(iter, size);                 \
             } else { /*iter->prev must be changed*/   \
                 nc_list1_iter_t(tname)* temp;         \
                 temp = ref.head;                      \
@@ -122,7 +122,7 @@
                     temp = temp->next;                \
                 }                                     \
                 temp->next = iter->next;              \
-                NC_MEM_FREE(iter, size);              \
+                nc_lib_sys_mset(iter, size, NC_ZERO); \
                 ref.numb = ref.numb - NC_UNIT;        \
             }                                         \
         })
@@ -163,19 +163,19 @@
             size_t numb = NC_ZERO;                   \
             nc_list1_get_numb(tname, ref, numb);     \
             NC_OLOG("list1:");                       \
-            NC_OPUT("{" NC_EOL);                     \
-            NC_OPUT(NC_TAB "numb:%d;" NC_EOL, numb); \
+            NC_OPUT("{" NC_ENDL);                     \
+            NC_OPUT(NC_HTAB "numb:%d;" NC_ENDL, numb); \
             nc_list1_each(tname, ref, {              \
                 NC_OPUT(                             \
-                    NC_TAB "{" NC_EOL                \
-                    NC_TAB NC_TAB "indx:%d;" NC_EOL  \
-                    NC_TAB NC_TAB "data:%d;" NC_EOL  \
-                    NC_TAB "};" NC_EOL               \
+                    NC_HTAB "{" NC_ENDL                \
+                    NC_HTAB NC_HTAB "indx:%d;" NC_ENDL  \
+                    NC_HTAB NC_HTAB "data:%d;" NC_ENDL  \
+                    NC_HTAB "};" NC_ENDL               \
                     , indx                           \
                     , each ? each->data : NC_ZERO    \
                 );                                   \
             });                                      \
-            NC_OPUT("};" NC_EOL);                    \
+            NC_OPUT("};" NC_ENDL);                    \
         })
 #       define nc_list1_move(tname, iter, numb) ({ \
             size_t indx = NC_ZERO;                 \
@@ -184,12 +184,12 @@
                 iter = iter.next;                  \
             }                                      \
         })
-// other_names //
+/* other_names */
 #       define nc_list1_t(tname) nc_list1_main_t(tname)
 #       define NC_TYPEDEF_LIST1(tname)    \
             NC_TYPEDEF_LIST1_ITER(tname); \
             NC_TYPEDEF_LIST1_MAIN(tname); \
-// type is defined //
+/* type is defined */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif // NC_LIB_LIST1_H //
+#endif /* NC_LIB_LIST1_HXX */

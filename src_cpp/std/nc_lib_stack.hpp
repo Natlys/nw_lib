@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-// types //
+/* types */
 /// stack_iterator_type
 /// description:
 /// interaction:
@@ -23,14 +23,14 @@ public:
     using step_t = v1s64_t;
     using step_tc = const step_t;
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     constexpr inline nc_stack_iter_t() : m_data(NC_NULL), m_next(NC_NULL) { }
     constexpr inline nc_stack_iter_t(data_t data) : m_data(data), m_next(NC_NULL) { }
     inline nc_stack_iter_t(iter_tc& copy) : nc_stack_iter_t() { operator=(copy); }
     inline nc_stack_iter_t(iter_t&& copy) : nc_stack_iter_t() { operator=(copy); }
     inline ~nc_stack_iter_t() { NC_MEM_DEL_ONE(iter_t, m_next); }
     /* getters */
-    // // link // //
+    /** link  **/
     inline link_t get_link() { return m_next; }
     inline link_tc get_link() const { return m_next; }
     inline link_t get_link(step_t step) {
@@ -43,7 +43,7 @@ public:
         while((link->has_next() != NC_NULL) && (step-- > NC_ZERO)) { link->set_next(); }
         return link;
     }
-    // // iter // //
+    /** iter  **/
     inline iter_t get_iter()        { return *m_next; }
     inline iter_tc get_iter() const { return *m_next; }
     inline iter_t get_iter(step_t step)        {
@@ -60,17 +60,17 @@ public:
     inline iter_tc get_next() const { return get_iter(); }
     inline iter_t get_next(step_t step)        { return get_iter(step); }
     inline iter_tc get_next(step_t step) const { return get_iter(step); }
-    // // data // //
+    /** data  **/
     inline data_t get_data()        { return m_data; }
     inline data_tc get_data() const { return m_data; }
     inline data_t get_data(step_t step)        { return get_iter(step).get_data(); }
     inline data_tc get_data(step_t step) const { return get_iter(step).get_data(); }
-    // // elem // //
+    /** elem  **/
     inline elem_t& get_elem()        { return *m_data; }
     inline elem_tc& get_elem() const { return *m_data; }
     inline elem_t& get_elem(step_t step)        { return get_iter(step).get_elem(); }
     inline elem_tc& get_elem(step_t step) const { return get_iter(step).get_elem(); }
-    // // numb // //
+    /** numb  **/
     inline size_tc get_numb() const {
         size_t numb = NC_ZERO; link_t link = m_next;
         while (link != NC_NULL) { link->set_next(); numb++; }
@@ -84,12 +84,12 @@ public:
     inline iter_t& set_data(data_t data)   { m_data = data; return *this; }
     inline iter_t& set_elem(elem_tc& elem) { *m_data = elem; return *this; }
     inline iter_t& set_elem(elem_t&& elem) { *m_data = elem; return *this; }
-    /* predicates */
+    /* vetters */
     inline v1bit_t has_data() const { return m_data != NC_NULL; }
     inline v1bit_t has_next() const { return m_next != NC_NULL; }
     /* commands */
     /* operators */
-    // // asign // //
+    /** asign  **/
     inline iter_t& operator=(iter_tc& copy) {
         NC_MEM_DEL_ONE(iter_t, m_next);
         NC_MEM_FREE(m_data, sizeof(elem_t));
@@ -104,23 +104,23 @@ public:
         memmove(m_data, copy.get_elem(), sizeof(elem_t));
         return *this;
     }
-    // // access // //
+    /** access  **/
     inline elem_t& operator[](step_t step)        { return get_elem(step); }
     inline elem_tc& operator[](step_t step) const { return get_elem(step); }
     inline elem_t& operator()(step_t step)        { return get_elem(step); }
     inline elem_tc& operator()(step_t step) const { return get_elem(step); }
-    // // arith // //
+    /** arith  **/
     inline iter_t& operator++()   { return set_iter(); }
     inline iter_t operator++(int) { return set_iter(); }
     inline iter_t operator+(step_tc step)        { return get_iter(step); }
     inline iter_tc operator+(step_tc step) const { return get_iter(step); }
     inline iter_t& operator+=(step_tc step)      { return set_iter(step); }
-    // // logic // //
+    /** logic  **/
     inline v1bit_t operator==(iter_tc& iter) const { return (m_data == iter.m_data) && (m_next == iter.m_next); }
-    // // convertion // //
+    /** convertion  **/
     inline operator data_t ()        { return get_data(); }
     inline operator data_tc () const { return get_data(); }
-    // // input_output // //
+    /** input_output  **/
 public:
     data_t m_data;
     link_t m_next;
@@ -139,36 +139,36 @@ public:
     using elem_t = tname;
     using elem_tc = const elem_t;
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     constexpr inline nc_stack_main_t();
     inline ~nc_stack_main_t() { NC_CHECK(remake(NC_ZERO), "remake error!", return); }
     /* getters */
-    // // iter // //
+    /** iter  **/
     inline iter_t& get_head()        { return m_head; }
     inline iter_tc& get_head() const { return m_head; }
     inline iter_t get_iter()        { return m_head; }
     inline iter_tc get_iter() const { return m_head; }
     inline iter_t get_iter(step_t step)        { return m_head.get_iter(step); }
     inline iter_tc get_iter(step_t step) const { return m_head.get_iter(step); }
-    // // data // //
-    // // elem // //
+    /** data  **/
+    /** elem  **/
     inline elem_t& get_elem()        { return m_head.get_elem(); }
     inline elem_tc& get_elem() const { return m_head.get_elem(); }
     inline elem_t& get_elem(step_t step)        { return m_head.get_elem(step); }
     inline elem_tc& get_elem(step_t step) const { return m_head.get_elem(step); }
     /* setters */
-    // // iter // //
+    /** iter  **/
     inline main_t& add_iter() {
         return *this;
     }
     inline main_t& rmv_iter() {
         return *this;
     }
-    // // data // //
-    // // elem // //
+    /** data  **/
+    /** elem  **/
     inline main_t& set_elem(elem_tc& elem) { get_elem() = elem; return *this; }
     inline main_t& set_elem(step_t step, elem_tc& elem) { get_elem(step) = elem; return *this; }
-    /* predicates */
+    /* vetters */
     inline v1bit_t has_numb() const             { return m_numb; }
     inline v1bit_t has_numb(size_tc numb) const { return m_numb >= numb; }
     /* commands */
@@ -188,9 +188,9 @@ private:
     iter_t m_head;
     size_t m_numb;
 };
-// other names //
+/* other names */
 template<typename tname> using nc_stack_t = nc_stack_main_t<tname>;
 template<typename tname> using nc_stack_tc = const nc_stack_t<tname>;
 #	endif	/* NC_API */
 /* end_of_file */
-#endif // NC_LIB_STACK_HPP //
+#endif /* NC_LIB_STACK_HPP */

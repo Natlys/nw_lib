@@ -12,9 +12,9 @@
             typedef struct nc_pair##_##tval0##_##tval1 { /*default*/ \
                 tval0 val0; tval1 val1; /*actual data_____________*/ \
             } nc_pair##_##tval0##_##tval1 /*template name_________*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 /* commands */
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_UTILITY_H //
+#endif	/* NC_LIB_UTILITY_H */

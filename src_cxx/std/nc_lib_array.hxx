@@ -2,12 +2,13 @@
 #	define NC_LIB_ARRAY_H
 #	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
+#       include "../core/nc_lib_sys.hxx"
 #		if !(defined NC_USE_NUMB_ARRAY)
 #			define NC_MIN_NUMB_ARRAY 0u
 #			define NC_MID_NUMB_ARRAY 3u
 #			define NC_MAX_NUMB_ARRAY 10u
 #			define NC_USE_NUMB_ARRAY NC_MIN_NUMB_ARRAY
-#		endif	// NC_USE_NUMB_ARRAY //
+#		endif	/* NC_USE_NUMB_ARRAY */
 /// array_iter_type
 #       define nc_array_iter_t(tname) nc_array_iter##_##tname
 #       if (NC_FALSE)
@@ -18,11 +19,11 @@
             typedef struct nc_array_iter_t(tname) { /*_*/ \
                 tname* data; /*value address___________*/ \
             } nc_array_iter_t(tname); /*template name__*/ \
-// type is defined //
+/* type is defined */
 #       endif
 #       define NC_TYPEDEF_ARRAY_ITER(tname) /*iter type*/ \
             typedef tname* nc_array_iter_t(tname);
-// type is defined //
+/* type is defined */
 /// array_main_type
 /// description:
 /// ->random-access-memory array;
@@ -35,16 +36,16 @@
                 nc_array_iter_t(tname) head; /*elem beg*/ \
                 nc_array_iter_t(tname) back; /*elem end*/ \
             } nc_array_main_t(tname); /*template name__*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 #       define nc_array_ctor(tname, ref) ({    \
             ref.head = NC_NULL;                \
             ref.back = NC_NULL;                \
-            size_tc sz = NC_USE_NUMB_ARRAY;    \
+            size_t sz = NC_USE_NUMB_ARRAY;     \
             nc_array_set_numb(tname, ref, sz); \
         })
 #       define nc_array_dtor(tname, ref) ({    \
-            size_tc sz = NC_ZERO;              \
+            size_t sz = NC_ZERO;               \
             nc_array_set_numb(tname, ref, sz); \
             ref.head = NC_NULL;                \
             ref.back = NC_NULL;                \
@@ -68,12 +69,12 @@
         })
 /* setters */
 #       define nc_array_set_numb(tname, ref, numb) ({ \
-            size_t sz_old, sz_new;                    \
-            sz_old = sizeof(tname);                   \
-            sz_old *= (ref.back - ref.head);          \
-            sz_new = sizeof(tname);                   \
-            sz_new *= numb;                           \
-            NC_MEM_MOVE(ref.head, sz_old, sz_new);    \
+            size_t isize, osize;                      \
+            isize = sizeof(tname);                    \
+            isize *= (ref.back - ref.head);           \
+            osize = sizeof(tname);                    \
+            osize *= numb;                            \
+            nc_lib_sys_mset(&ref.head, isize, osize); \
             ref.back = ref.head + numb;               \
         })
 #       define nc_array_set_elem(tname, ref, indx, elem) ({ \
@@ -82,13 +83,13 @@
 #		define nc_array_add_elem(tname, ref) ({  \
 			size_t numb;                         \
             nc_array_get_numb(tname, ref, numb); \
-            numb += 1u;                          \
+            numb += NC_UNIT;                     \
 			nc_array_set_numb(tname, ref, numb); \
         })
 #       define nc_array_rmv_elem(tname, ref) ({  \
 			size_t numb;                         \
             nc_array_get_numb(tname, ref, numb); \
-            numb -= 1u;                          \
+            numb -= NC_UNIT;                     \
 			nc_array_set_numb(tname, ref, numb); \
         })
 /* commands */
@@ -114,25 +115,44 @@
             size_t numb = NC_ZERO;                    \
             nc_array_get_numb(tname, ref, numb);      \
 			NC_OLOG("array:");                        \
-            NC_OPUT("{" NC_EOL);                      \
-            NC_OPUT(NC_TAB "numb: %d;" NC_EOL, numb); \
+            NC_OPUT("{" NC_ENDL);                      \
+            NC_OPUT(NC_HTAB "numb: %d;" NC_ENDL, numb); \
 			nc_array_each(tname, ref, {               \
                 NC_OPUT(                              \
-                    NC_TAB "{" NC_EOL                 \
-                    NC_TAB NC_TAB "indx:%d;" NC_EOL   \
-                    NC_TAB NC_TAB "data:%d;" NC_EOL   \
-                    NC_TAB "};" NC_EOL                \
+                    NC_HTAB "{" NC_ENDL                 \
+                    NC_HTAB NC_HTAB "indx:%d;" NC_ENDL   \
+                    NC_HTAB NC_HTAB "data:%d;" NC_ENDL   \
+                    NC_HTAB "};" NC_ENDL                \
                     , indx, each ? *each : NC_ZERO    \
                 );                                    \
 			});                                       \
-			NC_OPUT("};" NC_EOL);                     \
+			NC_OPUT("};" NC_ENDL);                     \
 		})
-// other_names //
+#       define nc_array_sort(tname, ref, oper) ({   \
+            size_t leng = NC_ZERO;                  \
+            nc_array_get_numb(tname, ref, leng);    \
+            NC_CHECK(                               \
+                leng >= 2u, "sort error!", NC_VOID  \
+            );                                      \
+            nc_array_iter_t(tname) next = ref.head; \
+            nc_array_iter_t(tname) prev = ref.head; \
+            while(next != ref.back) {               \
+                next = prev + NC_UNIT;              \
+                while (!oper(*prev, *next) &&       \
+                    prev >= ref.head) {             \
+                    NC_SWAP(*next, *prev);          \
+                    next = prev;                    \
+                    prev = prev - NC_UNIT;          \
+                }                                   \
+                prev = prev + NC_UNIT;              \
+            }                                       \
+})
+/* other_names */
 #       define nc_array_t(tname) nc_array_main_t(tname)
 #       define NC_TYPEDEF_ARRAY(tname)    \
             NC_TYPEDEF_ARRAY_ITER(tname); \
             NC_TYPEDEF_ARRAY_MAIN(tname); \
-// type is defined //
+/* type is defined */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_ARRAY_H //
+#endif	/* NC_LIB_ARRAY_HXX */

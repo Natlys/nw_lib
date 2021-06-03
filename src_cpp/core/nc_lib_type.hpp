@@ -5,7 +5,7 @@
 /* includes */
 #		include "../std/nc_lib_array.hpp"
 /* defines */
-// types //
+/* types */
 /// type_information_type
 class nc_type_info_t
 {
@@ -47,7 +47,7 @@ public:
 #		undef NC_NAME_LENGTH
 		return name;
 	}
-	/* predicates */
+	/* vetters */
 	static inline v1bit_t is_valid(type_t type)               { return type < get_tab_static().size(); }
 	template<typename tname> static inline v1bit_t is_valid() { return is_valid(get_type<tname>()); }
 	/* operators */
@@ -89,7 +89,7 @@ public:
 	/* setters */
 	inline owner_t& set_type(type_tc type)       { m_type = type; return *this; }
 	template<typename tname> owner_t& set_type() { return set_type(nc_type_info_t::get_type<tname>()); }
-	/* predicates */
+	/* vetters */
 	inline v1bit_t has_type() const             { return m_type != NC_ZERO; }
 	inline v1bit_t has_type(type_tc type) const { return m_type == type; }
 	template<typename tname> v1bit_t has_type() const { return has_type(nc_type_info_t::get_type<tname>()); }
@@ -116,12 +116,12 @@ public:
 	using type_t = v1u_t;
 	using type_tc = const type_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	template<typename ... targs> nc_type_owner_tt(targs&& ... args) : tbase(std::forward<targs>(args)...) { set_type(get_type_static()); }
 	virtual ~nc_type_owner_tt() = default;
 	/* getters */
 	static inline type_tc get_type_static() { return nc_type_info_t::get_type<tprim>(); }
-	/* predicates */
+	/* vetters */
 	template<typename tname> v1bit_t has_type() const { return tbase::has_type(tname::get_type_static()); }
 	template<typename tname> tname* check_cast()             { return has_type<tname>() ? static_cast<tname*>(this) : NC_NULL; }
 	template<typename tname> const tname* check_cast() const { return has_type<tname>() ? static_cast<const tname*>(this) : NC_NULL; }
@@ -130,4 +130,4 @@ public:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_TYPE_HPP //
+#endif	/* NC_LIB_TYPE_HPP */

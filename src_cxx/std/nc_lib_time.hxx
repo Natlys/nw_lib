@@ -4,4 +4,4 @@
 #	if (defined NC_API)
 #	endif	/* NC_API */
 /* end_of_file */
-#endif // NC_LIB_TIME_H //
+#endif /* NC_LIB_TIME_H */

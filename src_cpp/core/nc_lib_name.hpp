@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-// types //
+/* types */
 /// name_owner_type
 /// description:
 class nc_name_owner_t
@@ -15,7 +15,7 @@ public:
 	using owner_t = nc_name_owner_t;
 	using owner_tc = const owner_t;
 public:
-	inline nc_name_owner_t() : m_name(NC_DEFAULT_STR) { }
+	inline nc_name_owner_t() : m_name(NC_VOID_STR) { }
 	inline nc_name_owner_t(cstr_t name) : nc_name_owner_t() { set_name(name); }
 	inline nc_name_owner_t(name_tc& name) : nc_name_owner_t() { set_name(name); }
 	inline nc_name_owner_t(owner_tc& copy) : nc_name_owner_t() { operator=(copy); }
@@ -26,7 +26,7 @@ public:
 	/* setters */
 	inline owner_t& set_name(cstr_t name)   { m_name = name; return *this; }
 	inline owner_t& set_name(name_tc& name) { m_name = name; return *this; }
-	/* predicates */
+	/* vetters */
 	inline v1bit_t has_name() const              { return m_name != ""; }
 	inline v1bit_t has_name(cstr_t name) const   { return m_name == name; }
 	inline v1bit_t has_name(name_tc& name) const { return m_name == name; }
@@ -39,4 +39,4 @@ protected:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_NAME_HPP //
+#endif	/* NC_LIB_NAME_HPP */

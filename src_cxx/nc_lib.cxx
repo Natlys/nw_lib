@@ -10,23 +10,23 @@ NC_TYPEDEF_TABLE(v1u_t);
 
 int main(int arg_num, const char* arg_str[])
 {
-
     NC_OLOG(NC_GREETING);
-#   if (NC_FALSE)
+#   if (NC_TRUTH)
     nc_array_t(v1u_t) array;
     nc_array_ctor(v1u_t, array);
     nc_array_set_numb(v1u_t, array, 10u);
     nc_array_olog(v1u_t, array);
-    nc_array_each(v1u_t, array,
-        {
+    nc_array_each(v1u_t, array, {
             size_t dist;
             nc_array_get_dist(v1u_t, array.head, each, dist);
-            nc_array_set_elem(v1u_t, array, indx, indx);
+            //nc_array_set_elem(v1u_t, array, indx, indx);
+            nc_array_set_elem(v1u_t, array, indx, rand());
         }
     );
     nc_array_olog(v1u_t, array);
-    nc_array_set_numb(v1u_t, array, 3u);
+    nc_array_sort(v1u_t, array, NC_NUM_MEQU);
     nc_array_olog(v1u_t, array);
+    nc_array_set_numb(v1u_t, array, 3u);
     nc_array_dtor(v1u_t, array);
 #   endif
 #   if (NC_FALSE)

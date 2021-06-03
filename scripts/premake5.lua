@@ -1,13 +1,13 @@
---==<native_code>==--
-workspace("native_code")
+--==<nati_code>==--
+workspace("nati_code")
 	--general--
 	configurations{"work", "play"}
 	characterset("ascii")
 	floatingpoint("default")
 	removeflags{"excludefrombuild"}
 	--environment--
-	cpp_comp_name = "F:\\dev\\gcc\\bin\\g++.exe"
-	cxx_comp_name = "F:\\dev\\gcc\\bin\\gcc.exe"
+	cpp_comp_name = "g++.exe"
+	cxx_comp_name = "gcc.exe"
 	lua_comp_name = "F:\\dev\\lua\\bin\\luaj.exe"
 	premake.tools.ncc = premake.tools.gcc
 	premake.tools.ncc.getlinks = premake.tools.gcc.getlinks
@@ -106,7 +106,7 @@ workspace("native_code")
 	--	fileextension(".cpp")
 	--	buildmessage("compile %(filename) with "..cpp_comp_name)
 	--	buildcommands("%(cpp_comp_name) -c %(fullpath) -o %(intdir)/%(filename).luac")
-	--==native_code_library==--
+	--==nati_code_library==--
 	project("nc_iop")
 		--general--
 		location("./")

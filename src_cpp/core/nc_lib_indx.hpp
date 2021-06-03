@@ -6,7 +6,7 @@
 #		include "../std/nc_lib_stack.hpp"
 #		include "../std/nc_lib_array.hpp"
 /* defines */
-// types //
+/* types */
 /// index_stack_type
 /// description:
 /// --it's like a simple stack of unsigned 32-bit integers but for identificators;
@@ -20,8 +20,8 @@ public:
 	using indx_t = v1u_t;
 	using indx_tc = const indx_t;
 public:
-	// ctor_dtor //
-	inline nc_indx_stack_t() { m_stack.push(NC_DEFAULT_VAL); }
+	/* ctor_dtor */
+	inline nc_indx_stack_t() { m_stack.push(NC_VOID_VAL); }
 	inline nc_indx_stack_t(indx_t first) : nc_indx_stack_t() { m_stack.top() = first; }
 	inline ~nc_indx_stack_t() = default;
 	/* getters */
@@ -36,7 +36,7 @@ public:
 		if (indx != m_stack.top()) { m_stack.push(indx); }
 		return *this;
 	}
-	/* predicates */
+	/* vetters */
 	/* commands */
 private:
 	nc_stack_tt<v1u_t> m_stack;
@@ -62,13 +62,13 @@ public:
 	using indx_t = v1u_t;
 	using indx_tc = const indx_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	constexpr inline nc_indx_owner_t() = default;
 	virtual inline ~nc_indx_owner_t() = default;
 	/* getters */
 	virtual inline indx_tc get_indx() const = 0;
 	/* setters */
-	/* predicates */
+	/* vetters */
 	/* commands */
 	/* operators */
 };
@@ -86,4 +86,4 @@ protected:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_INDEX_HPP //
+#endif	/* NC_LIB_INDEX_HPP */

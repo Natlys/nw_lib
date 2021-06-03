@@ -9,7 +9,7 @@
 #		include "../std/nc_lib_array.hpp"
 #		include "nc_lib_single.hpp"
 #		include "nc_lib_name.hpp"
-// types //
+/* types */
 /// engine_state_type
 /// description:
 class nc_engine_state_t : public nc_name_owner_t
@@ -19,13 +19,13 @@ public:
 	using state_t = nc_engine_state_t;
 	using state_tc = const state_t;
 public:
-	// ctor_dtor //
-	inline nc_engine_state_t() : nc_name_owner_t(NC_DEFAULT_STR) { }
+	/* ctor_dtor */
+	inline nc_engine_state_t() : nc_name_owner_t(NC_VOID_STR) { }
 	inline nc_engine_state_t(cstr_t name) : nc_engine_state_t() { set_name(name); }
 	virtual ~nc_engine_state_t() = default;
 	/* getters */
 	/* setters */
-	/* predicates */
+	/* vetters */
 	/* commands */
 	virtual inline v1bit_t init() { return NC_TRUTH; }
 	virtual inline v1bit_t quit() { return NC_TRUTH; }
@@ -52,7 +52,7 @@ public:
 	using states_t = nc_array_tt<state_t*>;
 	using states_tc = const states_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	inline nc_engine_tt() = default;
 	inline ~nc_engine_tt() = default;
 	/* getters */
@@ -125,4 +125,4 @@ protected:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_ENGINE_HPP //
+#endif	/* NC_LIB_ENGINE_HPP */

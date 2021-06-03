@@ -1,8 +1,8 @@
 #ifndef NC_LIB_H
 #   define NC_LIB_H
-// core //
+/* core */
 #   include "nc_lib_core.hxx"
-// standard //
+/* standard */
 #   include "std/nc_lib_array.hxx"
 #   include "std/nc_lib_list1.hxx"
 #   include "std/nc_lib_list2.hxx"
@@ -12,10 +12,10 @@
 #   include "std/nc_lib_util.hxx"
 #   include "std/nc_lib_flow.hxx"
 #   include "std/nc_lib_time.hxx"
-// stblib //
+/* stblib */
 #   include "stb/nc_stb_img.hxx"
 #   include "stb/nc_stb_rect_pack.hxx"
 #   include "stb/nc_stb_text_edit.hxx"
 #   include "stb/nc_stb_true_type.hxx"
 /* end_of_file */
-#endif  // NC_LIB_H //
+#endif  /* NC_LIB_H */

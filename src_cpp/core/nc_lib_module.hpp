@@ -4,7 +4,7 @@
 #	if (defined NC_WAPI)
 /* includes */
 /* defines */
-// types //
+/* types */
 /// module_type_template
 /// description:
 template<cstr_t name>
@@ -24,7 +24,7 @@ public:
 	inline handle_tc& get_handle() const    { return m_handle; }
 	inline ptr_t get_proc(cstr_t proc_name) { return ::GetProcAddress(m_handle, proc_name); }
 	/* setters */
-	/* predicates */
+	/* vetters */
 	inline v1bit_t has_handle() const               { return m_handle != NC_ZERO; }
 	inline v1bit_t has_proc(cstr_t proc_name) const { return ::GetProcAddress(m_handle, proc_name) != NC_NULL; }
 	/* commands */
@@ -34,4 +34,4 @@ protected:
 };
 #endif	/* NC_WAPI */
 /* end_of_file */
-#endif	// NC_LIB_MODULE_HPP //
+#endif	/* NC_LIB_MODULE_HPP */

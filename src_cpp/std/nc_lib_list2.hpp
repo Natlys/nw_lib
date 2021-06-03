@@ -16,7 +16,7 @@ public:
 	inline ~nc_list2_tt() { }
 	/* getters */
 	/* setters */
-	/* predicates */
+	/* vetters */
 	/* commands */
 	/* operators */
 private:
@@ -26,4 +26,4 @@ template <typename tval>
 using nc_list2_ttc = const nc_list2_tt<tval>;
 #	endif	/* NC_API */
 /* end_of_file */
-#endif // NC_LIB_LIST2_HPP //
+#endif /* NC_LIB_LIST2_HPP */

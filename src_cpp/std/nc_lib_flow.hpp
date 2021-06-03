@@ -5,12 +5,12 @@
 #       include <functional>
 #       define NC_FLOW_FLAG_LIVE ( 1u << 0u )
 #       define NC_FLOW_FLAG_WAIT ( 1u << 1u )
-#       if !(defined NC_DEFAULT_FLOW_SIZE)
-#           define NC_MINIMAL_FLOW_SIZE 1 << 10u // 1 kb //
-#           define NC_AVERAGE_FLOW_SIZE 1 << 15u // 32 kb //
-#           define NC_MAXIMAL_FLOW_SIZE 1 << 20u // 1024 kb //
-#           define NC_DEFAULT_FLOW_SIZE NC_AVERAGE_FLOW_SIZE
-#       endif   // NC_DEFAULT_FLOW_SIZE //
+#       if !(defined NC_VOID_FLOW_SIZE)
+#           define NC_MINIMAL_FLOW_SIZE 1 << 10u /* 1 kb */
+#           define NC_AVERAGE_FLOW_SIZE 1 << 15u /* 32 kb */
+#           define NC_MAXIMAL_FLOW_SIZE 1 << 20u /* 1024 kb */
+#           define NC_VOID_FLOW_SIZE NC_AVERAGE_FLOW_SIZE
+#       endif   /* NC_VOID_FLOW_SIZE */
 /// flow_type
 /// description:
 /// interaction:
@@ -24,8 +24,8 @@ public:
     using func_t = std::function<v1bit_t(ptr_t iput, ptr_t oput)>;
     using func_tc = const func_t;
 public:
-    // ctor_dtor //
-    inline nc_flow_t() : m_mark(NC_NULL), m_indx(NC_ZERO), m_func(NC_NULL), m_size(NC_DEFAULT_FLOW_SIZE), m_flag(NC_FALSE) { }
+    /* ctor_dtor */
+    inline nc_flow_t() : m_mark(NC_NULL), m_indx(NC_ZERO), m_func(NC_NULL), m_size(NC_VOID_FLOW_SIZE), m_flag(NC_FALSE) { }
     inline nc_flow_t(func_tc func) : nc_flow_t() { NC_CHECK(init(func), "init error!", return); }
     inline nc_flow_t(func_tc func, size_tc size) : nc_flow_t() { NC_CHECK(init(func, size), "init error!", return); }
     inline nc_flow_t(flow_tc& copy) : nc_flow_t() { operator=(copy); }
@@ -75,7 +75,7 @@ public:
         if (flag == NC_FLOW_FLAG_WAIT) { NC_CHECK(::SuspendThread(m_mark) != -1, "flow error!", return *this); }
         return *this;
     }
-    /* predicates */
+    /* vetters */
     inline v1bit_t has_mark() const             { return m_mark != NC_NULL; }
     inline v1bit_t has_mark(mark_tc mark) const { return m_mark == mark; }
     inline v1bit_t has_indx() const             { return m_indx != NC_ZERO; }
@@ -104,14 +104,14 @@ public:
             };
             NC_CHECK(
                 (m_mark = ::CreateThread(
-                    NC_ZERO, // NULL = no security attributes and handle is not inherited //
-                    m_size,  // ZERO = default stack size of an executable //
-                    routine, // function to execute //
-                    this,    // pass the current instance to use that in the routine //
+                    NC_ZERO, /* NULL = no security attributes and handle is not inherited */
+                    m_size,  /* ZERO = default stack size of an executable */
+                    routine, /* function to execute */
+                    this,    /* pass the current instance to use that in the routine */
                     has_flag(NC_FLOW_FLAG_WAIT) ?
-                        CREATE_SUSPENDED // CREATE_SUSPENDED = ResumeThread //
-                        : NC_ZERO,       // ZERO = launch it right now! //
-                    &m_indx  // where the index will be written //
+                        CREATE_SUSPENDED /* CREATE_SUSPENDED = ResumeThread */
+                        : NC_ZERO,       /* ZERO = launch it right now! */
+                    &m_indx  /* where the index will be written */
                 )
             ) != NC_NULL, "windows cannot create a thread!", return NC_FALSE);
         }, "init error!", return NC_FALSE);
@@ -131,8 +131,8 @@ public:
         }, "quit error!", return NC_FALSE);
         NC_PCALL({ /* work */
             NC_CHECK(::CloseHandle(m_mark), "windows cannot close a thread", return NC_FALSE);
-            m_mark = NC_DEFAULT_PTR;
-            m_indx = NC_DEFAULT_VAL;
+            m_mark = NC_VOID_PTR;
+            m_indx = NC_VOID_VAL;
         }, "quit error!", return NC_FALSE);
         /* quit */
         return NC_TRUTH;
@@ -152,12 +152,12 @@ public:
         /* work */
         NC_PCALL({ /* olog */
             NC_OLOG(
-                "flow_olog:{" NC_EOL
-                NC_TAB "mark: %d;" NC_EOL
-                NC_TAB "indx: %d;" NC_EOL
-                NC_TAB "func: %d;" NC_EOL
-                NC_TAB "size: %d;" NC_EOL
-                NC_TAB "flag: %d;" NC_EOL
+                "flow_olog:{" NC_ENDL
+                NC_HTAB "mark: %d;" NC_ENDL
+                NC_HTAB "indx: %d;" NC_ENDL
+                NC_HTAB "func: %d;" NC_ENDL
+                NC_HTAB "size: %d;" NC_ENDL
+                NC_HTAB "flag: %d;" NC_ENDL
                 "}",
                 (size_t)get_mark(),
                 (size_t)get_indx(),
@@ -169,7 +169,7 @@ public:
         /* quit */
         return NC_TRUTH;
     }
-    // operators //
+    /* operators */
     inline flow_t& operator=(flow_tc& copy) { NC_CHECK(set_flag(copy.m_flag).init(copy.m_func), "init error!", return *this); return *this; }
     inline flow_t& operator=(flow_t&& copy) { memmove(this, &copy, sizeof(flow_t)); return *this; }
 private:
@@ -181,4 +181,4 @@ private:
 };
 #   endif /* NC_API */
 /* end_of_file */
-#endif  // NC_LIB_FLOW_HPP //
+#endif  /* NC_LIB_FLOW_HPP */

@@ -5,7 +5,7 @@
 /* defines */
 /** constants **/
 #	if (defined NC_API)
-// types //
+/* types */
 /// array_iterator_type
 /// description:
 /// interaction:
@@ -22,14 +22,14 @@ public:
     using step_t = v1s64_t;
     using step_tc = const step_t;
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     constexpr inline nc_array_iter_t() : m_data(NC_NULL) { }
     constexpr inline nc_array_iter_t(data_t data) : m_data(data) { }
     constexpr inline nc_array_iter_t(iter_tc& copy) : m_data(copy.m_data) { }
     constexpr inline nc_array_iter_t(iter_t&& copy) : m_data(copy.m_data) { }
     inline ~nc_array_iter_t() { }
     /* getters */
-    // // iter // //
+    /** iter  **/
     inline iter_t get_iter()        { return iter_t(get_data()); }
     inline iter_tc get_iter() const { return iter_tc(get_data()); }
     inline iter_t get_prev()        { return iter_t(get_data(-NC_UNIT)); }
@@ -39,23 +39,23 @@ public:
     inline iter_t get_iter(step_tc step) { return iter_t(get_data(step)); }
     inline iter_t get_prev(step_tc step) { return iter_t(get_data(-step)); }
     inline iter_t get_next(step_tc step) { return iter_t(get_data(+step)); }
-    // // data // //
+    /** data  **/
     inline data_t get_data()             { return m_data; }
     inline data_tc get_data() const      { return m_data; }
     inline data_t get_data(step_tc step)        { return &m_data[step]; }
     inline data_tc get_data(step_tc step) const { return &m_data[step]; }
-    // // elem // //
+    /** elem  **/
     inline elem_t& get_elem()             { return m_data[NC_ZERO]; }
     inline elem_tc& get_elem() const      { return m_data[NC_ZERO]; }
     inline elem_t& get_elem(step_tc step)        { return m_data[step]; }
     inline elem_tc& get_elem(step_tc step) const { return m_data[step]; }
-    // // numb // //
+    /** numb  **/
     inline size_tc get_dist(iter_tc& iter) const { return NC_NUM_DIST(m_data, iter.m_data); }
     /* setters */
     inline iter_t& set_data(data_tc data)  { m_data = data; return *this; }
     inline iter_t& set_elem(elem_tc& elem) { *m_data = elem; return *this; }
     inline iter_t& set_elem(elem_t&& elem) { *m_data = elem; return *this; }
-    /* predicates */
+    /* vetters */
     /* commands */
     inline iter_t& make_iter() { return set_data(m_data + NC_ZERO); }
     inline iter_t& make_prev() { return set_data(m_data - NC_UNIT); }
@@ -63,16 +63,16 @@ public:
     inline iter_t& make_iter(step_tc step) { return set_data(m_data + step); }
     inline iter_t& make_prev(step_tc step) { return set_data(m_data - step); }
     inline iter_t& make_next(step_tc step) { return set_data(m_data + step); }
-    // operators //
-    // // asign // //
+    /* operators */
+    /** asign  **/
     inline iter_t& operator=(iter_tc& copy) { memcpy(this, &copy, sizeof(iter_t));  return *this; }
     inline iter_t& operator=(iter_t&& copy) { memmove(this, &copy, sizeof(iter_t)); return *this; }
-    // // access // //
+    /** access  **/
     inline elem_t& operator[](indx_tc indx)        { return get_elem(indx); }
     inline elem_tc& operator[](indx_tc indx) const { return get_elem(indx); }
     inline elem_t& operator()(indx_tc indx)        { return get_elem(indx); }
     inline elem_tc& operator()(indx_tc indx) const { return get_elem(indx); }
-    // // arith // //
+    /** arith  **/
     inline iter_t& operator--()   { return make_prev(); }
     inline iter_t operator--(int) { return make_prev(); }
     inline iter_t& operator++()   { return make_next(); }
@@ -83,16 +83,16 @@ public:
     inline iter_tc operator+(step_tc step) const { return get_iter(+step); }
     inline iter_t& operator-=(step_tc step) { return make_prev(step); }
     inline iter_t& operator+=(step_tc step) { return make_next(step); }
-    // // logic // //
+    /** logic  **/
     inline v1bit_t operator>(iter_tc& iter) const  { return m_data > iter.m_data; }
     inline v1bit_t operator<(iter_tc& iter) const  { return m_data > iter.m_data; }
     inline v1bit_t operator==(iter_tc& iter) const { return m_data == iter.m_data; }
     inline v1bit_t operator<=(iter_tc& iter) const { return m_data <= iter.m_data; }
     inline v1bit_t operator>=(iter_tc& iter) const { return m_data >= iter.m_data; }
-    // // convertion // //
+    /** convertion  **/
     inline operator data_t& ()        { return get_data(); }
     inline operator data_tc& () const { return get_data(); }
-    // // input_output // //
+    /** input_output  **/
 public:
     data_t m_data;
 };
@@ -112,7 +112,7 @@ public:
     using elem_t = tname;
     using elem_tc = const elem_t;
 public:
-    // ctor_dtor //
+    /* ctor_dtor */
     constexpr inline nc_array_main_t() : m_head(iter_t()), m_back(iter_t()), m_size(NC_ZERO), m_numb(NC_ZERO) { }
     inline nc_array_main_t(size_tc size) : nc_array_main_t() { remake(size); }
     inline nc_array_main_t(size_tc size, data_tc data) : nc_array_main_t() { remake(size, data); }
@@ -120,7 +120,7 @@ public:
     inline nc_array_main_t(main_t&& copy) : nc_array_main_t() { operator=(copy); }
     inline ~nc_array_main_t() { NC_CHECK(remake(NC_ZERO), "remake error!", return); }
     /* getters */
-    // // iter // //
+    /** iter  **/
     inline iter_t get_iter()             { return m_head.get_iter(); }
     inline iter_t get_iter(indx_tc indx) { return m_head.get_iter(indx); }
     inline iter_t& get_head()        { return m_head; }
@@ -131,22 +131,22 @@ public:
     inline iter_tc& begin() const { return m_head; }
     inline iter_t& end()          { return m_back; }
     inline iter_tc& end() const   { return m_back; }
-    // // data // //
+    /** data  **/
     inline data_t get_data()        { return m_head.get_data(); }
     inline data_tc get_data() const { return m_head.get_data(); }
     inline data_t get_data(indx_tc indx)        { return m_head.get_data(indx); }
     inline data_tc get_data(indx_tc indx) const { return m_head.get_data(indx); }
-    // // elem // //
+    /** elem  **/
     inline elem_t& get_elem()        { return m_head.m_data[NC_ZERO]; }
     inline elem_tc& get_elem() const { return m_head.m_data[NC_ZERO]; }
     inline elem_t& get_elem(indx_tc indx)        { return m_head.m_data[indx]; }
     inline elem_tc& get_elem(indx_tc indx) const { return m_head.m_data[indx]; }
-    // // numb // //
+    /** numb  **/
     inline size_tc get_leng() const { return m_head.get_dist(m_back); }
     inline size_tc get_size() const { return m_size; }
     inline size_tc get_numb() const { return m_numb; }
     /* setters */
-    // // iter // //
+    /** iter  **/
     inline main_t& add_iter() { 
         NC_PCALL({ /* init */
             NC_CHECK(has_iter(m_head), "iter error!", return *this);
@@ -163,7 +163,7 @@ public:
         }, "set error!", return *this);
         /* work */
         NC_PCALL({ /* work */
-            add_iter(); // new one should be empty; others are moved; //
+            add_iter(); /* new one should be empty; others are moved; */
             size_tc copy_size = (m_back.get_data() - iter.get_data() - NC_UNIT);
             data_tc copy_data = iter.get_data() + NC_UNIT;
             memcpy(copy_data, copy_data + NC_UNIT, copy_size * sizeof(elem_t));
@@ -180,12 +180,12 @@ public:
             size_tc copy_size = (m_back.get_data() - iter.get_data() - NC_UNIT);
             data_tc copy_data = iter.get_data();
             memcpy(copy_data, copy_data + NC_UNIT, copy_size * sizeof(elem_t));
-            rmv_iter(); // last cell will be removed; others are moved back; //
+            rmv_iter(); /* last cell will be removed; others are moved back; */
         }, "set error!", return *this);
         /* quit */
         return *this;
     }
-    // // data // //
+    /** data  **/
     inline main_t& set_data(data_tc data, size_tc numb) {
         NC_PCALL({ /* init */
             NC_CHECK(has_data(), "data error!", return *this);
@@ -198,7 +198,7 @@ public:
         /* quit */
         return *this;
     }
-    // // elem // //
+    /** elem  **/
     template<typename ... targs> main_t& set_elem(iter_t iter, targs&& ... args) {
         NC_PCALL({ /* init */
             NC_CHECK(has_iter(iter), "iter error!", return *this);
@@ -249,7 +249,7 @@ public:
         /* quit */
         return *this;
     }
-    // // numb // //
+    /** numb  **/
     inline main_t& set_size(size_tc size) {
         NC_PCALL({/* init */
         }, "set error!", return *this);
@@ -259,18 +259,18 @@ public:
         /* quit */
         return *this;
     }
-    /* predicates */
-    // // iter // //
+    /* vetters */
+    /** iter  **/
     inline v1bit_t has_iter() const             { return has_data(); }
     inline v1bit_t has_iter(iter_tc iter) const { return has_data(iter); }
-    // // data // //
+    /** data  **/
     inline v1bit_t has_data() const             { return get_head() != get_back(); }
     inline v1bit_t has_data(data_tc data) const { return NC_NUM_ISIDE(data, get_head(), get_back()); }
-    // // elem // //
+    /** elem  **/
     inline v1bit_t has_elem() const             { return m_numb > NC_ZERO; }
     inline v1bit_t has_elem(iter_tc iter) const { return m_numb > get_back().get_dist(iter); }
     inline v1bit_t has_elem(indx_tc indx) const { return m_numb > indx; }
-    // // numb // //
+    /** numb  **/
     inline v1bit_t has_leng() const             { return get_leng() > NC_ZERO; }
     inline v1bit_t has_leng(size_tc leng) const { return get_leng() >= leng; }
     inline v1bit_t has_size() const             { return get_size() > NC_ZERO; }
@@ -285,7 +285,7 @@ public:
         NC_PCALL({ /* work */
             size_tc sz_old = get_leng() * sizeof(elem_t);
             size_tc sz_new = get_size() * sizeof(elem_t);
-            NC_MEM_MOVE(m_head.m_data, sz_old, sz_new);
+            NC_MEM_EDIT(m_head.m_data, sz_old, sz_new);
             m_back = m_head.m_data + m_size;
         }, "remake error!", return NC_FALSE);
         /* quit */
@@ -294,39 +294,39 @@ public:
     inline v1bit_t make_olog() {
         NC_PCALL({ /* work */
             NC_OLOG("array:");
-            NC_OPUT("{" NC_EOL);
-            NC_OPUT(NC_TAB "head:{%x};" NC_EOL, get_head().m_data);
-            NC_OPUT(NC_TAB "back:{%x};" NC_EOL, get_back().m_data);
-            NC_OPUT(NC_TAB "leng:{%d};" NC_EOL, get_leng());
-            NC_OPUT(NC_TAB "size:{%d};" NC_EOL, get_size());
-            NC_OPUT(NC_TAB "numb:{%d};" NC_EOL, get_numb());
+            NC_OPUT("{" NC_ENDL);
+            NC_OPUT(NC_HTAB "head:{%x};" NC_ENDL, get_head().m_data);
+            NC_OPUT(NC_HTAB "back:{%x};" NC_ENDL, get_back().m_data);
+            NC_OPUT(NC_HTAB "leng:{%d};" NC_ENDL, get_leng());
+            NC_OPUT(NC_HTAB "size:{%d};" NC_ENDL, get_size());
+            NC_OPUT(NC_HTAB "numb:{%d};" NC_ENDL, get_numb());
             for (size_t itr = NC_ZERO; itr < get_leng(); itr += 1u) {
                 std::cout <<
-                    NC_TAB "[" << itr << "]"  << ":" << get_elem(itr)
-                    << ";" NC_EOL;
+                    NC_HTAB "[" << itr << "]"  << ":" << get_elem(itr)
+                    << ";" NC_ENDL;
             }
-            NC_OPUT("}" NC_EOL);
+            NC_OPUT("}" NC_ENDL);
         }, "olog error!", return NC_FALSE);
         /* quit */
         return NC_TRUTH;
     }
-    // operators //
-    // // asign // //
+    /* operators */
+    /** asign  **/
     inline main_t& operator=(main_tc& copy) { remake(copy.get_leng()); return set_data(copy.get_data(), copy.get_numb()); }
     inline main_t& operator=(main_t&& copy) { remake(copy.get_leng()); return set_data(copy.get_data(), copy.get_numb()); }
-    // // access // //
+    /** access  **/
     inline elem_t& operator[](indx_t indx)        { return get_elem(indx); }
     inline elem_tc& operator[](indx_t indx) const { return get_elem(indx); }
     inline elem_t& operator()(indx_t indx)        { return get_elem(indx); }
     inline elem_tc& operator()(indx_t indx) const { return get_elem(indx); }
-    // // convertion // //
-    // // // iter // //
+    /** convertion  **/
+    /** // iter  **/
     // inline operator iter_t()        { return get_head(); }
     // inline operator iter_tc() const { return get_head(); }
-    // // // data // //
+    /** // data  **/
     // inline operator data_t()        { return get_data(); }
     // inline operator data_tc() const { return get_data(); }
-    // // // elem // //
+    /** // elem  **/
     // inline operator elem_t&() const  { return get_elem(); }
     // inline operator elem_tc&() const { return get_elem(); }
 private:
@@ -335,9 +335,9 @@ private:
     size_t m_size;
     size_t m_numb;
 };
-// other names //
+/* other names */
 template<typename tname> using nc_array_t = nc_array_main_t<tname>;
 template<typename tname> using nc_array_tc = const nc_array_t<tname>;
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_ARRAY_HPP //
+#endif	/* NC_LIB_ARRAY_HPP */

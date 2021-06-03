@@ -14,7 +14,7 @@
                 nc_graph_iter_t(tkey, tval); /*same as above_______*/ \
             typedef struct nc_graph_iter##_##tkey##_##tval { /*name*/ \
             } nc_graph_iter##_##tkey##_##tval /*template name______*/ \
-// type is defined //
+/* type is defined */
 /// graph_main_type
 /// description:
 #       define nc_graph_main_t(tkey, tval) nc_graph_main##_##tkey##_##tval
@@ -24,13 +24,13 @@
                 nc_graph_main_t(tkey, tval); /*same as above_______*/ \
             typedef struct nc_graph_main##_##tkey##_##tval { /*name*/ \
             } nc_graph_main##_##tkey##_##tval /*template name______*/ \
-// type is defined //
-// other names //
+/* type is defined */
+/* other names */
 #       define nc_graph_t(tkey, tval) nc_graph_main_t(tkey, tval)
 #       define NC_TYPEDEF_GRAPH(tkey, tval)   \
             NC_TYPEDEF_GRAPH_MAIN(tkey, tval) \
             NC_TYPEDEF_GRAPH_ITER(tkey, tval) \
-// type is defined //
+/* type is defined */
 #   endif   /* NC_API */
 /* end_of_file */
-#endif  // NC_LIB_GRAPH_H //
+#endif  /* NC_LIB_GRAPH_H */

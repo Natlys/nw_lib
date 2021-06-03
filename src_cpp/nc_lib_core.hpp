@@ -8,7 +8,7 @@
 #   define NC_BUILD NC_BUILD_LIB
 /* includes */
 #include "nc_lib_pch.hpp"
-// linkage //
+/* linkage */
 #   if (defined NC_API)
 #       undef NC_API
 #   endif   /* NC_API */
@@ -23,4 +23,4 @@
 #       define NC_API NC_DLL_IMPORT
 #   endif	/* NC_BUILD */
 /* end_of_file */
-#endif	// NC_LIB_CORE_HPP //
+#endif	/* NC_LIB_CORE_HPP */

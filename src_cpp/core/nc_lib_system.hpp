@@ -6,7 +6,7 @@
 #		include "../std/nc_lib_table.hpp"
 #		include "nc_lib_single.hpp"
 /* defines */
-// types //
+/* types */
 /// system_type_template
 template<class tsys>
 class nc_system_tt : public nc_single_tt<tsys>
@@ -15,12 +15,12 @@ public:
 	using sys_t = tsys;
 	using sys_tc = const sys_t;
 public:
-	// ctor_dtor //
+	/* ctor_dtor */
 	inline nc_system_tt() = default;
 	inline ~nc_system_tt() = default;
 	/* getters */
 	/* setters */
-	/* predicates */
+	/* vetters */
 	/* commands */
 	inline v1bit_t init() { return NC_TRUTH; }
 	inline v1bit_t quit() { return NC_TRUTH; }
@@ -30,4 +30,4 @@ protected:
 };
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_SYSTEM_HPP //
+#endif	/* NC_LIB_SYSTEM_HPP */

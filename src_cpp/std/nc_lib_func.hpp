@@ -7,4 +7,4 @@
 #       define nc_func_ttc const std::function
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	// NC_LIB_FUNCTIONAL_HPP //
+#endif	/* NC_LIB_FUNCTIONAL_HPP */

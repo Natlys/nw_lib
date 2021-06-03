@@ -2,6 +2,7 @@
 #   define  NC_LIB_FUNC_HXX
 #   include "../nc_lib_core.hxx"
 #   if (defined(NC_API))
+#       include "../core/nc_lib_sys.hxx"
 /*
  * function_procedure_type
  * description:
@@ -16,7 +17,7 @@
 /** ctor_dtor **/
 /** getters **/
 /** setters **/
-/** predicates **/
+/** vetters **/
 /** commands **/
 /*
  * function_main_type
@@ -67,7 +68,7 @@
                 NC_ERROR("set error!", NC_VOID); \
             }                                    \
 })
-/** predicates **/
+/** vetters **/
 /** commands **/
 #       define nc_func_work(itype, otype, ref, iput) ({ \
             nc_func_main_t(itype, otype)* temp = ref;   \

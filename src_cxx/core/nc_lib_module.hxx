@@ -1,47 +1,32 @@
-#ifndef NC_LIB_MODULE_H
-#   define NC_LIB_MODULE_H
-#include "../nc_lib_core.hxx"
+#ifndef NC_CFG_MODULE_HXX
+#   define NC_CFG_MODULE_HXX
+#include "../nc_cfg_core.hxx"
 #   if (defined NC_API)
 /* includes */
-// types //
-/// module_type
-/// description:
-/// ->
-/// interaction:
-/// ->
+/* types */
+/* module_type
+ * description:
+ * ->
+*/
 typedef struct {
     nc_wapi_module_t handle;
     str_t name;
 } nc_module_t;
 typedef const nc_module_t nc_module_tc;
-// ctor_dtor //
-#       define nc_module_ctor(ref) ({ \
-            ref.handle = NC_NULL;     \
-            ref.name = NC_NULL;       \
-        })
-#       define nc_module_dtor(ref) ({ \
-            NC_CHECK(                 \
-                ref.handle,           \
-                "dtor error!",        \
-                NC_VOID               \
-            );                        \
-            ref.handle = NC_NULL;     \
-            ref.name = NC_NULL;       \
-        })
-// /* getters */
+/** getters **/
 #       define nc_module_get_proc(ref, name, proc) ({ \
             proc = GetProcAddress(ref.handle, name);  \
         })
-// /* setters */
+/** setters **/
 #       define nc_module_set_name(ref, str) ({          \
             size_t prev = NC_ZERO, next = NC_ZERO;      \
             if (ref.name) { prev = strlen(ref.name); }  \
             if (str) { next = strlen(str); }            \
-            NC_MEM_MOVE(ref.name, prev, next);          \
+            NC_MEM_EDIT(ref.name, prev, next);          \
             if (str) { strcpy_s(ref.name, next, str); } \
         })
-// /* predicates */
-// /* commands */
+/** vetters **/
+/** commands **/
 #       define nc_module_init(ref) ({  \
             NC_CHECK(                  \
                 ref.name != NC_NULL,   \
@@ -72,4 +57,4 @@ typedef const nc_module_t nc_module_tc;
         })
 #   endif  /* NC_API */
 /* end_of_file */
-#endif // NC_LIB_MODULE_H //
+#endif  /* NC_CFG_MODULE_HXX */

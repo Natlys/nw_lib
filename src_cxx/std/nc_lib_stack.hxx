@@ -3,11 +3,11 @@
 #	include "../nc_lib_core.hxx"
 #	if (defined NC_API)
 #		if !(defined NC_USE_NUMB_STACK)
-#			define NC_MIN_NUMB_STACK 0x000u // empty stack //
-#			define NC_MID_NUMB_STACK 0x010u // normal stack //
-#			define NC_MAX_NUMB_STACK 0x100u // stack overflow //
+#			define NC_MIN_NUMB_STACK 0x000u /* empty stack */
+#			define NC_MID_NUMB_STACK 0x010u /* normal stack */
+#			define NC_MAX_NUMB_STACK 0x100u /* stack overflow */
 #			define NC_USE_NUMB_STACK NC_MIN_NUMB_STACK
-#		endif	// NC_USE_NUMB_STACK //
+#		endif	/* NC_USE_NUMB_STACK */
 /// stack_iterator_type
 /// description:
 #       define nc_stack_iter_t(tname) nc_stack_iter##_##tname
@@ -19,7 +19,7 @@
                 nc_stack_iter_t(tname)* next; /*next link____*/ \
                 tname data; /*the actual data________________*/ \
             } nc_stack_iter_t(tname); /*template name________*/ \
-// type is defined //
+/* type is defined */
 /// stack_main_type
 /// description:
 #       define nc_stack_main_t(tname) nc_stack_main##_##tname
@@ -31,8 +31,8 @@
                 nc_stack_iter_t(tname)* head; /*topic value__*/ \
                 size_t numb; /*total count of values_________*/ \
             } nc_stack_main_t(tname); /*template name________*/ \
-// type is defined //
-// ctor_dtor //
+/* type is defined */
+/* ctor_dtor */
 #       define nc_stack_ctor(tname, ref) ({           \
             ref.head = NC_NULL;                       \
             ref.numb = NC_ZERO;                       \
@@ -94,21 +94,21 @@
         })
 #       define nc_stack_olog(tname, ref) ({  \
             NC_OLOG(                         \
-                "stack:" "{" NC_EOL          \
-                NC_TAB "numb:%d;" NC_EOL     \
-                NC_TAB "data:%d" NC_EOL      \
+                "stack:" "{" NC_ENDL          \
+                NC_HTAB "numb:%d;" NC_ENDL     \
+                NC_HTAB "data:%d" NC_ENDL      \
                 "};"                         \
                 , ref.numb,                  \
                 ref.head ?                   \
                     ref.head->data : NC_ZERO \
             );                               \
         })
-// other_names //
+/* other_names */
 #       define nc_stack_t(tname) nc_stack_main_t(tname)
 #       define NC_TYPEDEF_STACK(tname)    \
             NC_TYPEDEF_STACK_ITER(tname); \
             NC_TYPEDEF_STACK_MAIN(tname); \
-// type is defined //
+/* type is defined */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif // NC_LIB_STACK_H //
+#endif /* NC_LIB_STACK_H */
