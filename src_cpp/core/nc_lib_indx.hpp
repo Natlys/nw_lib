@@ -6,7 +6,7 @@
 #		include "../std/nc_lib_stack.hpp"
 #		include "../std/nc_lib_array.hpp"
 /* defines */
-/* types */
+/* typedefs */
 /// index_stack_type
 /// description:
 /// --it's like a simple stack of unsigned 32-bit integers but for identificators;
@@ -20,7 +20,7 @@ public:
 	using indx_t = v1u_t;
 	using indx_tc = const indx_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_indx_stack_t() { m_stack.push(NC_VOID_VAL); }
 	inline nc_indx_stack_t(indx_t first) : nc_indx_stack_t() { m_stack.top() = first; }
 	inline ~nc_indx_stack_t() = default;
@@ -37,7 +37,7 @@ public:
 		return *this;
 	}
 	/* vetters */
-	/* commands */
+	/* command */
 private:
 	nc_stack_tt<v1u_t> m_stack;
 };
@@ -62,14 +62,14 @@ public:
 	using indx_t = v1u_t;
 	using indx_tc = const indx_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	constexpr inline nc_indx_owner_t() = default;
 	virtual inline ~nc_indx_owner_t() = default;
 	/* getters */
 	virtual inline indx_tc get_indx() const = 0;
 	/* setters */
 	/* vetters */
-	/* commands */
+	/* command */
 	/* operators */
 };
 /// typed_index_owner

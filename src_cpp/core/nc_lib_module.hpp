@@ -4,7 +4,7 @@
 #	if (defined NC_WAPI)
 /* includes */
 /* defines */
-/* types */
+/* typedefs */
 /// module_type_template
 /// description:
 template<cstr_t name>
@@ -27,7 +27,7 @@ public:
 	/* vetters */
 	inline v1bit_t has_handle() const               { return m_handle != NC_ZERO; }
 	inline v1bit_t has_proc(cstr_t proc_name) const { return ::GetProcAddress(m_handle, proc_name) != NC_NULL; }
-	/* commands */
+	/* command */
 	/* operators */
 protected:
 	handle_t m_handle;

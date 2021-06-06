@@ -17,7 +17,7 @@ public:
 	/* getters */
 	/* setters */
 	/* vetters */
-	/* commands */
+	/* command */
 	/* operators */
 private:
 	list_t m_list;

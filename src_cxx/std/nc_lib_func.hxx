@@ -2,7 +2,11 @@
 #   define  NC_LIB_FUNC_HXX
 #   include "../nc_lib_core.hxx"
 #   if (defined(NC_API))
-#       include "../core/nc_lib_sys.hxx"
+/* includes */
+/* defines */
+#       if (NC_LANG & NC_LANG_CPP)
+extern "C" {
+#       endif   /* NC_LANG_CPP */
 /*
  * function_procedure_type
  * description:
@@ -14,11 +18,11 @@
 #       define NC_TYPEDEF_FUNC_PROC(itype, otype)                  \
             typedef otype (*nc_func_proc_t(itype, otype)) (itype); \
 /* type is defined */
-/** ctor_dtor **/
+/** codetor **/
 /** getters **/
 /** setters **/
 /** vetters **/
-/** commands **/
+/** command **/
 /*
  * function_main_type
  * description:
@@ -36,7 +40,7 @@
                 nc_func_main_t(itype, otype)* next;       \
             } nc_func_main_t(itype, otype);
 /* type is defined */
-/** ctor_dtor **/
+/** codetor **/
 #       define nc_func_ctor(itype, otype, ref) ({ \
             ref.proc = NC_NULL;                   \
             ref.next = NC_NULL;                   \
@@ -69,7 +73,7 @@
             }                                    \
 })
 /** vetters **/
-/** commands **/
+/** command **/
 #       define nc_func_work(itype, otype, ref, iput) ({ \
             nc_func_main_t(itype, otype)* temp = ref;   \
             while(temp != NC_NULL) {                    \
@@ -83,5 +87,8 @@
             NC_TYPEDEF_FUNC_PROC(itype, otype); \
             NC_TYPEDEF_FUNC_MAIN(itype, otype); \
 /* type is defined */
+#       if (NC_LANG & NC_LANG_CPP)
+}
+#       endif   /* NC_LANG_CPP */
 #   endif   /* NC_API */
 #endif  /* NC_LIB_FUNC_HXX */

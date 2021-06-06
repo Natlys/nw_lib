@@ -9,7 +9,7 @@
 #		include "../std/nc_lib_array.hpp"
 #		include "nc_lib_single.hpp"
 #		include "nc_lib_name.hpp"
-/* types */
+/* typedefs */
 /// engine_state_type
 /// description:
 class nc_engine_state_t : public nc_name_owner_t
@@ -19,14 +19,14 @@ public:
 	using state_t = nc_engine_state_t;
 	using state_tc = const state_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_engine_state_t() : nc_name_owner_t(NC_VOID_STR) { }
 	inline nc_engine_state_t(cstr_t name) : nc_engine_state_t() { set_name(name); }
 	virtual ~nc_engine_state_t() = default;
 	/* getters */
 	/* setters */
 	/* vetters */
-	/* commands */
+	/* command */
 	virtual inline v1bit_t init() { return NC_TRUTH; }
 	virtual inline v1bit_t quit() { return NC_TRUTH; }
 	virtual inline v1bit_t work() { return NC_TRUTH; }
@@ -52,7 +52,7 @@ public:
 	using states_t = nc_array_tt<state_t*>;
 	using states_tc = const states_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_engine_tt() = default;
 	inline ~nc_engine_tt() = default;
 	/* getters */
@@ -71,7 +71,7 @@ public:
 	inline v1bit_t has_state() const { return !m_states.empty(); }
 	inline v1bit_t has_state(size_tc key) const { return m_states.size() > key; }
 	inline v1bit_t has_state(cstr_t key) const { for (auto& istate : m_states) { if (istate->has_name(key)) { return NC_TRUTH; } } return NC_FALSE; }
-	/* commands */
+	/* command */
 	virtual inline v1bit_t init() {
 		/* init */
 		/* work */

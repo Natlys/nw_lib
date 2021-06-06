@@ -7,7 +7,7 @@
 #		include "../std/nc_lib_list2.hpp"
 #		include "nc_lib_name.hpp"
 #		include "nc_lib_type.hpp"
-/* types */
+/* typedefs */
 /// tree_node_type
 /// description:
 /// --data structure for tree composition;
@@ -24,7 +24,7 @@ public:
 	using tree_t = tree_node_t<node_t>;
 	using tree_tc = const tree_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_tree_node_t() : nc_name_owner_t(), nc_type_owner_t(), m_nodes(nodes_t()) { set_name(type_info_t::get<tree_t>().m_name); set_type(type_info_t::get<tree_t>().m_type); }
 	inline nc_tree_node_t(cstr_t name, nodes_tc& nodes) : t_tree_cmp() { set_name(name).set_nodes(nodes); }
 	inline nc_tree_node_t(cstr_t name, type_tc type) : t_tree_cmp()    { set_name(name).set_type(type); }
@@ -127,7 +127,7 @@ public:
 	inline v1bit_t has_tree_copy(tree_tc* copy) const { for (auto& inode : m_nodes) { if (inode.has_tree_copy(copy)) return NC_TRUTH; } return has_copy(copy); }
 	inline v1bit_t has_tree_type(type_tc type) const       { for (auto& inode : m_nodes) { if (inode.has_tree_type(type)) { return NC_TRUTH; } } return has_type(type); }
 	template<typename tname> v1bit_t has_tree_type() const { return has_tree_type(type_info_t::get_type<tname>()); }
-	/* commands */
+	/* command */
 	inline auto begin() { return m_nodes.begin(); }
 	inline auto end()   { return m_nodes.end(); }
 	/* operators */
@@ -145,7 +145,7 @@ protected:
 /* includes */
 #		include "nc_lib_name.hpp"
 #		include "nc_lib_util.hpp"
-/* types */
+/* typedefs */
 /// link_node_type
 /// description:
 template<typename tdata>
@@ -241,7 +241,7 @@ public:
 		while (ilink++ != m_links.end()) { if (*ilink == link) { return NC_TRUTH; } }
 		return NC_FALSE;
 	}
-	/* commands */
+	/* command */
 	/* operators */
 	inline node_t& operator=(node_t& copy) {
 		auto ilink = copy.get_beg();

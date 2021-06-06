@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-/* types */
+/* typedefs */
 /// name_owner_type
 /// description:
 class nc_name_owner_t
@@ -33,7 +33,7 @@ public:
 	/* operators */
 	inline owner_t operator=(owner_tc& copy) { return set_name(copy.get_name()); }
 	inline owner_t operator=(owner_t&& copy) { return set_name(copy.get_name()); }
-	/* commands */
+	/* command */
 protected:
 	name_t m_name;
 };

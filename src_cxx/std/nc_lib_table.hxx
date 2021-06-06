@@ -1,16 +1,22 @@
-#ifndef NC_LIB_TABLE_H
-#	define NC_LIB_TABLE_H
+#ifndef NC_LIB_TABLE_HXX
+#	define NC_LIB_TABLE_HXX
 #	include "../nc_lib_core.hxx"
-#	if (defined NC_API)
-#		if !(defined NC_USE_NUMB_TABLE)
+#	if (defined(NC_API))
+/* includes */
+/* defines */
+#       if (NC_LANG & NC_LANG_CPP)
+extern "C" {
+#       endif   /* NC_LANG_CPP */
+#		if (!(defined(NC_USE_NUMB_TABLE)))
 #			define NC_MIN_NUMB_TABLE 5u
 #			define NC_MID_NUMB_TABLE 10u
 #			define NC_MAX_NUMB_TABLE 30u
 #			define NC_USE_NUMB_TABLE NC_MID_NUMB_TABLE
 #		endif	/* NC_USE_NUMB_TABLE */
-/// table_iterator_type
-/// description:
-/// ->table iterator;
+/* table_iterator_type
+ * description:
+ * -> table iterator;
+*/
 #       define nc_table_iter_t(tname) nc_table_iter##_##tname
 #       define NC_TYPEDEF_TABLE_ITER(tname) /*iter type________*/ \
             typedef struct /*forward declaration for pointers__*/ \
@@ -22,8 +28,9 @@
                 nc_table_iter_t(tname)* next; /*hash collisions*/ \
             } nc_table_iter_t(tname); /*template name__________*/ \
 /* type is defined */
-/// table_main_type
-/// description:
+/* table_main_type
+ * description:
+*/
 #       define nc_table_main_t(tname) nc_table_main##_##tname
 #       define NC_TYPEDEF_TABLE_MAIN(tname) /*main type________*/ \
             typedef struct /*forward declaration for pointers__*/ \
@@ -34,7 +41,7 @@
                 nc_table_iter_t(tname)* back; /*last link______*/ \
             } nc_table_main_t(tname); /*template name__________*/ \
 /* type is defined */
-/* ctor_dtor */
+/* codetor */
 #       define nc_table_ctor(tname, ref) ({         \
             ref.head = ref.back = NC_NULL;          \
             size_t size = NC_USE_NUMB_TABLE;    \
@@ -109,7 +116,7 @@
             iter->hash = hash;                            \
             iter->data = val;                             \
         })
-/* commands */
+/* command */
 #       define nc_table_each(tname, ref, actn) ({ \
             nc_table_iter_t(tname)* each;         \
             each = ref.head;                      \
@@ -153,6 +160,9 @@
             NC_TYPEDEF_TABLE_ITER(tname); \
             NC_TYPEDEF_TABLE_MAIN(tname); \
 /* type is defined */
+#       if (NC_LANG & NC_LANG_CPP)
+}
+#       endif   /* NC_LANG_CPP */
 #	endif	/* NC_API */
 /* end_of_file */
-#endif	/* NC_LIB_TABLE_H */
+#endif	/* NC_LIB_TABLE_HXX */

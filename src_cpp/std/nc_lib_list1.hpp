@@ -11,7 +11,7 @@ class nc_list1_iter_t
 	using data_t = tdata;
 	using data_tc = const data_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	constexpr inline nc_list1_t() : m_next(NC_NULL), m_data(NC_NULL) { }
 	inline ~nc_list1_t() { }
 	/* getters */
@@ -23,7 +23,7 @@ public:
 	inline iter_t& set_next(iter_t* next) { m_next = next; return *this; }
 	inline iter_t& set_data(data_t* data) { NC_MEM_DEL_ONE(tdata, m_data); m_data = data; return *this; }
 	/* vetters */
-	/* commands */
+	/* command */
 	/* operators */
 public:
 	iter_t* m_next;

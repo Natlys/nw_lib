@@ -5,7 +5,7 @@
 /* includes */
 #		include <utility>
 /* defines */
-/* types */
+/* typedefs */
 #		define nc_pair_tt         std::pair
 #		define nc_pair_ttc        const std::pair
 #		define nc_init_list_tt    std::initializer_list

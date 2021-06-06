@@ -1,8 +1,9 @@
 #include "nc_lib_pch.hxx"
-#include "nc_lib.hxx"
-#if (defined NC_API)
-static v1bit_t nc_test() {
+#include "nc_lib_core.hxx"
+#if (defined(NC_API))
+#   include "nc_lib.hxx"
+v1bit_t nc_lib_test() {
     return NC_TRUTH;
 }
-#endif  /* NC_API */
+#endif
 /* end_of_file */

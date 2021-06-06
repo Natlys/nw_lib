@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-/* types */
+/* typedefs */
 /// singleton_type_template
 template<class tname>
 class nc_single_tt : public nc_mem_owner_t
@@ -15,7 +15,7 @@ public:
 	using type_t = tname;
 	using type_tc = const type_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_single_tt() = default;
 	inline nc_single_tt(type_tc& copy) = delete;
 	inline nc_single_tt(type_t&& copy) = delete;
@@ -26,7 +26,7 @@ public:
 	static inline type_t& get() { static type_t s_single; return s_single; }
 	/* setters */
 	/* vetters */
-	/* commands */
+	/* command */
 	/* operators */
 	sing_t& operator=(type_tc& copy) = delete;
 	sing_t& operator=(type_t&& copy) = delete;

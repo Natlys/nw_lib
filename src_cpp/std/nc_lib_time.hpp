@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 #   	include <chrono>
-/* types */
+/* typedefs */
 /// timer_type
 class nc_timer_t
 {
@@ -18,7 +18,7 @@ public:
 	using sec_t = std::chrono::duration<val_t, std::ratio<1>>;
 	using millisec_t = std::chrono::duration<val_t, std::milli>;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	inline nc_timer_t() : m_tp_last(point_t()), m_tp_curr(point_t()), m_curr(NC_ZERO), m_last(NC_ZERO), m_delta(NC_ZERO), m_begin(NC_ZERO) { }
 	inline ~nc_timer_t() { }
 	/* getters */
@@ -37,7 +37,7 @@ public:
 		return NC_TRUTH;
 	}
 	/* vetters */
-	/* commands */
+	/* command */
 	/* operators */
 private:
 	point_t m_tp_curr;

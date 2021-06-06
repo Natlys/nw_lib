@@ -5,7 +5,7 @@
 /* defines */
 /** constants **/
 #	if (defined NC_API)
-/* types */
+/* typedefs */
 /// array_iterator_type
 /// description:
 /// interaction:
@@ -22,7 +22,7 @@ public:
     using step_t = v1s64_t;
     using step_tc = const step_t;
 public:
-    /* ctor_dtor */
+    /* codetor */
     constexpr inline nc_array_iter_t() : m_data(NC_NULL) { }
     constexpr inline nc_array_iter_t(data_t data) : m_data(data) { }
     constexpr inline nc_array_iter_t(iter_tc& copy) : m_data(copy.m_data) { }
@@ -56,7 +56,7 @@ public:
     inline iter_t& set_elem(elem_tc& elem) { *m_data = elem; return *this; }
     inline iter_t& set_elem(elem_t&& elem) { *m_data = elem; return *this; }
     /* vetters */
-    /* commands */
+    /* command */
     inline iter_t& make_iter() { return set_data(m_data + NC_ZERO); }
     inline iter_t& make_prev() { return set_data(m_data - NC_UNIT); }
     inline iter_t& make_next() { return set_data(m_data + NC_UNIT); }
@@ -112,7 +112,7 @@ public:
     using elem_t = tname;
     using elem_tc = const elem_t;
 public:
-    /* ctor_dtor */
+    /* codetor */
     constexpr inline nc_array_main_t() : m_head(iter_t()), m_back(iter_t()), m_size(NC_ZERO), m_numb(NC_ZERO) { }
     inline nc_array_main_t(size_tc size) : nc_array_main_t() { remake(size); }
     inline nc_array_main_t(size_tc size, data_tc data) : nc_array_main_t() { remake(size, data); }
@@ -277,7 +277,7 @@ public:
     inline v1bit_t has_size(size_tc size) const { return get_size() >= size; }
     inline v1bit_t has_numb() const             { return get_numb() > NC_ZERO; }
     inline v1bit_t has_numb(size_tc numb) const { return get_numb() >= numb; }
-    /* commands */
+    /* command */
     inline v1bit_t remake(size_tc size) { return set_size(size).remake(); }
     inline v1bit_t remake() {
         NC_PCALL({ /* init */
@@ -295,14 +295,14 @@ public:
         NC_PCALL({ /* work */
             NC_OLOG("array:");
             NC_OPUT("{" NC_ENDL);
-            NC_OPUT(NC_HTAB "head:{%x};" NC_ENDL, get_head().m_data);
-            NC_OPUT(NC_HTAB "back:{%x};" NC_ENDL, get_back().m_data);
-            NC_OPUT(NC_HTAB "leng:{%d};" NC_ENDL, get_leng());
-            NC_OPUT(NC_HTAB "size:{%d};" NC_ENDL, get_size());
-            NC_OPUT(NC_HTAB "numb:{%d};" NC_ENDL, get_numb());
+            NC_OPUT(NC_TABL "head:{%x};" NC_ENDL, get_head().m_data);
+            NC_OPUT(NC_TABL "back:{%x};" NC_ENDL, get_back().m_data);
+            NC_OPUT(NC_TABL "leng:{%d};" NC_ENDL, get_leng());
+            NC_OPUT(NC_TABL "size:{%d};" NC_ENDL, get_size());
+            NC_OPUT(NC_TABL "numb:{%d};" NC_ENDL, get_numb());
             for (size_t itr = NC_ZERO; itr < get_leng(); itr += 1u) {
                 std::cout <<
-                    NC_HTAB "[" << itr << "]"  << ":" << get_elem(itr)
+                    NC_TABL "[" << itr << "]"  << ":" << get_elem(itr)
                     << ";" NC_ENDL;
             }
             NC_OPUT("}" NC_ENDL);

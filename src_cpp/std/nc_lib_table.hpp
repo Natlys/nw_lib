@@ -4,16 +4,16 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-/* types */
+/* typedefs */
 /// table_iterator_type_template
 class nc_table_iter_tt
 {
 public:
-    /* ctor_dtor */
+    /* codetor */
     /* getters */
     /* setters */
     /* vetters */
-    /* commands */
+    /* command */
     /* operators */
 private:
 };
@@ -21,11 +21,11 @@ private:
 class nc_table_main_tt
 {
 public:
-    /* ctor_dtor */
+    /* codetor */
     /* getters */
     /* setters */
     /* vetters */
-    /* commands */
+    /* command */
     /* operators */
 private:
 };

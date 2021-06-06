@@ -5,7 +5,7 @@
 /* includes */
 #		include "../std/nc_lib_array.hpp"
 /* defines */
-/* types */
+/* typedefs */
 /// type_information_type
 class nc_type_info_t
 {
@@ -39,9 +39,9 @@ public:
 	template<typename tname> static cstr_t get_name() {
 #		define NC_NAME_FACE "const char *__cdecl" NC_NAMESPACE_STR "::nc_type_info_t::get_name<"
 #		define NC_NAME_BACK ">(void)"
-#		define NC_NAME_LENGTH sizeof(NC_FUNC_SIGN_STR) - sizeof(NC_NAME_FACE) - sizeof(NC_NAME_BACK)
+#		define NC_NAME_LENGTH sizeof(NC_FUNC_SIGL_STR) - sizeof(NC_NAME_FACE) - sizeof(NC_NAME_BACK)
 		static char_t name[NC_NAME_LENGTH] { NC_NULL };
-		memcpy(&name[0], &NC_FUNC_SIGN_STR[sizeof(NC_NAME_FACE)], NC_NAME_LENGTH);
+		memcpy(&name[0], &NC_FUNC_SIGL_STR[sizeof(NC_NAME_FACE)], NC_NAME_LENGTH);
 #		undef NC_NAME_FACE
 #		undef NC_NAME_BACK
 #		undef NC_NAME_LENGTH
@@ -95,7 +95,7 @@ public:
 	template<typename tname> v1bit_t has_type() const { return has_type(nc_type_info_t::get_type<tname>()); }
 	template<typename tname> tname* check_cast() { return has_type<tname>() ? static_cast<tname*>(this) : NC_NULL; }
 	template<typename tname> const tname* check_cast() const { return has_type<tname>() ? static_cast<const tname*>(this) : NC_NULL; }
-	/* commands */
+	/* command */
 	/* operators */
 	inline owner_t& operator=(owner_tc& copy) { set_type(copy.m_type); return *this; }
 	inline owner_t& operator=(owner_t&& copy) { set_type(copy.m_type); return *this; }
@@ -116,7 +116,7 @@ public:
 	using type_t = v1u_t;
 	using type_tc = const type_t;
 public:
-	/* ctor_dtor */
+	/* codetor */
 	template<typename ... targs> nc_type_owner_tt(targs&& ... args) : tbase(std::forward<targs>(args)...) { set_type(get_type_static()); }
 	virtual ~nc_type_owner_tt() = default;
 	/* getters */
@@ -125,7 +125,7 @@ public:
 	template<typename tname> v1bit_t has_type() const { return tbase::has_type(tname::get_type_static()); }
 	template<typename tname> tname* check_cast()             { return has_type<tname>() ? static_cast<tname*>(this) : NC_NULL; }
 	template<typename tname> const tname* check_cast() const { return has_type<tname>() ? static_cast<const tname*>(this) : NC_NULL; }
-	/* commands */
+	/* command */
 	/* operators */
 };
 #	endif	/* NC_API */

@@ -1,15 +1,22 @@
-#ifndef NC_LIB_STACK_H
-#	define NC_LIB_STACK_H
+#ifndef NC_LIB_STACK_HXX
+#	define NC_LIB_STACK_HXX
 #	include "../nc_lib_core.hxx"
-#	if (defined NC_API)
+/* includes */
+/* defines */
+#       if (NC_LANG & NC_LANG_CPP)
+extern "C" {
+#       endif   /* NC_LANG_CPP */
+#	if (defined(NC_API))
 #		if !(defined NC_USE_NUMB_STACK)
 #			define NC_MIN_NUMB_STACK 0x000u /* empty stack */
 #			define NC_MID_NUMB_STACK 0x010u /* normal stack */
 #			define NC_MAX_NUMB_STACK 0x100u /* stack overflow */
 #			define NC_USE_NUMB_STACK NC_MIN_NUMB_STACK
 #		endif	/* NC_USE_NUMB_STACK */
-/// stack_iterator_type
-/// description:
+/* typedefs */
+/* stack_iterator_type
+ * description:
+*/
 #       define nc_stack_iter_t(tname) nc_stack_iter##_##tname
 #       define NC_TYPEDEF_STACK_ITER(tname) /*iterator type__*/ \
             typedef struct /*forward declaration for pointers*/ \
@@ -20,8 +27,9 @@
                 tname data; /*the actual data________________*/ \
             } nc_stack_iter_t(tname); /*template name________*/ \
 /* type is defined */
-/// stack_main_type
-/// description:
+/* stack_main_type
+ * description:
+*/
 #       define nc_stack_main_t(tname) nc_stack_main##_##tname
 #       define NC_TYPEDEF_STACK_MAIN(tname) /*main type______*/ \
             typedef struct /*forward declaration for pointers*/ \
@@ -32,7 +40,7 @@
                 size_t numb; /*total count of values_________*/ \
             } nc_stack_main_t(tname); /*template name________*/ \
 /* type is defined */
-/* ctor_dtor */
+/* codetor */
 #       define nc_stack_ctor(tname, ref) ({           \
             ref.head = NC_NULL;                       \
             ref.numb = NC_ZERO;                       \
@@ -80,7 +88,7 @@
             ref.head = temp;                         \
             ref.numb = ref.numb - 1u;                \
         })
-/* commands */
+/* command */
 #       define nc_stack_oput(tname, ref) ({  \
             NC_OPUT(                         \
                 "{"                          \
@@ -95,8 +103,8 @@
 #       define nc_stack_olog(tname, ref) ({  \
             NC_OLOG(                         \
                 "stack:" "{" NC_ENDL          \
-                NC_HTAB "numb:%d;" NC_ENDL     \
-                NC_HTAB "data:%d" NC_ENDL      \
+                NC_TABL "numb:%d;" NC_ENDL     \
+                NC_TABL "data:%d" NC_ENDL      \
                 "};"                         \
                 , ref.numb,                  \
                 ref.head ?                   \
@@ -109,6 +117,9 @@
             NC_TYPEDEF_STACK_ITER(tname); \
             NC_TYPEDEF_STACK_MAIN(tname); \
 /* type is defined */
+#       if (NC_LANG & NC_LANG_CPP)
+}
+#       endif   /* NC_LANG_CPP */
 #	endif   /* NC_API */
 /* end_of_file */
-#endif /* NC_LIB_STACK_H */
+#endif /* NC_LIB_STACK_HXX */

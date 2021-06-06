@@ -24,7 +24,7 @@ public:
     using func_t = std::function<v1bit_t(ptr_t iput, ptr_t oput)>;
     using func_tc = const func_t;
 public:
-    /* ctor_dtor */
+    /* codetor */
     inline nc_flow_t() : m_mark(NC_NULL), m_indx(NC_ZERO), m_func(NC_NULL), m_size(NC_VOID_FLOW_SIZE), m_flag(NC_FALSE) { }
     inline nc_flow_t(func_tc func) : nc_flow_t() { NC_CHECK(init(func), "init error!", return); }
     inline nc_flow_t(func_tc func, size_tc size) : nc_flow_t() { NC_CHECK(init(func, size), "init error!", return); }
@@ -87,7 +87,7 @@ public:
     inline v1bit_t has_flag() const             { return m_flag != NC_ZERO; }
     inline v1bit_t has_flag(flag_tc flag) const { return m_flag & flag; }
     inline v1bit_t has_work() const { return has_mark() && has_indx() && has_func() && has_size(); }
-    /* commands */
+    /* command */
     inline v1bit_t init(func_tc func)               { return set_func(func).init(); }
     inline v1bit_t init(size_tc size)               { return set_size(size).init(); }
     inline v1bit_t init(func_tc func, size_tc size) { return set_func(func).set_size(size).init(); }
@@ -153,11 +153,11 @@ public:
         NC_PCALL({ /* olog */
             NC_OLOG(
                 "flow_olog:{" NC_ENDL
-                NC_HTAB "mark: %d;" NC_ENDL
-                NC_HTAB "indx: %d;" NC_ENDL
-                NC_HTAB "func: %d;" NC_ENDL
-                NC_HTAB "size: %d;" NC_ENDL
-                NC_HTAB "flag: %d;" NC_ENDL
+                NC_TABL "mark: %d;" NC_ENDL
+                NC_TABL "indx: %d;" NC_ENDL
+                NC_TABL "func: %d;" NC_ENDL
+                NC_TABL "size: %d;" NC_ENDL
+                NC_TABL "flag: %d;" NC_ENDL
                 "}",
                 (size_t)get_mark(),
                 (size_t)get_indx(),

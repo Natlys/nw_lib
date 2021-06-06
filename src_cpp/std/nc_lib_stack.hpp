@@ -4,7 +4,7 @@
 #	if (defined NC_API)
 /* includes */
 /* defines */
-/* types */
+/* typedefs */
 /// stack_iterator_type
 /// description:
 /// interaction:
@@ -23,7 +23,7 @@ public:
     using step_t = v1s64_t;
     using step_tc = const step_t;
 public:
-    /* ctor_dtor */
+    /* codetor */
     constexpr inline nc_stack_iter_t() : m_data(NC_NULL), m_next(NC_NULL) { }
     constexpr inline nc_stack_iter_t(data_t data) : m_data(data), m_next(NC_NULL) { }
     inline nc_stack_iter_t(iter_tc& copy) : nc_stack_iter_t() { operator=(copy); }
@@ -87,7 +87,7 @@ public:
     /* vetters */
     inline v1bit_t has_data() const { return m_data != NC_NULL; }
     inline v1bit_t has_next() const { return m_next != NC_NULL; }
-    /* commands */
+    /* command */
     /* operators */
     /** asign  **/
     inline iter_t& operator=(iter_tc& copy) {
@@ -139,7 +139,7 @@ public:
     using elem_t = tname;
     using elem_tc = const elem_t;
 public:
-    /* ctor_dtor */
+    /* codetor */
     constexpr inline nc_stack_main_t();
     inline ~nc_stack_main_t() { NC_CHECK(remake(NC_ZERO), "remake error!", return); }
     /* getters */
@@ -171,7 +171,7 @@ public:
     /* vetters */
     inline v1bit_t has_numb() const             { return m_numb; }
     inline v1bit_t has_numb(size_tc numb) const { return m_numb >= numb; }
-    /* commands */
+    /* command */
     inline v1bit_t remake(size_tc numb) { return remake(); }
     inline v1bit_t remake() {
         NC_PCALL({ /* init */

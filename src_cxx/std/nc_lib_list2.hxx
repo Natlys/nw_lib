@@ -1,17 +1,23 @@
 #ifndef NC_LIB_LIST2_HXX
 #	define NC_LIB_LIST2_HXX
 #	include "../nc_lib_core.hxx"
-#	if (defined NC_API)
+#	if (defined(NC_API))
+/* includes */
 #       include "../core/nc_lib_sys.hxx"
+/* defines */
+#       if (NC_LANG & NC_LANG_CPP)
+extern "C" {
+#       endif   /* NC_LANG_CPP */
 #		if (!(defined(NC_USE_NUMB_LIST2)))
 #			define NC_MIN_NUMB_LIST2 0u
 #			define NC_MID_NUMB_LIST2 3u
 #			define NC_MAX_NUMB_LIST2 10u
 #			define NC_USE_NUMB_LIST2 NC_MIN_NUMB_LIST2
 #		endif	/* NC_USE_NUMB_LIST2 */
-/// list2_iterator_type
-/// description:
-/// ->two-linked list iterator;
+/* list2_iterator_type
+ * description:
+ * -> two-linked list iterator;
+*/
 #       define nc_list2_iter_t(tname) nc_list2_iter##_##tname
 #       define NC_TYPEDEF_LIST2_ITER(tname) /*iterator type__*/ \
             typedef struct /*forward declaration for pointers*/ \
@@ -23,12 +29,13 @@
                 tname data; /*the actual data________________*/ \
             } nc_list2_iter_t(tname); /*template name________*/ \
 /* type is defined */
-/// list2_main_type
-/// description:
-/// ->one-linked forward list;
-/// ->can grow linearly in front;
-/// ->has own iterator type;
-/// ->uses 2 iterators as begin-end pointers;
+/* list2_main_type
+ * description:
+ * -> one-linked forward list;
+ * -> can grow linearly in front;
+ * -> has own iterator type;
+ * -> uses 2 iterators as begin-end pointers;
+*/
 #       define nc_list2_main_t(tname) nc_list2_main##_##tname
 #       define NC_TYPEDEF_LIST2_MAIN(tname) /*main type______*/ \
             typedef struct /*forward declaration for pointers*/ \
@@ -40,7 +47,7 @@
                 size_t numb; /*number of values______________*/ \
             } nc_list2_main_t(tname); /*template name________*/ \
 /* type is defined */
-/* ctor_dtor */
+/* codetor */
 #       define nc_list2_ctor(tname, ref) ({              \
             ref.head = NC_NULL;                          \
             ref.back = NC_NULL;                          \
@@ -115,7 +122,7 @@
             ref.numb = ref.numb - NC_UNIT;            \
             nc_lib_sys_mset(&iter, size, NC_ZERO);    \
         })
-/* commands */
+/* command */
 #       define nc_list2_each(tname, ref, actn) ({    \
             nc_list2_iter_t(tname)* each = ref.head; \
             indx_t indx = NC_ZERO;                   \
@@ -153,13 +160,13 @@
             nc_list2_get_numb(tname, ref, numb);     \
             NC_OLOG("list2:");                       \
             NC_OPUT("{" NC_ENDL);                     \
-            NC_OPUT(NC_HTAB "numb:%d;" NC_ENDL, numb); \
+            NC_OPUT(NC_TABL "numb:%d;" NC_ENDL, numb); \
             nc_list2_each(tname, ref, {              \
                 NC_OPUT(                             \
-                    NC_HTAB "{" NC_ENDL                \
-                    NC_HTAB NC_HTAB "indx:%d;" NC_ENDL  \
-                    NC_HTAB NC_HTAB "data:%d;" NC_ENDL  \
-                    NC_HTAB "};" NC_ENDL               \
+                    NC_TABL "{" NC_ENDL                \
+                    NC_TABL NC_TABL "indx:%d;" NC_ENDL  \
+                    NC_TABL NC_TABL "data:%d;" NC_ENDL  \
+                    NC_TABL "};" NC_ENDL               \
                     , indx                           \
                     , each ? each->data : NC_ZERO    \
                 );                                   \
@@ -179,6 +186,9 @@
             NC_TYPEDEF_LIST2_ITER(tname); \
             NC_TYPEDEF_LIST2_MAIN(tname); \
 /* type is defined */
+#       if (NC_LANG & NC_LANG_CPP)
+}
+#       endif   /* NC_LANG_CPP */
 #	endif   /* NC_API */
 /* end_of_file */
 #endif /* NC_LIB_LIST2_HXX */
