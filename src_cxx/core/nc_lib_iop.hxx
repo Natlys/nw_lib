@@ -12,35 +12,39 @@
 #       define NC_IPUT(args...) fscanf(stdin, args);
 #       define NC_OPUT(args...) fprintf(stdout, args);
 #       define NC_EPUT(args...) fprintf(stderr, args);
+#       if (NC_WAPI & NC_WAPI_WIN)
+#           define NC_GET_KEY_FREE(code) ( GetAsyncKeyState(code) & 0b0000'0000'0000'0001 )
+#           define NC_GET_KEY_HELD(code) ( GetAsyncKeyState(code) & 0b1000'0000'0000'0000 )
+#       endif   /**/
 /*** logging ***/
 #       if !(defined NC_ILOG)
-#           define NC_ILOG(mesg, args...) ({          \
-                NC_IPUT(                              \
-                    "from: " NC_NAME_ILOG_STR " | "   \
-                    "file: " NC_FILE_STR " | "        \
-                    "line: " "%d" " | "               \
+#           define NC_ILOG(mesg, args...) ({            \
+                NC_IPUT(                                \
+                    "from: " NC_NAME_ILOG_STR " | "     \
+                    "file: " NC_FILE_STR " | "          \
+                    "line: " "%d" " | "                 \
 	    			"mesg: " NC_ENDL "" mesg "" NC_ENDL \
-                    , __LINE__, ##args)               \
+                    , __LINE__, ##args)                 \
             })
 #       endif  /* NC_ILOG */
 #       if !(defined NC_OLOG)
-#           define NC_OLOG(mesg, args...) ({          \
-                NC_OPUT(                              \
-                    "from: " NC_NAME_OLOG_STR " | "   \
-                    "file: " NC_FILE_STR " | "        \
-                    "line: " "%d" " | "               \
+#           define NC_OLOG(mesg, args...) ({            \
+                NC_OPUT(                                \
+                    "from: " NC_NAME_OLOG_STR " | "     \
+                    "file: " NC_FILE_STR " | "          \
+                    "line: " "%d" " | "                 \
 	    			"mesg: " NC_ENDL "" mesg "" NC_ENDL \
-                    , __LINE__, ##args)               \
+                    , __LINE__, ##args)                 \
             })
 #       endif   /* NC_OLOG */
 #       if !(defined NC_ELOG)
-#           define NC_ELOG(mesg, args...) ({          \
-                NC_EPUT(                              \
-                    "from: " NC_NAME_ELOG_STR " | "   \
-                    "file: " NC_FILE_STR " | "        \
-                    "line: " "%d" " | "               \
+#           define NC_ELOG(mesg, args...) ({            \
+                NC_EPUT(                                \
+                    "from: " NC_NAME_ELOG_STR " | "     \
+                    "file: " NC_FILE_STR " | "          \
+                    "line: " "%d" " | "                 \
 	    			"mesg: " NC_ENDL "" mesg "" NC_ENDL \
-                    , __LINE__, ##args)               \
+                    , __LINE__, ##args)                 \
             })
 #       endif   /* NC_ELOG */
 /* typedefs */

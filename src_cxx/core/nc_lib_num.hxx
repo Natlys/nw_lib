@@ -17,15 +17,20 @@ extern "C" {
 #		define NC_NUM_RAD ( NC_CAST_V1F(57.29577951) )
 /** functions **/
 /*** general  ***/
-#		define NC_NUM_ABS(num)         ( num > 0 ? +num : -num )
-#		define NC_NUM_POWR(num, base)  ( pow(num, base) )
-#		define NC_NUM_ROOT(num, base)  ( pow(num, 1.0f / base) )
-#		define NC_NUM_IS_DIV(num, dvs) ( num % dvs == NC_ZERO )
-#		define NC_NUM_DIR(num0, num1)  ( num0 > num1 ? -1 : +1 )
-#		define NC_NUM_DIFF(num0, num1) ( NC_NUM_ABS(NC_CAST(num0, v1s_t) - NC_CAST(num1, v1s_t)) )
+#		define NC_NUM_IMOD(num, mod) ( num % mod )
+#		define NC_NUM_FMOD(num, mod) ( num > mod ? (num - mod) : (num < -mod ? (num + mod) : num) )
+#		define NC_NUM_FABS(num) ( num > NC_ZERO ? +num : -num )
+#		define NC_NUM_FEXP(num) ( exp(num) )
+#		define NC_NUM_FPOW(num, base) ( pow(num, base) )
+#		define NC_NUM_FROT(num, base) ( pow(num, NC_CAST_V1F(NC_UNIT) / base) )
+#		define NC_NUM_IS_DIV(num, div) ( num % div == NC_ZERO )
+#		define NC_NUM_DIRS(num0, num1) ( num0 > num1 ? -NC_UNIT : +NC_UNIT )
+#		define NC_NUM_DIFF(num0, num1) ( NC_NUM_FABS(NC_CAST(num0, v1s_t) - NC_CAST(num1, v1s_t)) )
 #		define NC_NUM_SWAP(num0, num1) ({ num0 = num1 - num0; num1 = num1 - num0; num0 = num1 + num0; })
-#		define NC_NUM_LERP(lower, upper, percent) ( (upper - lower) * (1.0f - percent) )
-#		define NC_NUM_CLIP(num, lower, upper)     ( NC_NUM_MIN(NC_NUM_MAX(num, lower), upper) )
+#		define NC_NUM_LERP(lower, upper, value) ( (upper - lower) * (1.0f - value) )
+#		define NC_NUM_CLIP(num, lower, upper)   ( NC_NUM_MIN(NC_NUM_MAX(num, lower), upper) )
+#		define NC_NUM_CLIP_SNORM(num)   ( NC_NUM_CLIP(num, -NC_UNIT, +NC_UNIT) )
+#		define NC_NUM_CLIP_UNORM(num)   ( NC_NUM_CLIP(num, NC_ZERO, NC_UNIT) )
 #   	define NC_NUM_ALIG(data, alig) ( NC_ZERO \
 			+ (NC_CAST_SIZE(data)                \
 			+ (NC_CAST_SIZE(alig) - NC_UNIT))    \
@@ -43,18 +48,20 @@ extern "C" {
 #		define NC_NUM_ISIDE(num, lower, upper)    ( ((num) >= (lower)) && ((num) <= (upper)) )
 #		define NC_NUM_OSIDE(num, lower, upper)    ( ((num) <= (lower)) || ((num) >= (upper)) )
 /*** trigonometry  ***/
-#		define NC_NUM_TO_DEG(angle)    ( NC_CAST_V1F(angle) / NC_NUM_PIN * NC_CAST_V1F(180.0))
-#		define NC_NUM_TO_RAD(angle)    ( NC_CAST_V1F(angle) * NC_NUM_PIN / NC_CAST_V1F(180.0))
-#		define NC_NUM_ANGLE(angle)     ( NC_NUM_TO_RAD(angle) )
-#		define NC_NUM_COS(angle)       ( cosf(NC_NUM_ANGLE(angle)) )
-#		define NC_NUM_SIN(angle)       ( sinf(NC_NUM_ANGLE(angle)) )
-#		define NC_NUM_TANG(angle)      ( NC_NUM_SIN(angle) / NC_NUM_COS(angle) )
-#		define NC_NUM_CTAN(angle)      ( NC_NUM_COS(angle) / NC_NUM_SIN(angle) )
+#		define NC_NUM_TO_DEG(angle) ( NC_CAST_V1F(angle) / NC_NUM_PIN * NC_CAST_V1F(180.0))
+#		define NC_NUM_TO_RAD(angle) ( NC_CAST_V1F(angle) * NC_NUM_PIN / NC_CAST_V1F(180.0))
+#		define NC_NUM_ANGLE(angle)  ( NC_NUM_TO_RAD(angle) )
+#		define NC_NUM_CSIN(angle)   ( cosf(NC_NUM_ANGLE(angle)) )
+#		define NC_NUM_FSIN(angle)   ( sinf(NC_NUM_ANGLE(angle)) )
+#		define NC_NUM_FTAN(angle)   ( NC_NUM_FSIN(angle) / NC_NUM_CSIN(angle) )
+#		define NC_NUM_CTAN(angle)   ( NC_NUM_CSIN(angle) / NC_NUM_FSIN(angle) )
+#		define NC_NUM_FASIN(ratio)  ( asinf(ratio) )
+#		define NC_NUM_FCSIN(ratio)  ( csinf(ratio) )
 /*** combinatorics  ***/
 #		define NC_NUM_FACT(num) ( nc_num_fact(num) )
 #		define NC_NUM_PERM(from, what, repeat) ( \
 			repeat ? ( NC_UNIT                   \
-				/ NC_NUM_POWR(from)              \
+				/ NC_NUM_FPOW(from)              \
 			) : ( NC_UNIT                        \
 				/ NC_NUM_FACT(from)              \
 				/ NC_NUM_FACT(from - what)       \

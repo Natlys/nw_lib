@@ -95,6 +95,7 @@ OBJECTS := \
 	$(OBJDIR)/nc_stb_text_edit.o \
 	$(OBJDIR)/nc_stb_true_type.o \
 	$(OBJDIR)/nc_lib_flow.o \
+	$(OBJDIR)/nc_lib_time.o \
 
 RESOURCES := \
 
@@ -187,6 +188,9 @@ $(OBJDIR)/nc_stb_true_type.o: src_cxx/stb/nc_stb_true_type.cxx
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/nc_lib_flow.o: src_cxx/std/nc_lib_flow.cxx
+	@echo $(notdir $<)
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/nc_lib_time.o: src_cxx/std/nc_lib_time.cxx
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

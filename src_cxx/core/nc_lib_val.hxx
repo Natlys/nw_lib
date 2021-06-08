@@ -9,6 +9,7 @@ extern "C" {
 /** constants **/
 #   	define NC_ZERO     0
 #   	define NC_UNIT     1
+#   	define NC_BYTE     8
 #   	define NC_FALSE    0
 #   	define NC_TRUTH    1
 #   	define NC_VOID_VAL NC_ZERO
@@ -22,7 +23,7 @@ extern "C" {
 				data = data + 1u;        \
 				size = size + 1u;        \
 			}                            \
-			buf = NC_NUM_ABS(buf);       \
+			buf = NC_NUM_FABS(buf);       \
 		})
 #       define NC_VAL_SWAP(val0, val1) ({       \
             typeof(val0) cpy;                   \

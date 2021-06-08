@@ -64,7 +64,7 @@ extern "C" {
 				itr = itr + 1u;         \
 				chr = chr + 1u;         \
 			}                           \
-			buf = NC_NUM_ABS(buf);      \
+			buf = NC_NUM_FABS(buf);      \
 		})
 /* typedefs */
 /* default character set */
